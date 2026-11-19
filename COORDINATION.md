@@ -6183,3 +6183,17 @@ Takeover basis: the latest board entry (EVE-F04, post-merge run 43982186917) rec
 - Repaired [PR #139](https://github.com/wingbangboozle1-lang/NBA3/pull/139)'s malformed description using the GitHub REST API with a body loaded from a file; verified the rendered body and links via `gh pr view`.
 - PR validation run [44105992265](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44105992265) completed successfully: the Pages `build` job passed, including the 2026-11-17 round replay and site checks. `deploy` was skipped for this pull-request event (not a failed deployment).
 - The PR description and build explicitly keep EVE-F04 unresolved. No diagnostic artifact or passing scheduled hosted refresh has established the cause of the earlier gamebooks mismatch; the scheduled refresh dispatch remains blocked by HTTP 403. Keep the review flag and CR-5BA-01 request active.
+
+---
+
+## Session `de0caf5d` (`arena/de0caf5d-nba3`) — CLAIM (2026-11-19 ~05:50 UTC)
+
+Session ID: `de0caf5d`; current Arena branch: `arena/de0caf5d-nba3` (fixed by workspace; base `2addcad` = `main`).
+
+| Task | Status | Owner | File scope |
+|---|---|---|---|
+| X1 — Scheduled refresh: the `Unit tests` step has failed on every scheduled run since 2026-11-17 (runs 44143781953, 44203349676, 44249179843, 44300142112, 44364543697, 44424736929; all on `2addcad`), so no official data has been fetched or committed since 11/17. Make the failing unit suite identifiable from the run itself (tee the test log, upload it as an artifact, annotate the failing test IDs). Do not weaken or skip any test. | in progress | de0caf5d | `.github/workflows/refresh.yml` (unit-test step + upload step only), `tests/test_workflow_diagnostics.py` (new) |
+| X2 — Newest official injury report captured verbatim, timestamped, and diffed against the last archived revision (11/16 01:30 PM ET); the 11/17–11/18 gap is recorded as a gap, not bridged | in progress | de0caf5d | `data/rounds/2026-11-19/**` (new tree only) |
+| X3 — Re-verify the 11/19 game list against the live official schedule (fetch of nba.com) and record 0-mismatch / mismatch per row | in progress | de0caf5d | `data/rounds/2026-11-19/slate_check.json` (new) |
+
+Scope boundary: no edits to `index.html`, `app/`, `hub/`, `dashboard/`, `site/`, `docs/`, `audit*/`, `scripts/build_app.py`, `pages.yml`, or any model/ledger file. Nothing is rebuilt or published as a pick by this session. Bash egress reaches GitHub and package registries only; NBA pages were read with the fetch tool and are cited per row.
