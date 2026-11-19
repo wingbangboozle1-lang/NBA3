@@ -306,9 +306,58 @@ def main():
         },
     }
     OUT.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
+
+    # Session files in the shapes scripts/build_app.py renders on the
+    # Flagged / Questions / Suggestions pages (every row keeps its sources).
+    sev_rank = {"F-DE0-04": "high", "F-DE0-05": "high", "EVE-F04": "high",
+                "F-04A-01": "medium", "F-04A-02": "medium", "F-04A-03": "medium",
+                "F-04A-04": "medium", "F-DE0-01": "medium", "F-DE0-02": "low",
+                "F-DE0-03": "medium", "F-DE0-06": "low", "F-04A-05": "low",
+                "F-04A-06": "medium"}
+    flags_page = [{
+        "id": f["id"], "area": "Official round 2026-11-19 (game books + reports)",
+        "item": f["flag"], "why": (
+            "Kept visible for manual review with its official source; values are never "
+            "inferred and blocked rows stay blank until an owner decision."),
+        "action_needed": (
+            "Review against the linked official source; answer the matching question on "
+            "the Open questions page where one applies."),
+        "status": "open — flagged for review (does not block the site)",
+        "severity": sev_rank.get(f["id"], "medium"),
+        "found_on": "2026-11-19",
+        "sources": [f["source_url"]],
+    } for f in flags]
+    (ROOT / "data" / "app" / "flags_04a81bce.json").write_text(
+        json.dumps(flags_page, indent=1) + "\n", encoding="utf-8")
+
+    questions_page = [{
+        "id": q["id"], "category": "Official round 2026-11-19",
+        "question": q["question"], "status": "Open — " + q["answer_status"].split("—")[-1].strip(),
+        "known": ("Data captured and published with sources where an official source "
+                  "exists; nothing inferred."),
+        "missing": q["answer_status"] + " Blocking: " + q.get("blocking", ""),
+        "next_step": "Owner decision (see suggestions register of the same round)",
+        "owner": "reviewer", "sources": [q["source_url"]],
+    } for q in questions]
+    (ROOT / "data" / "app" / "questions_04a81bce.json").write_text(
+        json.dumps(questions_page, indent=1) + "\n", encoding="utf-8")
+
+    suggestions_page = [{
+        "id": s["id"], "area": "Official round 2026-11-19",
+        "suggestion": s["title"], "why": s["suggestion"],
+        "options": s["suggestion"],
+        "recommended_option": "reviewer chooses before implementation",
+        "dependency": "owner decision", "decision": s["status"],
+        "sources": ["https://github.com/wingbangboozle1-lang/NBA3/blob/main/"
+                    "data/app/registers_04a81bce.json"],
+    } for s in suggestions]
+    (ROOT / "data" / "app" / "suggestions_04a81bce.json").write_text(
+        json.dumps(suggestions_page, indent=1) + "\n", encoding="utf-8")
+
     print(f"registers written: {OUT} "
           f"(flags {len(flags)}, questions {len(questions)}, suggestions {len(suggestions)}, "
           f"cr_answers {len(cr_answers)})")
+    print("session files: data/app/{flags,questions,suggestions}_04a81bce.json")
 
 
 if __name__ == "__main__":

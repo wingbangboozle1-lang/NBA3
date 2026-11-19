@@ -1,0 +1,80 @@
+[
+ {
+  "id": "Q1",
+  "category": "Official round 2026-11-19",
+  "question": "How should the re-measured home-win rate (0.5023, 111/221) be converted to the pinned home-court-advantage value in POINTS? The model currently pins the fitted 0.76 pts (fit sample 102/197). No official source defines the conversion; it must be chosen, not inferred.",
+  "status": "Open \u2014 reviewer decision required",
+  "known": "Data captured and published with sources where an official source exists; nothing inferred.",
+  "missing": "OPEN \u2014 reviewer decision required Blocking: re-pinning HCA; any new bet line",
+  "next_step": "Owner decision (see suggestions register of the same round)",
+  "owner": "reviewer",
+  "sources": [
+   "https://www.nba.com/standings"
+  ]
+ },
+ {
+  "id": "Q2",
+  "category": "Official round 2026-11-19",
+  "question": "Replacement-minute shares when a player is OUT are not available from any official source (no official depth chart). Top-8 shares are measured; redistribution among the available top-8 is pro rata and flagged unverified. Confirm the pro-rata convention or supply a source.",
+  "status": "Open \u2014 convention flagged, not published as verified",
+  "known": "Data captured and published with sources where an official source exists; nothing inferred.",
+  "missing": "OPEN \u2014 convention flagged, not published as verified Blocking: injury-impact minutes model publication",
+  "next_step": "Owner decision (see suggestions register of the same round)",
+  "owner": "reviewer",
+  "sources": [
+   "https://statsdmz.nba.com/pdfs/"
+  ]
+ },
+ {
+  "id": "Q3",
+  "category": "Official round 2026-11-19",
+  "question": "Five team quarter vectors cannot be verified from the official game books (PHI@BKN 11/16, POR@MIN 11/16, MEM@CLE 11/18, PHX@SAC 11/18, UTA@LAL 11/18) and one printed row is internally inconsistent (MEM@CLE 11/18: Grizzlies table row 30/41/30/24 sums to 125 vs printed final 124). Is a second official source (play-by-play) acceptable for filling these, or do they stay blank for the season?",
+  "status": "Open \u2014 rows stay blank until answered",
+  "known": "Data captured and published with sources where an official source exists; nothing inferred.",
+  "missing": "OPEN \u2014 rows stay blank until answered Blocking: quarter-dependent grading for those 6 team rows",
+  "next_step": "Owner decision (see suggestions register of the same round)",
+  "owner": "reviewer",
+  "sources": [
+   "https://statsdmz.nba.com/pdfs/"
+  ]
+ },
+ {
+  "id": "Q4",
+  "category": "Official round 2026-11-19",
+  "question": "Per-player game logs are captured for 2026-11-16..18 only (the official game-book window). Players OUT the whole window (Edwards, Morant, Sharpe, DiVincenzo, Krejci, ...) have no rows in the window. Should earlier official logs be captured for the impact baselines?",
+  "status": "Open \u2014 flagged blanks in player_game_logs.json",
+  "known": "Data captured and published with sources where an official source exists; nothing inferred.",
+  "missing": "OPEN \u2014 flagged blanks in player_game_logs.json Blocking: injury-impact production model",
+  "next_step": "Owner decision (see suggestions register of the same round)",
+  "owner": "reviewer",
+  "sources": [
+   "https://statsdmz.nba.com/pdfs/"
+  ]
+ },
+ {
+  "id": "Q5",
+  "category": "Official round 2026-11-19",
+  "question": "closing_lines.json has no rows, so the market-anchored prior (model line weighted by measured out-of-sample log-loss vs the closing line) cannot be computed. Which official source may be used for closing lines, if any?",
+  "status": "Open \u2014 prior left blank/flagged",
+  "known": "Data captured and published with sources where an official source exists; nothing inferred.",
+  "missing": "OPEN \u2014 prior left blank/flagged Blocking: market-anchored prior publication",
+  "next_step": "Owner decision (see suggestions register of the same round)",
+  "owner": "reviewer",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/closing_lines.json"
+  ]
+ },
+ {
+  "id": "Q6",
+  "category": "Official round 2026-11-19",
+  "question": "At the 01:45 AM revision the GSW, MEM and MIL rows (11/19 games) and all nine 11/20 games were NOT YET SUBMITTED on the official injury report. Later revisions must be captured before those tips; the scheduled job should archive every 15-minute revision.",
+  "status": "Open \u2014 banner shows revision + retrieval times",
+  "known": "Data captured and published with sources where an official source exists; nothing inferred.",
+  "missing": "OPEN \u2014 banner shows revision + retrieval times Blocking: rotation availability column for GSW@MEM and POR@MIL",
+  "next_step": "Owner decision (see suggestions register of the same round)",
+  "owner": "reviewer",
+  "sources": [
+   "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf"
+  ]
+ }
+]

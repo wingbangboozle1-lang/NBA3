@@ -17,7 +17,7 @@
 </header>
 <nav class="site-nav">
   <div class="wrap">
-    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="standings.html">Standings</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html" class="active">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a> <a href="../audit_ef6e2e6c/index.html">Evening refresh audit (11/16 eve)</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="standings.html">Standings</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html" class="active">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="round_2026-11-19.html">Official round 11/16-11/18 (game books)</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a> <a href="../audit_ef6e2e6c/index.html">Evening refresh audit (11/16 eve)</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
   </div>
 </nav>
 <main class="wrap">
@@ -643,6 +643,61 @@ questions</a> page.</p>
 <td>none</td>
 <td>implemented (session arena/4054e125-nba3)</td>
 <td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">https://www.nba.com/games</a></td>
+</tr>
+<tr>
+<td>S1</td>
+<td>Official round 2026-11-19</td>
+<td>HCA points conversion</td>
+<td>Choose one: (a) keep 0.76 pts until the fit sample is refreshed; (b) adopt a probit conversion using the league average margin sigma; (c) refit the 102/197 mapping on the expanded home/road log. Implement the chosen option before any new bet is published.</td>
+<td>Choose one: (a) keep 0.76 pts until the fit sample is refreshed; (b) adopt a probit conversion using the league average margin sigma; (c) refit the 102/197 mapping on the expanded home/road log. Implement the chosen option before any new bet is published.</td>
+<td>reviewer chooses before implementation</td>
+<td>owner decision</td>
+<td>for reviewer choice — NOT implemented</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/registers_04a81bce.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/registers_04a81bce.json</a></td>
+</tr>
+<tr>
+<td>S2</td>
+<td>Official round 2026-11-19</td>
+<td>Injury-revision archiving</td>
+<td>Extend the scheduled refresh to archive every 15-minute official revision (filling F-DE0-03) and compute consecutive diffs in the job itself.</td>
+<td>Extend the scheduled refresh to archive every 15-minute official revision (filling F-DE0-03) and compute consecutive diffs in the job itself.</td>
+<td>reviewer chooses before implementation</td>
+<td>owner decision</td>
+<td>for reviewer choice — NOT implemented</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/registers_04a81bce.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/registers_04a81bce.json</a></td>
+</tr>
+<tr>
+<td>S3</td>
+<td>Official round 2026-11-19</td>
+<td>Quarter-vector completion</td>
+<td>Fetch official play-by-play quarter scores for the 6 flagged team rows when a reviewer confirms Q3; until then keep them blank and keep quarter-dependent grading blocked for those rows.</td>
+<td>Fetch official play-by-play quarter scores for the 6 flagged team rows when a reviewer confirms Q3; until then keep them blank and keep quarter-dependent grading blocked for those rows.</td>
+<td>reviewer chooses before implementation</td>
+<td>owner decision</td>
+<td>for reviewer choice — NOT implemented</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/registers_04a81bce.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/registers_04a81bce.json</a></td>
+</tr>
+<tr>
+<td>S4</td>
+<td>Official round 2026-11-19</td>
+<td>Player log depth</td>
+<td>Capture at least 3 prior official game logs per injury-report player for the production-impact baselines (answers Q4).</td>
+<td>Capture at least 3 prior official game logs per injury-report player for the production-impact baselines (answers Q4).</td>
+<td>reviewer chooses before implementation</td>
+<td>owner decision</td>
+<td>for reviewer choice — NOT implemented</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/registers_04a81bce.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/registers_04a81bce.json</a></td>
+</tr>
+<tr>
+<td>S5</td>
+<td>Official round 2026-11-19</td>
+<td>Correlation model for parlays</td>
+<td>When the measured-rho parlay pricer lands, extend the prereg files with the rho method and always print the naive product next to the rho-adjusted price (already required by the brief; keep the prereg freeze before the first bet).</td>
+<td>When the measured-rho parlay pricer lands, extend the prereg files with the rho method and always print the naive product next to the rho-adjusted price (already required by the brief; keep the prereg freeze before the first bet).</td>
+<td>reviewer chooses before implementation</td>
+<td>owner decision</td>
+<td>for reviewer choice — NOT implemented</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/registers_04a81bce.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/registers_04a81bce.json</a></td>
 </tr>
 </tbody></table></div>
 </main>

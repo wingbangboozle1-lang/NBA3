@@ -1,0 +1,1793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Official round 11/16-11/18 (game books) — NBA3 NBA Edge Lab</title>
+<meta name="description" content="Verified NBA research dashboard: originated lines, gated strategies, injuries, game flow, verification log and flagged items. Sources: official NBA pages.">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark">NBA3</span> NBA Edge Lab</a>
+    <div class="stamp">Snapshot <strong>2026-11-14</strong> (UTC) · window 2026-11-15 → 2026-11-18 ·
+      <span class="stamp-warn">official report filed for 16 of 68 team-sides · 11/15 16/18 filed · 11/16 0/16 filed · 11/17 0/10 filed (no report covers this date) · 11/18 0/24 filed (no report covers this date) · <a href="freshness.html">when each is due</a></span></div>
+  </div>
+</header>
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="nav-group"><span class="nav-cat">Overview</span><span class="nav-links"><a href="summary.html">Executive summary</a> <a href="methodology.html">Method &amp; rules</a></span></div><div class="nav-group"><span class="nav-cat">Projection surface (public)</span><span class="nav-links"><a href="projections.html">Two-estimator projections</a> <a href="lines.html">Originated lines</a> <a href="picks.html">Prices for the window</a> <a href="injuries.html">Injuries &amp; rotation</a> <a href="freshness.html">Report availability</a> <a href="standings.html">Standings</a> <a href="gameflow.html">Game flow</a> <a href="refresh.html">Refresh &amp; provenance gates</a></span></div><div class="nav-group"><span class="nav-cat">Bet surface (gated)</span><span class="nav-links"><a href="parlays.html">Parlay &amp; prop combos</a> <a href="props.html">Player props</a> <a href="leaderboard.html">Strategy leaderboard</a> <a href="strategies.html">Validation gates</a> <a href="correlations.html">Correlations</a> <a href="prereg.html">Pre-registration</a> <a href="ledger.html">Pick ledger</a> <a href="settlement.html">Settlement</a></span></div><div class="nav-group"><span class="nav-cat">Decision support</span><span class="nav-links"><a href="questions.html">Open questions</a> <a href="suggestions.html">Site suggestions</a></span></div><div class="nav-group"><span class="nav-cat">Verification</span><span class="nav-links"><a href="verification.html">Verification log</a> <a href="round_2026-11-19.html" class="active">Official round 11/16-11/18 (game books)</a> <a href="sources.html">Source register</a> <a href="review.html">Repository review</a> <a href="flagged.html">Flagged for review</a> <a href="../audit_dd1eb1f1/pages/index.html">Independent audit</a> <a href="../audit_7f3b89af/pages/index.html">Latest audit</a> <a href="../audit_1823b910/pages/index.html">Injury refresh audit</a> <a href="../audit_736efb4b/index.html">Injury freshness audit (1:30 PM ET)</a> <a href="../audit_94e6d41b/pages/index.html">Game-day refresh audit</a> <a href="../audit_ef6e2e6c/index.html">Evening refresh audit (11/16 eve)</a></span></div><div class="nav-group"><span class="nav-cat">Archive</span><span class="nav-links"><a href="../archive.html">Earlier sessions</a></span></div>
+  </div>
+</nav>
+<main class="wrap">
+
+<section class="callout bad" id="live-data-status" role="status">
+  <strong>Live data status: publishing is paused pending a successful refresh.</strong>
+  <p>The recorded scheduled attempt <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929" target="_blank" rel="noopener noreferrer">GitHub Actions run 44424736929</a> (2026-11-18T23:55:01Z) failed at the committed-tree
+  preflight (Unit tests against the committed tree (capture, feed, ledger, estimators, gates)) before official-source fetch. Its capture-integrity, freshness/provenance,
+  model/site, and commit steps were skipped. That run did not update the official schedule, standings,
+  team statistics, injury report, game results, or settlement.</p>
+  <p>The canonical model snapshot shown here was built 2026-11-14 for the dated window
+  <strong>2026-11-15 → 2026-11-18</strong>. These are historical research outputs, not today's lines or
+  picks. The public projection surface is read-only; the separate bet surface remains gated.
+  Existing hashes and recorded settlements remain dated audit records; unsettled entries are not
+  presumed outcomes.</p>
+  <p>Do not publish new bet entries until official-source fetch, capture integrity, freshness and
+  provenance gates, deterministic rebuild, and verified-final settlement all pass. See
+  <a href="flagged.html">Flagged for review: EVE-F04</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml" target="_blank" rel="noopener noreferrer">scheduled refresh workflow</a>.</p>
+</section>
+
+  <div class="page-head">
+    <div class="crumb">Verification</div>
+    <h1>Official round 11/16-11/18 (game books)</h1>
+    
+  </div>
+
+<div class="callout"><strong>Official round capture, 2026-11-16 to 2026-11-18.</strong>
+All 25 finals are taken from the official NBA game books (statsdmz.nba.com PDFs).
+A quarter vector is published only when its sum equals the printed final; where the official
+text layer is absent or corrupt the cell stays <strong>blank and flagged</strong> — never
+inferred. 45/50 team vectors verified; 5 blank.</div>
+<div class="table-wrap"><table>
+<caption id="round04quarters"></caption>
+<thead><tr>
+<th>Date</th>
+<th>Game id</th>
+<th>Matchup</th>
+<th>Team</th>
+<th>Q1</th>
+<th>Q2</th>
+<th>Q3</th>
+<th>Q4</th>
+<th>OT</th>
+<th>Final</th>
+<th>Flags (blank = unverified, not inferred)</th>
+<th>Official source</th>
+</tr></thead><tbody>
+<tr>
+<td>2026-11-16</td>
+<td>246</td>
+<td>CHI @ CLE</td>
+<td>CHI</td>
+<td>31</td>
+<td>17</td>
+<td>31</td>
+<td>36</td>
+<td>—</td>
+<td>115</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261116/20261116_CHICLE.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>246</td>
+<td>CHI @ CLE</td>
+<td>CLE</td>
+<td>25</td>
+<td>32</td>
+<td>31</td>
+<td>38</td>
+<td>—</td>
+<td>126</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261116/20261116_CHICLE.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>251</td>
+<td>GSW @ NOP</td>
+<td>GSW</td>
+<td>11</td>
+<td>25</td>
+<td>29</td>
+<td>29</td>
+<td>—</td>
+<td>94</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261116/20261116_GSWNOP.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>251</td>
+<td>GSW @ NOP</td>
+<td>NOP</td>
+<td>35</td>
+<td>26</td>
+<td>32</td>
+<td>22</td>
+<td>—</td>
+<td>115</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261116/20261116_GSWNOP.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>249</td>
+<td>HOU @ MIA</td>
+<td>HOU</td>
+<td>15</td>
+<td>31</td>
+<td>35</td>
+<td>29</td>
+<td>—</td>
+<td>110</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261116/20261116_HOUMIA.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>249</td>
+<td>HOU @ MIA</td>
+<td>MIA</td>
+<td>29</td>
+<td>33</td>
+<td>39</td>
+<td>27</td>
+<td>—</td>
+<td>128</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261116/20261116_HOUMIA.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>247</td>
+<td>MEM @ WAS</td>
+<td>MEM</td>
+<td>33</td>
+<td>26</td>
+<td>42</td>
+<td>35</td>
+<td>—</td>
+<td>136</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261116/20261116_MEMWAS.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>247</td>
+<td>MEM @ WAS</td>
+<td>WAS</td>
+<td>35</td>
+<td>34</td>
+<td>18</td>
+<td>33</td>
+<td>—</td>
+<td>120</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261116/20261116_MEMWAS.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>245</td>
+<td>ORL @ BOS</td>
+<td>ORL</td>
+<td>20</td>
+<td>30</td>
+<td>25</td>
+<td>40</td>
+<td>—</td>
+<td>115</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261116/20261116_ORLBOS.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>245</td>
+<td>ORL @ BOS</td>
+<td>BOS</td>
+<td>17</td>
+<td>24</td>
+<td>36</td>
+<td>28</td>
+<td>—</td>
+<td>105</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261116/20261116_ORLBOS.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>248</td>
+<td>PHI @ BKN</td>
+<td>PHI</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>135</td>
+<td>PHI: no period vector sums to printed final 135; left blank</td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261116/20261116_PHIBKN.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>248</td>
+<td>PHI @ BKN</td>
+<td>BKN</td>
+<td>26</td>
+<td>33</td>
+<td>36</td>
+<td>28</td>
+<td>—</td>
+<td>123</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261116/20261116_PHIBKN.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>252</td>
+<td>PHX @ DEN</td>
+<td>PHX</td>
+<td>20</td>
+<td>36</td>
+<td>34</td>
+<td>27</td>
+<td>—</td>
+<td>117</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261116/20261116_PHXDEN.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>252</td>
+<td>PHX @ DEN</td>
+<td>DEN</td>
+<td>24</td>
+<td>29</td>
+<td>29</td>
+<td>23</td>
+<td>—</td>
+<td>105</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261116/20261116_PHXDEN.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>250</td>
+<td>POR @ MIN</td>
+<td>POR</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>98</td>
+<td>POR: no period vector sums to printed final 98; left blank</td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261116/20261116_PORMIN.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-16</td>
+<td>250</td>
+<td>POR @ MIN</td>
+<td>MIN</td>
+<td>26</td>
+<td>33</td>
+<td>28</td>
+<td>19</td>
+<td>—</td>
+<td>106</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261116/20261116_PORMIN.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>256</td>
+<td>CHA @ LAL</td>
+<td>CHA</td>
+<td>34</td>
+<td>32</td>
+<td>28</td>
+<td>17</td>
+<td>3</td>
+<td>114</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261117/20261117_CHALAL.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>256</td>
+<td>CHA @ LAL</td>
+<td>LAL</td>
+<td>30</td>
+<td>29</td>
+<td>22</td>
+<td>30</td>
+<td>7</td>
+<td>118</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261117/20261117_CHALAL.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>255</td>
+<td>DET @ SAS</td>
+<td>DET</td>
+<td>26</td>
+<td>29</td>
+<td>23</td>
+<td>27</td>
+<td>—</td>
+<td>105</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261117/20261117_DETSAS.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>255</td>
+<td>DET @ SAS</td>
+<td>SAS</td>
+<td>33</td>
+<td>21</td>
+<td>18</td>
+<td>21</td>
+<td>—</td>
+<td>93</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261117/20261117_DETSAS.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>253</td>
+<td>NYK @ TOR</td>
+<td>NYK</td>
+<td>23</td>
+<td>31</td>
+<td>26</td>
+<td>31</td>
+<td>—</td>
+<td>111</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261117/20261117_NYKTOR.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>253</td>
+<td>NYK @ TOR</td>
+<td>TOR</td>
+<td>29</td>
+<td>21</td>
+<td>33</td>
+<td>19</td>
+<td>—</td>
+<td>102</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261117/20261117_NYKTOR.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>254</td>
+<td>POR @ MIN</td>
+<td>POR</td>
+<td>17</td>
+<td>31</td>
+<td>31</td>
+<td>26</td>
+<td>—</td>
+<td>105</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>254</td>
+<td>POR @ MIN</td>
+<td>MIN</td>
+<td>29</td>
+<td>20</td>
+<td>30</td>
+<td>27</td>
+<td>—</td>
+<td>106</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>257</td>
+<td>UTA @ LAC</td>
+<td>UTA</td>
+<td>35</td>
+<td>23</td>
+<td>30</td>
+<td>44</td>
+<td>—</td>
+<td>132</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261117/20261117_UTALAC.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-17</td>
+<td>257</td>
+<td>UTA @ LAC</td>
+<td>LAC</td>
+<td>29</td>
+<td>33</td>
+<td>24</td>
+<td>21</td>
+<td>—</td>
+<td>107</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261117/20261117_UTALAC.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>265</td>
+<td>ATL @ OKC</td>
+<td>ATL</td>
+<td>31</td>
+<td>33</td>
+<td>19</td>
+<td>34</td>
+<td>—</td>
+<td>117</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_ATLOKC.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>265</td>
+<td>ATL @ OKC</td>
+<td>OKC</td>
+<td>29</td>
+<td>22</td>
+<td>32</td>
+<td>29</td>
+<td>—</td>
+<td>112</td>
+<td>OKC: table row &#x27;THUNDER 30 32 32 30 112&#x27; rejected by sum gate (sum 124 vs final 112)</td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_ATLOKC.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>266</td>
+<td>BOS @ DEN</td>
+<td>BOS</td>
+<td>30</td>
+<td>31</td>
+<td>19</td>
+<td>21</td>
+<td>—</td>
+<td>101</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_BOSDEN.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>266</td>
+<td>BOS @ DEN</td>
+<td>DEN</td>
+<td>24</td>
+<td>25</td>
+<td>31</td>
+<td>25</td>
+<td>—</td>
+<td>105</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_BOSDEN.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>262</td>
+<td>CHI @ BKN</td>
+<td>CHI</td>
+<td>37</td>
+<td>39</td>
+<td>35</td>
+<td>26</td>
+<td>—</td>
+<td>137</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_CHIBKN.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>262</td>
+<td>CHI @ BKN</td>
+<td>BKN</td>
+<td>21</td>
+<td>30</td>
+<td>26</td>
+<td>30</td>
+<td>—</td>
+<td>107</td>
+<td>BKN: table row &#x27;NETS 21 30 26 22 127&#x27; rejected by sum gate (sum 99 vs final 107)</td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_CHIBKN.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>264</td>
+<td>DET @ NOP</td>
+<td>DET</td>
+<td>31</td>
+<td>36</td>
+<td>25</td>
+<td>30</td>
+<td>—</td>
+<td>122</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_DETNOP.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>264</td>
+<td>DET @ NOP</td>
+<td>NOP</td>
+<td>31</td>
+<td>29</td>
+<td>26</td>
+<td>23</td>
+<td>—</td>
+<td>109</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_DETNOP.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>267</td>
+<td>GSW @ DAL</td>
+<td>GSW</td>
+<td>25</td>
+<td>24</td>
+<td>23</td>
+<td>22</td>
+<td>—</td>
+<td>94</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_GSWDAL.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>267</td>
+<td>GSW @ DAL</td>
+<td>DAL</td>
+<td>35</td>
+<td>27</td>
+<td>30</td>
+<td>24</td>
+<td>—</td>
+<td>116</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_GSWDAL.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>259</td>
+<td>HOU @ IND</td>
+<td>HOU</td>
+<td>39</td>
+<td>23</td>
+<td>31</td>
+<td>26</td>
+<td>—</td>
+<td>119</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_HOUIND.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>259</td>
+<td>HOU @ IND</td>
+<td>IND</td>
+<td>28</td>
+<td>18</td>
+<td>30</td>
+<td>28</td>
+<td>—</td>
+<td>104</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_HOUIND.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>258</td>
+<td>MEM @ CLE</td>
+<td>MEM</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>124</td>
+<td>MEM: no period vector sums to printed final 124; left blank; MEM: table row &#x27;Grizzlies 30 41 30 24 124&#x27; rejected by sum gate (sum 125 vs final 124)</td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_MEMCLE.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>258</td>
+<td>MEM @ CLE</td>
+<td>CLE</td>
+<td>37</td>
+<td>35</td>
+<td>27</td>
+<td>22</td>
+<td>—</td>
+<td>121</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_MEMCLE.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>260</td>
+<td>MIL @ MIA</td>
+<td>MIL</td>
+<td>23</td>
+<td>25</td>
+<td>38</td>
+<td>44</td>
+<td>—</td>
+<td>130</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_MILMIA.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>260</td>
+<td>MIL @ MIA</td>
+<td>MIA</td>
+<td>34</td>
+<td>40</td>
+<td>38</td>
+<td>25</td>
+<td>—</td>
+<td>137</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_MILMIA.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>261</td>
+<td>PHI @ ORL</td>
+<td>PHI</td>
+<td>27</td>
+<td>37</td>
+<td>28</td>
+<td>29</td>
+<td>—</td>
+<td>121</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_PHIORL.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>261</td>
+<td>PHI @ ORL</td>
+<td>ORL</td>
+<td>40</td>
+<td>29</td>
+<td>28</td>
+<td>19</td>
+<td>—</td>
+<td>116</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_PHIORL.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>269</td>
+<td>PHX @ SAC</td>
+<td>PHX</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>128</td>
+<td>PHX: no period vector sums to printed final 128; left blank</td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_PHXSAC.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>269</td>
+<td>PHX @ SAC</td>
+<td>SAC</td>
+<td>31</td>
+<td>29</td>
+<td>24</td>
+<td>23</td>
+<td>—</td>
+<td>107</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_PHXSAC.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>268</td>
+<td>UTA @ LAL</td>
+<td>UTA</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>109</td>
+<td>UTA: no period vector sums to printed final 109; left blank</td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_UTALAL.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>268</td>
+<td>UTA @ LAL</td>
+<td>LAL</td>
+<td>34</td>
+<td>20</td>
+<td>22</td>
+<td>21</td>
+<td>—</td>
+<td>97</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_UTALAL.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>263</td>
+<td>WAS @ TOR</td>
+<td>WAS</td>
+<td>29</td>
+<td>20</td>
+<td>29</td>
+<td>25</td>
+<td>—</td>
+<td>103</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_WASTOR.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+<tr>
+<td>2026-11-18</td>
+<td>263</td>
+<td>WAS @ TOR</td>
+<td>TOR</td>
+<td>23</td>
+<td>24</td>
+<td>32</td>
+<td>20</td>
+<td>—</td>
+<td>99</td>
+<td></td>
+<td><a href="https://statsdmz.nba.com/pdfs/20261118/20261118_WASTOR.pdf" target="_blank" rel="noopener noreferrer">game book</a></td>
+</tr>
+</tbody></table></div>
+<div class="table-wrap"><table>
+<caption id="round04revisions"></caption>
+<thead><tr>
+<th>Revision (ET)</th>
+<th>Row set</th>
+<th>Official source</th>
+</tr></thead><tbody>
+<tr>
+<td>12:45 AM</td>
+<td>see de0caf5d round tree</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_45AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>01:00 AM</td>
+<td>identical to 01:45</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_00AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>01:15 AM</td>
+<td>identical to 01:45</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>01:30 AM</td>
+<td>identical to 01:45</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_30AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>01:45 AM</td>
+<td>verbatim in raw file</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+</tbody></table></div>
+<div class="table-wrap"><table>
+<caption id="round04diffs"></caption>
+<thead><tr>
+<th>Revision pair</th>
+<th>Added rows</th>
+<th>Removed rows</th>
+<th>Status changes</th>
+<th>Diff result</th>
+<th>Official source</th>
+</tr></thead><tbody>
+<tr>
+<td>01:00 -&gt; 01:15</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>no change between consecutive revisions</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>01:15 -&gt; 01:30</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>no change between consecutive revisions</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+<tr>
+<td>01:30 -&gt; 01:45</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>no change between consecutive revisions</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
+</tr>
+</tbody></table></div>
+
+<div class="callout"><strong>Team attribution (F-DE0-04/F-DE0-05 resolved).</strong>
+Kuminga, Jonathan, Pullin, Zyon appear on the official injury report rows without a
+team cell. Both are <strong>Minnesota Timberwolves</strong> per the official 11/16 and 11/17
+PORMIN game books (<a href="https://statsdmz.nba.com/pdfs/20261116/20261116_PORMIN.pdf" target="_blank" rel="noopener noreferrer">game book</a> · <a href="https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf" target="_blank" rel="noopener noreferrer">game book</a>). Any earlier GSW attribution is unconfirmed.</div>
+
+<h2>Measured home-court advantage (re-cut)</h2>
+<p>Measured on the official HOME/ROAD splits of the standings page:
+111 home wins in 221 home games =
+<strong>0.5023</strong> (z vs .500 = 0.067). The model
+pin stays the fitted 0.76 points; converting this rate to points is a reviewer decision
+(Q1 on Open questions) and is not inferred.</p>
+<div class="table-wrap"><table>
+<caption id="round04hca"></caption>
+<thead><tr>
+<th>Home wins</th>
+<th>Home losses</th>
+<th>Home games</th>
+<th>Measured home win rate</th>
+<th>z vs .500</th>
+<th>Official source</th>
+</tr></thead><tbody>
+<tr>
+<td>111</td>
+<td>110</td>
+<td>221</td>
+<td>0.5023</td>
+<td>0.067</td>
+<td><a href="https://www.nba.com/standings" target="_blank" rel="noopener noreferrer">nba.com/standings</a></td>
+</tr>
+</tbody></table></div>
+
+<h2>Luck test — per-team z of actual vs Pythagorean expected wins</h2>
+<p>Strategies leaning on teams outside the 2-sd noise band are refused on the bet surface.</p>
+<div class="table-wrap"><table>
+<caption id="round04luck"></caption>
+<thead><tr>
+<th>Team</th>
+<th>GP</th>
+<th>Actual win%</th>
+<th>Expected win%</th>
+<th>Luck z</th>
+<th>Band</th>
+<th>Official source</th>
+</tr></thead><tbody>
+<tr>
+<td>San Antonio Spurs</td>
+<td>15</td>
+<td>0.8</td>
+<td>0.1981</td>
+<td>5.849</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Boston Celtics</td>
+<td>15</td>
+<td>0.7333</td>
+<td>0.2066</td>
+<td>5.038</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Minnesota Timberwolves</td>
+<td>15</td>
+<td>0.7333</td>
+<td>0.2101</td>
+<td>4.975</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Houston Rockets</td>
+<td>16</td>
+<td>0.75</td>
+<td>0.2561</td>
+<td>4.526</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Los Angeles Lakers</td>
+<td>16</td>
+<td>0.8125</td>
+<td>0.3168</td>
+<td>4.262</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Memphis Grizzlies</td>
+<td>15</td>
+<td>0.7333</td>
+<td>0.256</td>
+<td>4.236</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Detroit Pistons</td>
+<td>14</td>
+<td>0.7143</td>
+<td>0.3087</td>
+<td>3.286</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Philadelphia 76ers</td>
+<td>16</td>
+<td>0.8125</td>
+<td>0.4117</td>
+<td>3.257</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Portland Trail Blazers</td>
+<td>14</td>
+<td>0.6429</td>
+<td>0.3247</td>
+<td>2.542</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>New York Knicks</td>
+<td>14</td>
+<td>0.5714</td>
+<td>0.3114</td>
+<td>2.101</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Oklahoma City Thunder</td>
+<td>15</td>
+<td>0.6</td>
+<td>0.3642</td>
+<td>1.897</td>
+<td><span class="chip chip-neutral">within noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Atlanta Hawks</td>
+<td>15</td>
+<td>0.6</td>
+<td>0.4436</td>
+<td>1.219</td>
+<td><span class="chip chip-neutral">within noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Denver Nuggets</td>
+<td>13</td>
+<td>0.6154</td>
+<td>0.4692</td>
+<td>1.056</td>
+<td><span class="chip chip-neutral">within noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Miami Heat</td>
+<td>15</td>
+<td>0.6</td>
+<td>0.4826</td>
+<td>0.91</td>
+<td><span class="chip chip-neutral">within noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Cleveland Cavaliers</td>
+<td>16</td>
+<td>0.5</td>
+<td>0.441</td>
+<td>0.475</td>
+<td><span class="chip chip-neutral">within noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Golden State Warriors</td>
+<td>15</td>
+<td>0.5333</td>
+<td>0.4724</td>
+<td>0.473</td>
+<td><span class="chip chip-neutral">within noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Dallas Mavericks</td>
+<td>15</td>
+<td>0.5333</td>
+<td>0.5277</td>
+<td>0.043</td>
+<td><span class="chip chip-neutral">within noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Phoenix Suns</td>
+<td>14</td>
+<td>0.5</td>
+<td>0.5483</td>
+<td>-0.363</td>
+<td><span class="chip chip-neutral">within noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Toronto Raptors</td>
+<td>15</td>
+<td>0.3333</td>
+<td>0.5</td>
+<td>-1.291</td>
+<td><span class="chip chip-neutral">within noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Orlando Magic</td>
+<td>14</td>
+<td>0.4286</td>
+<td>0.6049</td>
+<td>-1.349</td>
+<td><span class="chip chip-neutral">within noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Indiana Pacers</td>
+<td>15</td>
+<td>0.3333</td>
+<td>0.6001</td>
+<td>-2.109</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>LA Clippers</td>
+<td>13</td>
+<td>0.3077</td>
+<td>0.6688</td>
+<td>-2.767</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Washington Wizards</td>
+<td>16</td>
+<td>0.3125</td>
+<td>0.7035</td>
+<td>-3.424</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>New Orleans Pelicans</td>
+<td>16</td>
+<td>0.3125</td>
+<td>0.7036</td>
+<td>-3.426</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Chicago Bulls</td>
+<td>14</td>
+<td>0.2857</td>
+<td>0.7253</td>
+<td>-3.685</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Brooklyn Nets</td>
+<td>14</td>
+<td>0.2143</td>
+<td>0.7318</td>
+<td>-4.371</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Utah Jazz</td>
+<td>16</td>
+<td>0.1875</td>
+<td>0.7092</td>
+<td>-4.595</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Charlotte Hornets</td>
+<td>14</td>
+<td>0.2857</td>
+<td>0.7961</td>
+<td>-4.741</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Milwaukee Bucks</td>
+<td>15</td>
+<td>0.0667</td>
+<td>0.8332</td>
+<td>-7.962</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+<tr>
+<td>Sacramento Kings</td>
+<td>14</td>
+<td>0.0714</td>
+<td>0.8455</td>
+<td>-8.014</td>
+<td><span class="chip chip-bad">outside noise</span></td>
+<td><a href="https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com team stats</a> · <a href="https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&amp;Season=2026-27</a></td>
+</tr>
+</tbody></table></div>
+
+<h2>Totals modeled as possessions x PPP (advanced page re-cut)</h2>
+<div class="table-wrap"><table>
+<caption id="round04totals"></caption>
+<thead><tr>
+<th>Team</th>
+<th>Poss/game</th>
+<th>PPP for</th>
+<th>PPP against</th>
+<th>Modeled pts for</th>
+<th>Modeled pts against</th>
+<th>Actual pts for</th>
+<th>Actual pts against</th>
+<th>Official source</th>
+</tr></thead><tbody>
+<tr>
+<td>Los Angeles Lakers</td>
+<td>100.88</td>
+<td>1.198</td>
+<td>1.132</td>
+<td>120.8</td>
+<td>114.2</td>
+<td>120.9</td>
+<td>114.4</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Philadelphia 76ers</td>
+<td>100.0</td>
+<td>1.145</td>
+<td>1.118</td>
+<td>114.5</td>
+<td>111.8</td>
+<td>114.5</td>
+<td>111.6</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Houston Rockets</td>
+<td>97.38</td>
+<td>1.211</td>
+<td>1.121</td>
+<td>117.9</td>
+<td>109.2</td>
+<td>117.9</td>
+<td>109.2</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>San Antonio Spurs</td>
+<td>99.13</td>
+<td>1.181</td>
+<td>1.07</td>
+<td>117.1</td>
+<td>106.1</td>
+<td>117.1</td>
+<td>105.9</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Boston Celtics</td>
+<td>97.33</td>
+<td>1.17</td>
+<td>1.06</td>
+<td>113.9</td>
+<td>103.2</td>
+<td>113.9</td>
+<td>103.4</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Memphis Grizzlies</td>
+<td>101.07</td>
+<td>1.206</td>
+<td>1.119</td>
+<td>121.9</td>
+<td>113.1</td>
+<td>121.9</td>
+<td>112.9</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Minnesota Timberwolves</td>
+<td>101.87</td>
+<td>1.145</td>
+<td>1.04</td>
+<td>116.6</td>
+<td>105.9</td>
+<td>116.7</td>
+<td>106.1</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Detroit Pistons</td>
+<td>100.43</td>
+<td>1.149</td>
+<td>1.089</td>
+<td>115.4</td>
+<td>109.4</td>
+<td>115.4</td>
+<td>108.9</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Atlanta Hawks</td>
+<td>104.4</td>
+<td>1.128</td>
+<td>1.108</td>
+<td>117.8</td>
+<td>115.7</td>
+<td>117.7</td>
+<td>115.8</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Miami Heat</td>
+<td>103.07</td>
+<td>1.169</td>
+<td>1.167</td>
+<td>120.5</td>
+<td>120.3</td>
+<td>120.5</td>
+<td>119.9</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Oklahoma City Thunder</td>
+<td>99.2</td>
+<td>1.13</td>
+<td>1.087</td>
+<td>112.1</td>
+<td>107.8</td>
+<td>112.1</td>
+<td>107.7</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Portland Trail Blazers</td>
+<td>100.71</td>
+<td>1.162</td>
+<td>1.102</td>
+<td>117.0</td>
+<td>111.0</td>
+<td>117.0</td>
+<td>111.0</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Cleveland Cavaliers</td>
+<td>100.62</td>
+<td>1.175</td>
+<td>1.155</td>
+<td>118.2</td>
+<td>116.2</td>
+<td>118.3</td>
+<td>116.3</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Dallas Mavericks</td>
+<td>100.07</td>
+<td>1.123</td>
+<td>1.134</td>
+<td>112.4</td>
+<td>113.5</td>
+<td>112.3</td>
+<td>113.2</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Denver Nuggets</td>
+<td>99.0</td>
+<td>1.143</td>
+<td>1.138</td>
+<td>113.2</td>
+<td>112.7</td>
+<td>113.2</td>
+<td>112.2</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Golden State Warriors</td>
+<td>100.2</td>
+<td>1.134</td>
+<td>1.128</td>
+<td>113.6</td>
+<td>113.0</td>
+<td>113.7</td>
+<td>112.8</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>New York Knicks</td>
+<td>95.86</td>
+<td>1.148</td>
+<td>1.09</td>
+<td>110.0</td>
+<td>104.5</td>
+<td>110.0</td>
+<td>103.9</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Phoenix Suns</td>
+<td>98.71</td>
+<td>1.156</td>
+<td>1.168</td>
+<td>114.1</td>
+<td>115.3</td>
+<td>114.1</td>
+<td>115.7</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Orlando Magic</td>
+<td>98.21</td>
+<td>1.113</td>
+<td>1.14</td>
+<td>109.3</td>
+<td>112.0</td>
+<td>109.4</td>
+<td>112.8</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Indiana Pacers</td>
+<td>100.73</td>
+<td>1.107</td>
+<td>1.136</td>
+<td>111.5</td>
+<td>114.4</td>
+<td>111.5</td>
+<td>114.8</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>New Orleans Pelicans</td>
+<td>103.25</td>
+<td>1.117</td>
+<td>1.189</td>
+<td>115.3</td>
+<td>122.8</td>
+<td>115.4</td>
+<td>122.8</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Toronto Raptors</td>
+<td>98.53</td>
+<td>1.137</td>
+<td>1.131</td>
+<td>112.0</td>
+<td>111.4</td>
+<td>112.0</td>
+<td>112.0</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Washington Wizards</td>
+<td>100.75</td>
+<td>1.099</td>
+<td>1.171</td>
+<td>110.7</td>
+<td>118.0</td>
+<td>110.8</td>
+<td>117.9</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Charlotte Hornets</td>
+<td>97.14</td>
+<td>1.031</td>
+<td>1.137</td>
+<td>100.2</td>
+<td>110.5</td>
+<td>100.1</td>
+<td>110.4</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Chicago Bulls</td>
+<td>104.57</td>
+<td>1.111</td>
+<td>1.191</td>
+<td>116.2</td>
+<td>124.5</td>
+<td>116.2</td>
+<td>124.6</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>LA Clippers</td>
+<td>100.46</td>
+<td>1.114</td>
+<td>1.17</td>
+<td>111.9</td>
+<td>117.5</td>
+<td>111.9</td>
+<td>117.7</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Brooklyn Nets</td>
+<td>100.29</td>
+<td>1.105</td>
+<td>1.19</td>
+<td>110.8</td>
+<td>119.3</td>
+<td>110.9</td>
+<td>119.2</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Utah Jazz</td>
+<td>101.62</td>
+<td>1.07</td>
+<td>1.145</td>
+<td>108.7</td>
+<td>116.4</td>
+<td>108.8</td>
+<td>116.0</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Milwaukee Bucks</td>
+<td>101.0</td>
+<td>1.067</td>
+<td>1.197</td>
+<td>107.8</td>
+<td>120.9</td>
+<td>107.7</td>
+<td>120.9</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+<tr>
+<td>Sacramento Kings</td>
+<td>100.79</td>
+<td>1.069</td>
+<td>1.204</td>
+<td>107.7</td>
+<td>121.3</td>
+<td>107.7</td>
+<td>121.7</td>
+<td><a href="https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&amp;Season=2026-27" target="_blank" rel="noopener noreferrer">nba.com advanced</a></td>
+</tr>
+</tbody></table></div>
+
+<h2>Rest, back-to-back, 3-in-4 and travel — 2026-11-19 slate</h2>
+<p>Rest days are counted from the official game books; travel distance comes only from the
+sourced arena-coordinate table and stays blank + flagged where no official coordinate exists.</p>
+<div class="table-wrap"><table>
+<caption id="round04rest"></caption>
+<thead><tr>
+<th>Date</th>
+<th>Team</th>
+<th>Opponent</th>
+<th>Site</th>
+<th>Prev game</th>
+<th>Rest days</th>
+<th>B2B</th>
+<th>3-in-4</th>
+<th>Travel km</th>
+<th>Travel flag</th>
+<th>Official source</th>
+</tr></thead><tbody>
+<tr>
+<td>2026-11-19</td>
+<td>GSW</td>
+<td>MEM</td>
+<td>away</td>
+<td>2026-11-18</td>
+<td>0</td>
+<td><span class="chip chip-warn">B2B</span></td>
+<td><span class="chip chip-warn">3-in-4</span></td>
+<td>—</td>
+<td>travel distance unverified (no sourced arena coordinate entry)</td>
+<td><a href="https://statsdmz.nba.com/pdfs/" target="_blank" rel="noopener noreferrer">game books + schedule</a> · <a href="https://www.nba.com/standings" target="_blank" rel="noopener noreferrer">https://www.nba.com/standings</a></td>
+</tr>
+<tr>
+<td>2026-11-19</td>
+<td>MEM</td>
+<td>GSW</td>
+<td>home</td>
+<td>2026-11-18</td>
+<td>0</td>
+<td><span class="chip chip-warn">B2B</span></td>
+<td><span class="chip chip-warn">3-in-4</span></td>
+<td>—</td>
+<td>travel distance unverified (no sourced arena coordinate entry)</td>
+<td><a href="https://statsdmz.nba.com/pdfs/" target="_blank" rel="noopener noreferrer">game books + schedule</a> · <a href="https://www.nba.com/standings" target="_blank" rel="noopener noreferrer">https://www.nba.com/standings</a></td>
+</tr>
+<tr>
+<td>2026-11-19</td>
+<td>LAC</td>
+<td>SAS</td>
+<td>away</td>
+<td>2026-11-17</td>
+<td>1</td>
+<td><span class="chip chip-neutral">—</span></td>
+<td><span class="chip chip-neutral">—</span></td>
+<td>—</td>
+<td>travel distance unverified (no sourced arena coordinate entry)</td>
+<td><a href="https://statsdmz.nba.com/pdfs/" target="_blank" rel="noopener noreferrer">game books + schedule</a> · <a href="https://www.nba.com/standings" target="_blank" rel="noopener noreferrer">https://www.nba.com/standings</a></td>
+</tr>
+<tr>
+<td>2026-11-19</td>
+<td>SAS</td>
+<td>LAC</td>
+<td>home</td>
+<td>2026-11-17</td>
+<td>1</td>
+<td><span class="chip chip-neutral">—</span></td>
+<td><span class="chip chip-neutral">—</span></td>
+<td>—</td>
+<td>travel distance unverified (no sourced arena coordinate entry)</td>
+<td><a href="https://statsdmz.nba.com/pdfs/" target="_blank" rel="noopener noreferrer">game books + schedule</a> · <a href="https://www.nba.com/standings" target="_blank" rel="noopener noreferrer">https://www.nba.com/standings</a></td>
+</tr>
+<tr>
+<td>2026-11-19</td>
+<td>NYK</td>
+<td>MIN</td>
+<td>away</td>
+<td>2026-11-17</td>
+<td>1</td>
+<td><span class="chip chip-neutral">—</span></td>
+<td><span class="chip chip-neutral">—</span></td>
+<td>—</td>
+<td>travel distance unverified (no sourced arena coordinate entry)</td>
+<td><a href="https://statsdmz.nba.com/pdfs/" target="_blank" rel="noopener noreferrer">game books + schedule</a> · <a href="https://www.nba.com/standings" target="_blank" rel="noopener noreferrer">https://www.nba.com/standings</a></td>
+</tr>
+<tr>
+<td>2026-11-19</td>
+<td>MIN</td>
+<td>NYK</td>
+<td>home</td>
+<td>2026-11-17</td>
+<td>1</td>
+<td><span class="chip chip-neutral">—</span></td>
+<td><span class="chip chip-neutral">—</span></td>
+<td>—</td>
+<td>travel distance unverified (no sourced arena coordinate entry)</td>
+<td><a href="https://statsdmz.nba.com/pdfs/" target="_blank" rel="noopener noreferrer">game books + schedule</a> · <a href="https://www.nba.com/standings" target="_blank" rel="noopener noreferrer">https://www.nba.com/standings</a></td>
+</tr>
+<tr>
+<td>2026-11-19</td>
+<td>POR</td>
+<td>MIL</td>
+<td>away</td>
+<td>2026-11-17</td>
+<td>1</td>
+<td><span class="chip chip-neutral">—</span></td>
+<td><span class="chip chip-neutral">—</span></td>
+<td>—</td>
+<td>travel distance unverified (no sourced arena coordinate entry)</td>
+<td><a href="https://statsdmz.nba.com/pdfs/" target="_blank" rel="noopener noreferrer">game books + schedule</a> · <a href="https://www.nba.com/standings" target="_blank" rel="noopener noreferrer">https://www.nba.com/standings</a></td>
+</tr>
+<tr>
+<td>2026-11-19</td>
+<td>MIL</td>
+<td>POR</td>
+<td>home</td>
+<td>2026-11-18</td>
+<td>0</td>
+<td><span class="chip chip-warn">B2B</span></td>
+<td><span class="chip chip-neutral">—</span></td>
+<td>—</td>
+<td>travel distance unverified (no sourced arena coordinate entry)</td>
+<td><a href="https://statsdmz.nba.com/pdfs/" target="_blank" rel="noopener noreferrer">game books + schedule</a> · <a href="https://www.nba.com/standings" target="_blank" rel="noopener noreferrer">https://www.nba.com/standings</a></td>
+</tr>
+</tbody></table></div>
+
+<h2>Minutes redistribution — top-8 shares, OUT players zeroed</h2>
+<p>Shares are measured from the captured 11/16-11/18 game books. Replacement-player shares are
+not officially sourced and stay flagged/unverified.</p>
+<div class="table-wrap"><table>
+<caption id="round04minutes"></caption>
+<thead><tr>
+<th>Team</th>
+<th>Top-3 shares (measured)</th>
+<th>OUT (official report)</th>
+<th>Redistribution note</th>
+<th>Official source</th>
+</tr></thead><tbody>
+<tr>
+<td>GSW</td>
+<td>Richard Will 0.1834; De&#x27;anthony Melton 0.1444; Bassey Charles 0.1379</td>
+<td>—</td>
+<td>top-8 shares from captured 11/16-18 game books; OUT players zeroed and their minutes redistributed pro rata among the available top-8 — replacement-player shares are NOT officially sourced and stay flagged/unverified</td>
+<td><a href="https://statsdmz.nba.com/pdfs/" target="_blank" rel="noopener noreferrer">game books</a></td>
+</tr>
+<tr>
+<td>MEM</td>
+<td>Cam Spencer 0.1535; Cedric Coward 0.1514; Boozer Cameron 0.1433</td>
+<td>—</td>
+<td>top-8 shares from captured 11/16-18 game books; OUT players zeroed and their minutes redistributed pro rata among the available top-8 — replacement-player shares are NOT officially sourced and stay flagged/unverified</td>
+<td><a href="https://statsdmz.nba.com/pdfs/" target="_blank" rel="noopener noreferrer">game books</a></td>
+</tr>
+<tr>
+<td>LAC</td>
+<td>Darius Garland 0.1577; Derrick Jones JR 0.1473; Hachimura Rui 0.1415</td>
+<td>—</td>
+<td>top-8 shares from captured 11/16-18 game books; OUT players zeroed and their minutes redistributed pro rata among the available top-8 — replacement-player shares are NOT officially sourced and stay flagged/unverified</td>
+<td><a href="https://statsdmz.nba.com/pdfs/" target="_blank" rel="noopener noreferrer">game books</a></td>
+</tr>
+<tr>
+<td>SAS</td>
+<td>Devin Vassell 0.1563; Dylan Harper 0.1512; De&#x27;aaron Fox 0.1505</td>
+<td>Dylan Harper</td>
+<td>top-8 shares from captured 11/16-18 game books; OUT players zeroed and their minutes redistributed pro rata among the available top-8 — replacement-player shares are NOT officially sourced and stay flagged/unverified</td>
+<td><a href="https://statsdmz.nba.com/pdfs/" target="_blank" rel="noopener noreferrer">game books</a></td>
+</tr>
+<tr>
+<td>NYK</td>
+<td>Karl-anthony Towns 0.1681; Anunoby Og 0.1652; Brunson Jalen 0.1589</td>
+<td>—</td>
+<td>top-8 shares from captured 11/16-18 game books; OUT players zeroed and their minutes redistributed pro rata among the available top-8 — replacement-player shares are NOT officially sourced and stay flagged/unverified</td>
+<td><a href="https://statsdmz.nba.com/pdfs/" target="_blank" rel="noopener noreferrer">game books</a></td>
+</tr>
+<tr>
+<td>MIN</td>
+<td>Ayo Dosunmu 0.1614; Jaden Mcdaniels 0.1594; JR Shannon Terrence 0.1399</td>
+<td>—</td>
+<td>top-8 shares from captured 11/16-18 game books; OUT players zeroed and their minutes redistributed pro rata among the available top-8 — replacement-player shares are NOT officially sourced and stay flagged/unverified</td>
+<td><a href="https://statsdmz.nba.com/pdfs/" target="_blank" rel="noopener noreferrer">game books</a></td>
+</tr>
+<tr>
+<td>POR</td>
+<td>Cissoko Sidy 0.151; Camara Toumani 0.1468; Holiday Jrue 0.1409</td>
+<td>—</td>
+<td>top-8 shares from captured 11/16-18 game books; OUT players zeroed and their minutes redistributed pro rata among the available top-8 — replacement-player shares are NOT officially sourced and stay flagged/unverified</td>
+<td><a href="https://statsdmz.nba.com/pdfs/" target="_blank" rel="noopener noreferrer">game books</a></td>
+</tr>
+<tr>
+<td>MIL</td>
+<td>Kuzma Kyle 0.1634; Ionis 0.1395; Brayden Burries 0.1381</td>
+<td>—</td>
+<td>top-8 shares from captured 11/16-18 game books; OUT players zeroed and their minutes redistributed pro rata among the available top-8 — replacement-player shares are NOT officially sourced and stay flagged/unverified</td>
+<td><a href="https://statsdmz.nba.com/pdfs/" target="_blank" rel="noopener noreferrer">game books</a></td>
+</tr>
+</tbody></table></div>
+
+<h2>Ledger hash publication check</h2>
+<p>43 entries: chain intact =
+True; 34 published picks all hashed <em>before</em> tip-off;
+9 settlements hash-verified with visible stamps. Problems:
+none.</p>
+<div class="table-wrap"><table>
+<caption id="round04ledger"></caption>
+<thead><tr>
+<th>Pick</th>
+<th>Settled (UTC)</th>
+<th>Hash at settlement</th>
+<th>Settlement stamp</th>
+<th>Source</th>
+</tr></thead><tbody>
+<tr>
+<td>0022600236-side-proj</td>
+<td>2026-11-16T18:37Z</td>
+<td>verified</td>
+<td>settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final IND 124 - PHI 131; quarter sums == finals (4 periods, verified)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl" target="_blank" rel="noopener noreferrer">ledger.jsonl</a></td>
+</tr>
+<tr>
+<td>0022600237-side-proj</td>
+<td>2026-11-16T18:37Z</td>
+<td>verified</td>
+<td>settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final LAL 131 - PHX 123; quarter sums == finals (4 periods, verified)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl" target="_blank" rel="noopener noreferrer">ledger.jsonl</a></td>
+</tr>
+<tr>
+<td>0022600238-side-proj</td>
+<td>2026-11-16T18:37Z</td>
+<td>verified</td>
+<td>settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final CHA 105 - LAC 113; quarter sums == finals (4 periods, verified)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl" target="_blank" rel="noopener noreferrer">ledger.jsonl</a></td>
+</tr>
+<tr>
+<td>0022600239-side-proj</td>
+<td>2026-11-16T18:37Z</td>
+<td>verified</td>
+<td>settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final SAS 110 - UTA 102; quarter sums == finals (4 periods, verified)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl" target="_blank" rel="noopener noreferrer">ledger.jsonl</a></td>
+</tr>
+<tr>
+<td>0022600240-side-proj</td>
+<td>2026-11-16T18:37Z</td>
+<td>verified</td>
+<td>settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final DAL 94 - BOS 131; quarter sums == finals (4 periods, verified)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl" target="_blank" rel="noopener noreferrer">ledger.jsonl</a></td>
+</tr>
+<tr>
+<td>0022600241-side-proj</td>
+<td>2026-11-16T18:37Z</td>
+<td>verified</td>
+<td>settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final NYK 112 - TOR 108; quarter sums == finals (5 periods, verified)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl" target="_blank" rel="noopener noreferrer">ledger.jsonl</a></td>
+</tr>
+<tr>
+<td>0022600242-side-proj</td>
+<td>2026-11-16T18:37Z</td>
+<td>verified</td>
+<td>settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final HOU 147 - WAS 119; quarter sums == finals (4 periods, verified)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl" target="_blank" rel="noopener noreferrer">ledger.jsonl</a></td>
+</tr>
+<tr>
+<td>0022600243-side-proj</td>
+<td>2026-11-16T18:37Z</td>
+<td>verified</td>
+<td>settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final ATL 113 - MIL 106; quarter sums == finals (4 periods, verified)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl" target="_blank" rel="noopener noreferrer">ledger.jsonl</a></td>
+</tr>
+<tr>
+<td>0022600244-side-proj</td>
+<td>2026-11-16T18:37Z</td>
+<td>verified</td>
+<td>settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final OKC 125 - SAC 103; quarter sums == finals (4 periods, verified)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl" target="_blank" rel="noopener noreferrer">ledger.jsonl</a></td>
+</tr>
+</tbody></table></div>
+
+<h2>Registers for this round</h2>
+<p>The executive summary, open questions, suggestions awaiting reviewer choice, and the full
+flagged list (F-DE0-01..06, EVE-F04 evidence, F-04A-01..06) are on the
+<a href="flagged.html">Flagged for review</a>,
+<a href="questions.html">Open questions</a> and
+<a href="suggestions.html">Site suggestions</a> pages and in
+<code>data/app/registers_04a81bce.json</code>.</p>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <p><strong>NBA3 / NBA Edge Lab</strong> — research dashboard, generated 2026-11-14 by session
+    <code>arena/8d3d0271-nba3</code>. Every table row links to its source; values that could not be
+    confirmed are left blank and flagged on the
+    <a href="flagged.html">Flagged for review</a> page.</p>
+    <p>Model outputs are ours and are labelled <em>Derived</em>; they are not official NBA statistics.
+    This is research, not betting advice. Follow local law and responsible-gambling practice.
+    Source code and build: <a href="https://github.com/wingbangboozle1-lang/NBA3">https://github.com/wingbangboozle1-lang/NBA3</a></p>
+  </div>
+</footer>
+</body>
+</html>
