@@ -419,12 +419,50 @@ class Site(unittest.TestCase):
 
 
 class Workflow(unittest.TestCase):
+    def test_canonical_surfaces_show_the_unresolved_refresh_pause(self):
+        def read(relative):
+            with open(os.path.join(ROOT, relative), encoding="utf-8") as fh:
+                return fh.read()
+
+        with open(os.path.join(ROOT, "data", "app", "flags_ef6e2e6c.json"), encoding="utf-8") as fh:
+            flags = json.load(fh)
+        refresh_flag = next(f for f in flags if f["id"] == "EVE-F04")
+        self.assertIn("needs review", refresh_flag["status"])
+        self.assertFalse(refresh_flag["latest_attempt"]["fetch_reached"])
+        for relative in ("index.html", "app/summary.html", "app/projections.html",
+                         "app/picks.html", "app/ledger.html", "app/flagged.html"):
+            with self.subTest(page=relative):
+                page = read(relative)
+                self.assertIn("Live data status: publishing is paused", page)
+                self.assertIn("44424736929", page)
+        landing = read("index.html")
+        self.assertNotIn("Live current-window view", landing)
+        self.assertNotIn("pages above are the current numbers", landing)
+        summary = read("app/summary.html")
+        self.assertNotIn("No official report exists yet for those dates", summary)
+        self.assertIn("Separate 11/19 report captures are archived elsewhere", summary)
+        injury_page = read("app/injuries.html")
+        self.assertIn("Separate 2026-11-19 report captures", injury_page)
+        self.assertIn("12:45 AM ET report and comparison record", injury_page)
+        self.assertIn("not the latest report known anywhere in", injury_page)
+        self.assertNotIn("No official report exists for 2026-11-16 or 2026-11-17 at all", injury_page)
+        self.assertIn("b1ce1334/index.html", landing)
+
     def test_refresh_workflow_covers_the_new_gates_and_runs_the_tests(self):
-        y = open(os.path.join(ROOT, ".github", "workflows", "refresh.yml"), encoding="utf-8").read()
+        with open(os.path.join(ROOT, ".github", "workflows", "refresh.yml"), encoding="utf-8") as fh:
+            y = fh.read()
         for needle in ("capture_2ecbccfd.py", "gamebooks_2ecbccfd.py", "slate_extra_2ecbccfd.py",
                        "model_2ecbccfd.py", "ledger_2ecbccfd.py", "round_2ecbccfd/build.py",
                        "test_round_2ecbccfd", "--check"):
             self.assertIn(needle, y, f"{needle} is not run by the scheduled job")
+        # B1-1 already owns and implements per-suite test diagnostics on main. Keep the gate
+        # unchanged while pinning its logs, failure annotations, and failure-only artifact.
+        self.assertIn('logdir="$RUNNER_TEMP/unit-logs"', y)
+        self.assertIn('tee "$log"', y)
+        self.assertIn('grep -E "^(FAIL|ERROR): "', y)
+        self.assertIn("Upload unit-test logs from a failed run", y)
+        self.assertIn("name: unit-test-logs-${{ github.run_id }}", y)
+        self.assertIn("path: ${{ runner.temp }}/unit-logs", y)
         # ordering: capture and gates come before any rebuild
         self.assertLess(y.index("capture_2ecbccfd.py"), y.index("round_2ecbccfd/build.py"))
         self.assertLess(y.index("freshness"), y.index("round_2ecbccfd/build.py"),

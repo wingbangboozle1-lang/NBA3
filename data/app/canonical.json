@@ -36774,16 +36774,104 @@
    "id": "EVE-F04",
    "area": "Scheduled job",
    "severity": "high",
-   "found_on": "2026-11-16",
-   "item": "Scheduled official refresh failures (commit step 43815576157/43864808752; unit-test step 43925193575) — repaired; awaiting the 23:15 UTC run",
-   "why": "Repaired and verified in stages. Run 43982186917 (23:46:43Z, the 23:15 slot, head 21c0d13 = this session's merged main): **Unit tests against the committed tree: SUCCESS** (the original 43925193575 symptom is gone — the roll-safe tests + tests-before-fetch ordering hold on the runner), Round 11/17 freshness gates: SUCCESS, Round model/ledger/site: SUCCESS. **Fetch official sources: FAILURE** (exit 1, commit correctly skipped, last good build kept) and the Round capture-integrity step also failed — its three --check scripts plus the required transcripts all pass locally on the same commit even with a rolled slate, so its failure is either a cascade of the fetch death or a runner-only condition. The runner log body is not retrievable from this environment (EOF on the results receiver, annotations API returns only 'exit code 1'), so this session instrumented the job: refresh_official.py now emits ::error:: annotations naming the failed required source / gate ids / rebuild step, and refresh.yml surfaces tracebacks and each round --check as annotations. Next cron: 05:15 UTC — its annotations will localise the failure. Offline battery on the same commit: 293/293 tests, all six --check scripts green, shared gates 12/12, round gates 6/6.",
-   "action_needed": "Owner/next session: read the ::error:: annotations on the 05:15 UTC run (refresh.yml instruments the failed source/gate/rebuild step), fix the named cause, and confirm a full green run lands a commit.",
+   "found_on": "2026-11-19",
+   "item": "Six consecutive scheduled refresh runs failed at the committed-tree unit-test preflight (2026-11-17 18:03 UTC through 2026-11-18 23:55 UTC). Official-source fetch, capture integrity, freshness/provenance gates, rebuild, and commit were skipped; these runs produced no refreshed NBA capture.",
+   "why": "GitHub Actions job metadata shows the same failed preflight and skipped downstream steps in all six linked scheduled runs. The latest observed run, 44424736929 (2026-11-18T23:55:01Z, main at 2addcad51ebd9330bcf7140965a19842f3d1e009), has only a generic failure annotation (at least one unittest suite failed); this session could not retrieve its runner log body (the Actions log endpoint returned EOF), so the exact failing suite and exception remain unknown. Before main advanced, the exact workflow test loop and full unittest discovery passed locally on the committed tree (297/297). On the merged tree, the exact scheduled preflight loop passed all nine suites locally and full unittest discovery passed 315/315. A local module-resolution simulation reproduced how an installed top-level tests package can shadow this repository; tests/__init__.py now makes the module-style test invocation resolve locally. That is a defensive fix, not a confirmed hosted root cause. Main now includes B1-1 per-suite logging, failing-test annotations, and a failure artifact; no new hosted scheduled run has exercised those diagnostics. No live NBA source was fetched in this session; current NBA values are not asserted.",
+   "action_needed": "Keep this item needs-review and treat all displayed lines as historical. On the next scheduled run, inspect the unit-test-logs-* artifact and failing-test annotations if preflight fails again. Do not mark this item resolved or reopen current bet publishing until an official-source fetch succeeds, capture and freshness/provenance gates pass, the deterministic rebuild passes, and a commit lands. Continue to settle only from verified official finals.",
    "sources": [
-    "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/43982186917",
-    "https://github.com/wingbangboozle1-lang/NBA3/actions/workflows/refresh.yml"
+    "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44143781953",
+    "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44203349676",
+    "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44249179843",
+    "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44300142112",
+    "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44364543697",
+    "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929",
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml",
+    "https://github.com/wingbangboozle1-lang/NBA3/blob/main/tests/test_refresh_official.py"
    ],
-   "status": "unit-test step GREEN on the runner (repair verified); fetch step red in run 43982186917 — cause not yet localised (logs unreachable); failure annotations instrumented; next run 05:15 UTC",
-   "legacy_ref": ""
+   "status": "needs review — latest observed scheduled run 44424736929 failed at unit-test preflight; official-source fetch and all later steps skipped; hosted root cause unlocalized; no current snapshot produced by these runs",
+   "legacy_ref": "",
+   "observed_runs": [
+    {
+     "run_id": 44143781953,
+     "created_at": "2026-11-17T18:03:55Z",
+     "conclusion": "failure",
+     "failed_step": "Unit tests against the committed tree (capture, feed, ledger, estimators, gates)",
+     "fetch_step": "skipped",
+     "capture_integrity_step": "skipped",
+     "freshness_provenance_step": "skipped",
+     "model_ledger_site_step": "skipped",
+     "commit_step": "skipped",
+     "url": "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44143781953"
+    },
+    {
+     "run_id": 44203349676,
+     "created_at": "2026-11-17T23:54:10Z",
+     "conclusion": "failure",
+     "failed_step": "Unit tests against the committed tree (capture, feed, ledger, estimators, gates)",
+     "fetch_step": "skipped",
+     "capture_integrity_step": "skipped",
+     "freshness_provenance_step": "skipped",
+     "model_ledger_site_step": "skipped",
+     "commit_step": "skipped",
+     "url": "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44203349676"
+    },
+    {
+     "run_id": 44249179843,
+     "created_at": "2026-11-18T06:08:49Z",
+     "conclusion": "failure",
+     "failed_step": "Unit tests against the committed tree (capture, feed, ledger, estimators, gates)",
+     "fetch_step": "skipped",
+     "capture_integrity_step": "skipped",
+     "freshness_provenance_step": "skipped",
+     "model_ledger_site_step": "skipped",
+     "commit_step": "skipped",
+     "url": "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44249179843"
+    },
+    {
+     "run_id": 44300142112,
+     "created_at": "2026-11-18T12:02:29Z",
+     "conclusion": "failure",
+     "failed_step": "Unit tests against the committed tree (capture, feed, ledger, estimators, gates)",
+     "fetch_step": "skipped",
+     "capture_integrity_step": "skipped",
+     "freshness_provenance_step": "skipped",
+     "model_ledger_site_step": "skipped",
+     "commit_step": "skipped",
+     "url": "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44300142112"
+    },
+    {
+     "run_id": 44364543697,
+     "created_at": "2026-11-18T17:58:25Z",
+     "conclusion": "failure",
+     "failed_step": "Unit tests against the committed tree (capture, feed, ledger, estimators, gates)",
+     "fetch_step": "skipped",
+     "capture_integrity_step": "skipped",
+     "freshness_provenance_step": "skipped",
+     "model_ledger_site_step": "skipped",
+     "commit_step": "skipped",
+     "url": "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44364543697"
+    },
+    {
+     "run_id": 44424736929,
+     "created_at": "2026-11-18T23:55:01Z",
+     "conclusion": "failure",
+     "failed_step": "Unit tests against the committed tree (capture, feed, ledger, estimators, gates)",
+     "fetch_step": "skipped",
+     "capture_integrity_step": "skipped",
+     "freshness_provenance_step": "skipped",
+     "model_ledger_site_step": "skipped",
+     "commit_step": "skipped",
+     "url": "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929"
+    }
+   ],
+   "latest_attempt": {
+    "run_id": 44424736929,
+    "created_at": "2026-11-18T23:55:01Z",
+    "conclusion": "failure",
+    "failed_step": "Unit tests against the committed tree (capture, feed, ledger, estimators, gates)",
+    "fetch_reached": false,
+    "url": "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929"
+   }
   },
   {
    "id": "EVE-F05",

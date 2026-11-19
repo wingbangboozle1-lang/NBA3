@@ -35,6 +35,7 @@ BUILD_DATE = "2026-11-14"
 # page states what the snapshot still does not know (suggestion CS-41, recommended option B). It is
 # derived, never asserted: if the availability artefact is missing, the badge says so.
 CTX = {"window": "2026-11-14 → 2026-11-17", "pending": None, "sides": None, "by_date": ""}
+REFRESH_STATUS_DATA = None  # assigned from canonical.json before rendering; never fetched at build time
 
 NAV = [
     ("Overview", [
@@ -240,6 +241,49 @@ def _stamp_availability_note(root_page=False):
             f'<a href="{href}">when each is due</a></span>')
 
 
+def _refresh_status_notice(data, root_page=False):
+    """Render the latest recorded refresh failure on every published data page.
+
+    This is driven only by the committed evidence register; it does not infer a live
+    status from a wall clock or attempt any network access during a deterministic build.
+    """
+    if not data:
+        return ""
+    flag = next((f for f in data.get("flags", []) if f.get("id") == "EVE-F04"), None)
+    attempt = (flag or {}).get("latest_attempt") or {}
+    if not flag or not attempt:
+        return ""
+
+    run_id = attempt.get("run_id", "")
+    run_url = attempt.get("url", "")
+    created = attempt.get("created_at", "")
+    run_link = link(run_url, f"GitHub Actions run {run_id}") if run_url.startswith("https://") else ""
+    workflow_url = next((u for u in flag.get("sources", [])
+                         if u.endswith("/.github/workflows/refresh.yml")), "")
+    workflow_link = link(workflow_url, "scheduled refresh workflow") if workflow_url else ""
+    flagged_path = "app/flagged.html" if root_page else "flagged.html"
+    window = (data.get("slate") or {}).get("window") or {}
+    dated_window = f"{window.get('from', 'unknown')} → {window.get('to', 'unknown')}"
+    failed_step = esc(attempt.get("failed_step") or "scheduled refresh")
+    return f"""
+<section class="callout bad" id="live-data-status" role="status">
+  <strong>Live data status: publishing is paused pending a successful refresh.</strong>
+  <p>The recorded scheduled attempt {run_link} ({esc(created)}) failed at the committed-tree
+  preflight ({failed_step}) before official-source fetch. Its capture-integrity, freshness/provenance,
+  model/site, and commit steps were skipped. That run did not update the official schedule, standings,
+  team statistics, injury report, game results, or settlement.</p>
+  <p>The canonical model snapshot shown here was built {esc(BUILD_DATE)} for the dated window
+  <strong>{esc(dated_window)}</strong>. These are historical research outputs, not today's lines or
+  picks. The public projection surface is read-only; the separate bet surface remains gated.
+  Existing hashes and recorded settlements remain dated audit records; unsettled entries are not
+  presumed outcomes.</p>
+  <p>Do not publish new bet entries until official-source fetch, capture integrity, freshness and
+  provenance gates, deterministic rebuild, and verified-final settlement all pass. See
+  <a href="{flagged_path}">Flagged for review: EVE-F04</a>{' · ' + workflow_link if workflow_link else ''}.</p>
+</section>
+"""
+
+
 def layout(title, category, body, subtitle="", active="", root_page=False):
     """Render one page.  ``root_page`` switches between the repository-root
     landing page (links to ``app/…``) and a page inside ``app/`` (links to
@@ -289,6 +333,7 @@ def layout(title, category, body, subtitle="", active="", root_page=False):
   </div>
 </nav>
 <main class="wrap">
+{_refresh_status_notice(REFRESH_STATUS_DATA, root_page)}
   <div class="page-head">
     <div class="crumb">{esc(category)}</div>
     <h1>{esc(title)}</h1>
@@ -404,6 +449,10 @@ def page_summary(d):
     strategies = d["strategies"]
     funded = [s for s in strategies if s["tier"] == "T1"]
     provisional = [s for s in strategies if s["tier"] == "T2"]
+    refresh_flag = next((f for f in d.get("flags", []) if f.get("id") == "EVE-F04"), {})
+    refresh_attempt = refresh_flag.get("latest_attempt") or {}
+    refresh_run_link = link(refresh_attempt.get("url"),
+                            f"latest observed failed run {refresh_attempt.get('run_id', '')}")
     body = []
 
     est = NEW.get("est") or {}
@@ -422,8 +471,8 @@ and never mixes them.</div>
     body.append('<div class="cards">')
     body.append(f"""<div class="card"><div class="k">Games priced in the window</div>
       <div class="v">{d['slate']['count']}</div>
-      <div class="s">{d['slate']['window']['from']} → {d['slate']['window']['to']} — today plus the
-      maximum three-day horizon</div>
+      <div class="s">{d['slate']['window']['from']} → {d['slate']['window']['to']} — dated snapshot only;
+      not a live slate until the official refresh and gates succeed</div>
       {src_cell([d['slate']['source_url']], 'nba.com/schedule')}</div>""")
     body.append(f"""<div class="card"><div class="k">Strategies funded</div>
       <div class="v">{len(funded)}</div>
@@ -438,9 +487,9 @@ and never mixes them.</div>
       {src_cell([lab['meta']['source_games']], 'nba.com/games')}</div>""")
     body.append(f"""<div class="card"><div class="k">Official injury rows</div>
       <div class="v">{d['injuries']['count']}</div>
-      <div class="s">{d['injuries']['report_stamp']} — the table this card reads. Newest archived
-      report: {esc(_inj_latest().get('report_header') or 'n/a')} (revision time), retrieved
-      {esc(str(_inj_latest().get('retrieved_utc') or 'n/a'))} — injuries page, section 1d</div>
+      <div class="s">{d['injuries']['report_stamp']} — the table this card reads. Latest entry in the
+      consolidated archive index: {esc(_inj_latest().get('report_header') or 'n/a')} (revision time),
+      retrieved {esc(str(_inj_latest().get('retrieved_utc') or 'n/a'))} — injuries page, section 1d</div>
       {src_cell([d['injuries']['source_url']], 'official PDF')}</div>""")
     _feed_rows = (NEW.get('feed') or {}).get('games') or []
     _settled = [g for g in _feed_rows if g.get('settled')]
@@ -568,11 +617,12 @@ it fails every gate, which is the check that the gates themselves work.</p>
          "Every injury minutes-vacuum figure is a floor, not an estimate.",
          chip("Blocks rotation impact", "warn"),
          src_cell([lab["meta"]["source_players"]], "nba.com/stats")],
-        ["Injury reports for 2026-11-15, 11-16 and 11-17",
-         "No official report exists yet for those dates; five of the ten teams playing on "
-         "11/14 had not submitted either.",
-         chip("Blocks final selections", "warn"),
-         src_cell([d["injuries"]["index_url"]], "official index")],
+        [f"Current injury-report status (not verified; canonical input: {esc(d['injuries']['report_stamp'])})",
+         "The latest observed scheduled refresh failed before official-source fetch. Separate 11/19 "
+         "report captures are archived elsewhere in the repository but were not integrated into this "
+         "canonical model; all injury rows shown are dated historical inputs, not current availability.",
+         chip("Blocks current selections", "warn"),
+         link(d["injuries"]["index_url"], "official injury index") + " · " + refresh_run_link],
         ["Legal basis for publishing selections (NBA Terms §9, Dutch Koa licence)",
          "The reward schedule cannot be written until this is settled.",
          chip("Blocks the reward rule", "warn"),
@@ -742,11 +792,11 @@ be stated. Read this page as “here is what we think each game is worth”, not
 bet”. Suggestion <a href="suggestions.html">CS-36</a> proposes renaming it to match.</p>
 </div>
 
-<p>One row for every one of the {len(d['picks'])} games in the
-{d['slate']['window']['from']} → {d['slate']['window']['to']} window. The brief asks for picks up
-to three days ahead; this is today plus the maximum three-day horizon, generated from our
-originated lines. Games on 2026-11-13 were live on the official schedule page when it was read and
-are excluded — see <a href="flagged.html">NF-54</a>.</p>
+<p>One row for every one of the {len(d['picks'])} games in the dated
+{d['slate']['window']['from']} → {d['slate']['window']['to']} snapshot. These are historical prices,
+not today's upcoming slate. A new rolling window must be captured from the official schedule and
+pass freshness/provenance gates before it can be published. Games on 2026-11-13 were live on the
+official schedule page when it was read and are excluded — see <a href="flagged.html">NF-54</a>.</p>
 """)
     # CS-39: one column, read straight off the availability artefact, so the PARTIAL_REPORT chips
     # explain themselves.
@@ -1396,8 +1446,11 @@ Raw text and the parser are in the repository (<a href="{DELTA_RAW_0130}" target
 
 
 def _inj_latest():
-    """The newest archived injury report entry (archive_index.json files are ordered
-    oldest to newest by the report's real clock time)."""
+    """Newest entry in the consolidated archive_index.json, not a claim about every capture.
+
+    Files are ordered oldest to newest by the report's real clock time. Separate 2026-11-19
+    captures live under data/rounds/ and are not folded into this index or canonical model.
+    """
     files = (NEW.get("inj_archive") or {}).get("files") or []
     return files[-1] if files else {}
 
@@ -1455,6 +1508,12 @@ print stays empty here; nothing is derived to fill one. GB is the page's own gam
 def page_injuries(d):
     inj = d["injuries"]
     lab = d["lab"]
+    latest_archive = _inj_latest()
+    b1_subsite = "../b1ce1334/index.html"
+    b1_report_pdf = "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_30AM.pdf"
+    de0_report_pdf = "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_45AM.pdf"
+    de0_report_record = (REPO_URL + "/blob/main/data/rounds/2026-11-19-de0caf5d/"
+                         "injury_2026-11-19_0045AM.json")
     body = []
     body.append(f"""
 <p>Transcribed from the official NBA injury report
@@ -1465,14 +1524,26 @@ is published as such rather than treated as healthy — “unknown” and “fit
 and every downstream number respects the difference.</p>
 <p><strong>Report revision time (the table below): {esc(inj['report_stamp'])} ·
 retrieval time: {esc(str(inj.get('retrieved_stamp')))}.</strong>
-Newest archived official report: <strong>{esc(_inj_latest()['report_header'] or 'n/a')}</strong>
-(revision time), retrieved <strong>{esc(str(_inj_latest().get('retrieved_utc') or 'n/a'))}</strong> —
+The latest entry in the <em>consolidated</em> archive index is
+<strong>{esc(latest_archive.get('report_header') or 'not recorded')}</strong>
+(revision time), retrieved <strong>{esc(str(latest_archive.get('retrieved_utc') or 'not recorded'))}</strong> —
 full table, consecutive-report diff and extraction-artifact notes in
-<a href="#s1d">section 1d</a>. The scheduled refresh job re-reads the official index four times a
-day and archives every report it lists; the freshness and provenance gates that govern every
-rebuild are on the <a href="refresh.html">refresh &amp; provenance gates page</a>.</p>
+<a href="#s1d">section 1d</a>. Later 2026-11-19 captures are stored separately and are not integrated
+into these canonical injury rows or model outputs. The scheduled refresh is designed to re-read the
+official index four times a day, but the latest observed run failed before fetch; see
+<a href="flagged.html">EVE-F04</a> and the <a href="refresh.html">refresh &amp; provenance gates page</a>.</p>
 <div class="callout warn">
-<p><strong>Freshness check: a newer official report exists.</strong> At 18:45 UTC on 2026-11-14 the
+<p><strong>Separate 2026-11-19 report captures (not current availability claims):</strong>
+<a href="{b1_subsite}">B1 capture dashboard</a> and its
+<a href="{b1_report_pdf}" target="_blank" rel="noopener noreferrer">12:30 AM ET official report</a>;
+and a separately archived
+<a href="{de0_report_record}" target="_blank" rel="noopener noreferrer">12:45 AM ET report and comparison record</a>
+with its <a href="{de0_report_pdf}" target="_blank" rel="noopener noreferrer">official PDF</a>.
+These records remain outside the canonical model inputs on this page; their capture/parser flags
+must be read before interpreting any row. No current player status is asserted here.</p>
+</div>
+<div class="callout warn">
+<p><strong>Historical freshness check for the 2026-11-14 capture.</strong> At 18:45 UTC on 2026-11-14 the
 <a href="{esc(inj['index_url'])}" target="_blank" rel="noopener noreferrer">official index</a>
 lists 11/14 reports through <strong>01:30 PM ET</strong>. Section 1 below is the
 <strong>{esc(inj['report_stamp'])}</strong> capture and is not replaced in this round. Section
@@ -1486,16 +1557,16 @@ are 11/15 games (<a href="flagged.html">8E-F-03</a>).</p>
 </div>
 
 <div class="callout warn">
-<p><strong>Scope limit (section 1, the 04:15 AM ET report).</strong> This report covers 2026-11-14 games (with player detail) and
-2026-11-15 games (team rows only, every one reading NOT YET SUBMITTED).
-<strong>No official report exists for 2026-11-16 or 2026-11-17 at all.</strong> On the 04:15 AM ET
-snapshot, five of the ten teams playing on 11/14 had not filed. On the 01:30 PM ET report, four of
-them (New Orleans, Cleveland, Chicago, Miami) have printed players; Memphis has not
-(<a href="../audit_736efb4b/index.html">audit_736efb4b</a>, flag F736-11). The back-to-back explanation
-written against the 04:15 AM snapshot has not been re-verified against the schedule in this round.
-Full per-game timeline on the <a href="freshness.html">Report-availability page</a>; the older flag
-is <a href="flagged.html">NF-53</a> and the corrected reading is
-<a href="flagged.html">NF-56</a>.</p>
+<p><strong>Scope limit of the 2026-11-14 04:15 AM ET snapshot.</strong> That capture covered 2026-11-14 games (with player detail) and
+2026-11-15 games (team rows only, every one reading NOT YET SUBMITTED). At that capture time, no
+official report had yet been found for game dates 2026-11-16 or 2026-11-17; that dated observation
+is not a claim about reports published later. On the 04:15 AM ET snapshot, five of the ten teams
+playing on 11/14 had not filed. On the 01:30 PM ET report, four of them (New Orleans, Cleveland,
+Chicago, Miami) had printed players; Memphis had not (<a href="../audit_736efb4b/index.html">audit_736efb4b</a>,
+flag F736-11). The back-to-back explanation written against the 04:15 AM snapshot has not been
+re-verified against the schedule in this round. Full per-game timeline on the
+<a href="freshness.html">Report-availability page</a>; the older flag is
+<a href="flagged.html">NF-53</a> and the corrected reading is <a href="flagged.html">NF-56</a>.</p>
 </div>
 """)
 
@@ -1526,12 +1597,12 @@ is <a href="flagged.html">NF-53</a> and the corrected reading is
     if d.get("injury_delta_0130pm"):
         body.append(render_delta_0130(d["injury_delta_0130pm"]))
 
-    # ---- section 1c: the newest official capture (2026-11-15 06:15 AM ET) + consecutive diff
+    # ---- section 1c: canonical model input (2026-11-15 06:15 AM ET) + consecutive diff
     inj2 = NEW.get("inj1115") or {"rows": []}
     dl = NEW.get("delta1115") or {}
     if inj2.get("rows"):
         body.append(f"""
-<h2 id="s1c">1c. The newest official report — 2026-11-15 06:15 AM ET</h2>
+<h2 id="s1c">1c. Canonical model input — 2026-11-15 06:15 AM ET</h2>
 <p><strong>Report revision time: {esc(str(inj2.get('report_revision_time')))} ·
 retrieval time: {esc(str(inj2.get('retrieved_stamp')))}</strong>
 (<a href="{esc(inj2.get('source_url', ''))}" target="_blank" rel="noopener noreferrer">PDF</a>,
@@ -1577,15 +1648,16 @@ Diff file: <a href="{REPO_URL}/blob/main/data/app/injury_delta_1115.json">data/a
                            "Status and reason", "Team cell provenance", "Source"],
                           rows2, "injury-rows-0615"))
 
-    # ---- section 1d: the newest archived report + its consecutive-report diff
-    latest = _inj_latest()
+    # ---- section 1d: newest entry in the consolidated archive index + consecutive-report diff
+    latest = latest_archive
     deltas = NEW.get("inj_deltas", {}).get("deltas") or []
     last_delta = deltas[-1] if deltas else {}
     body.append(f"""
-<h2 id="s1d">1d. The newest archived report — {esc(latest.get('report_header') or latest.get('report_stamp') or '')}</h2>
+<h2 id="s1d">1d. Consolidated archive entry — {esc(latest.get('report_header') or latest.get('report_stamp') or '')}</h2>
 <p><strong>Report revision time: {esc(str(latest.get('report_header') or ''))} ·
 retrieval time: {esc(str(latest.get('retrieved_utc') or ''))}.</strong>
-Source: <a href="{esc(latest.get('source_url') or '')}" target="_blank" rel="noopener noreferrer">official PDF</a>
+This is the latest item in the consolidated archive index, not the latest report known anywhere in
+this repository. Source: <a href="{esc(latest.get('source_url') or '')}" target="_blank" rel="noopener noreferrer">official PDF</a>
 ({esc(latest.get('file') or '')}, archived verbatim;
 <a href="{REPO_URL}/tree/main/data/live/injuries">archive directory</a>).
 {len(latest.get('player_rows') or [])} player rows parsed, {len(latest.get('team_rows') or [])} team rows
@@ -2056,10 +2128,10 @@ second game of a back-to-back. They are:</p>""")
          src_cell([av["rule_source"], inj["source_url"]], "rule + report")],
     ]
     body.append(table(["Set", "Members", "Note", "Source"], b_rows, "b2b-proof"))
-    body.append(f"""<div class="callout ok"><p>Five of ten team-sides are missing tonight, and none
-of them is late. Their deadline is 1 p.m. local on game day, hours before tip — so tonight's games
-are <em>recoverable by waiting</em>, not by guessing. Suggestion
-<a href="suggestions.html">CS-39</a> turns that into a column on the picks page;
+    body.append(f"""<div class="callout ok"><p>In this dated capture, five of ten team-sides were
+marked missing and none was late at the recorded deadline. Those filing states expire with the
+report and game day; they are not current availability. Suggestion
+<a href="suggestions.html">CS-39</a> turns the dated state into a column on the picks page;
 <a href="questions.html">CQ-41</a> asks whether the engine should re-price itself when each deadline
 passes.</p></div>""")
 
@@ -2081,7 +2153,7 @@ passes.</p></div>""")
          "capture official player game logs (still the same ask as before this round)",
          src_cell([d["lab"]["meta"].get("source_players", REPO_URL)], "player table")],
         ["Whether a Probable or Available-with-injury row should move a line",
-         "Nine such rows exist on tonight's slate and none of them has any effect today.",
+         "Nine such rows appear in this dated slate snapshot; the historical model did not move a line for them.",
          "owner decision CQ-45", src_cell([inj["source_url"]], "official PDF")],
     ]
     body.append(table(["Still blank", "Why", "What would settle it", "Source"], un_rows,
@@ -2510,12 +2582,14 @@ def page_refresh(d):
     gates = (NEW.get("gates") or {}).get("gates", [])
     body = []
     body.append(f"""
-<p>The scheduled refresh job (<a href="{REPO_URL}/blob/main/.github/workflows/refresh.yml">.github/workflows/refresh.yml</a>,
-cron four times a day around the official injury-report filing windows) fetches the official
-injury index and newest report, the schedule and results pages, every finished game's official
-game book, and the three official team-stat pages. <strong>The site rebuild runs only after the
-freshness and provenance gates below pass</strong>; on gate failure the run exits non-zero and the
-site keeps the last good build.</p>
+<p>The scheduled refresh workflow (<a href="{REPO_URL}/blob/main/.github/workflows/refresh.yml">.github/workflows/refresh.yml</a>,
+cron four times a day around the official injury-report filing windows) is configured to fetch the
+official injury index and newest report, the schedule and results pages, every finished game's
+official game book, and the three official team-stat pages. The latest observed scheduled attempt,
+linked in the status notice above, failed at preflight before fetch; the gate results below describe
+stored historical artifacts, not that run. <strong>A site rebuild runs only after the freshness and
+provenance gates pass</strong>; on gate failure the run exits non-zero and the site keeps the last
+good build.</p>
 <p><strong>Injury-report revision time:</strong> 2026-11-15 06:15 AM ET ·
 <strong>retrieved:</strong> 2026-11-15T11:33Z. Every capture in
 <a href="{REPO_URL}/tree/main/data/app">data/app/</a> carries its own https source link,
@@ -2833,7 +2907,8 @@ def build_index(d):
     body.append(f"""
 <section class="hero">
   <h2>We originate our own NBA lines, then try to prove they are worth anything.</h2>
-  <p>One dashboard for the whole pipeline: lines originated for today and the next three days,
+  <p>One dashboard for the whole pipeline: lines originated for explicitly dated snapshots, with
+  current-slate publication paused until the official refresh and provenance gates succeed;
   {len(strategies)} strategy rules measured out of sample against nine validation gates and ranked on
   a leaderboard with an explicit luck threshold, the correlations that were actually measured (and
   the ones left blank), the official injury report with the rotation minutes it vacates, game-flow
@@ -2845,15 +2920,32 @@ def build_index(d):
   {len(d['flags'])} flagged items · snapshot {BUILD_DATE}</p>
 </section>
 <section class="freshness">
-  <h3>Data freshness — read first</h3>
-  <p><strong>Reference date: 2026-11-16 (UTC).</strong> The published canonical snapshot (window 2026-11-15 → 2026-11-18, built {BUILD_DATE}) is older than today: 11/15 games are already final. Do not treat those lines as live.</p>
-  <p><strong>Current 3-day window (11/16 → 11/18):</strong> 25 official games verified field by field against <a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">nba.com/schedule</a> — dates, matchups, tip times, venues and game IDs match. Live current-window view: <a href="round/index.html"><b>2026-11-16 dashboard</b></a> (two-estimator projections, disagreement headline, 14 gates, injury diff between two same-day filings).</p>
-  <p class="small">No game value is inferred anywhere on this site. Anything that could not be confirmed from an official source is left blank and listed on the <a href="app/flagged.html">Flagged for review</a> page.</p>
+  <h3>Snapshot boundary — no current-slate values verified</h3>
+  <p>The canonical model window is {esc(d['slate']['window']['from'])} → {esc(d['slate']['window']['to'])},
+  with snapshot stamp {BUILD_DATE}. It is a dated research record, not the current upcoming three-day
+  window. The <a href="round/index.html">2026-11-16 dashboard</a> is another dated capture and is
+  archived, not live.</p>
+  <p>Do not treat any displayed line, projection, injury status, or open ledger entry as current.
+  These records remain available for audit; new projection prices and bet entries stay paused until
+  official-source fetch, capture integrity, freshness/provenance gates, and deterministic rebuild
+  succeed. The status notice above links to the latest observed scheduled run.</p>
+  <p class="small">No current NBA value is inferred. Anything not confirmed from an official source is
+  left blank and listed on the <a href="app/flagged.html">Flagged for review</a> page.</p>
+</section>
+<section class="capture-audit">
+  <h3>Separate 2026-11-19 captures — not a new canonical model</h3>
+  <p>The repository also keeps dated 11/19 injury-report captures outside this canonical dataset.
+  The <a href="b1ce1334/index.html">B1 capture dashboard</a> records the 12:30 AM ET report; a
+  separate <a href="{REPO_URL}/blob/main/data/rounds/2026-11-19-de0caf5d/injury_2026-11-19_0045AM.json">12:45 AM ET report and comparison record</a>
+  is preserved in the repository. These have separate provenance and parser notes; they do not
+  update the canonical 11/15–11/18 model window, lines, picks or injury rows.</p>
+  <p class="small">Official source files: <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_30AM.pdf" target="_blank" rel="noopener noreferrer">12:30 AM ET PDF</a> ·
+  <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_45AM.pdf" target="_blank" rel="noopener noreferrer">12:45 AM ET PDF</a>. No current availability is inferred from these records.</p>
 </section>
 <div class="cards">
   <div class="card"><div class="k">Verified official rows</div><div class="v">{verified_official}</div>
-    <div class="s">schedule + team stats + injury report, each cross-checked field by field against
-    the values already stored</div>
+    <div class="s">dated schedule + team stats + injury rows cross-checked against earlier stored
+    values; this snapshot is not current until a fresh capture is verified</div>
     {src_cell([d['slate']['source_url'], d['ratings']['source_url'], d['injuries']['source_url']], 'official pages')}</div>
   <div class="card"><div class="k">Strategies funded</div><div class="v">{funded}</div>
     <div class="s">of {len(strategies)} scored rules. None clears the luck threshold
@@ -2890,8 +2982,9 @@ def build_index(d):
   <p>{ARCHIVE_TREES} complete dashboards built by earlier sessions are still reachable, from the
   first data site at <a href="docs/index.html">docs/index.html</a> onwards; the full dated list is
   on the <a href="archive.html">archive page</a>. Each uses its own ID namespace, its own injury
-  snapshot and its own model variant, so <strong>the pages above are the current numbers</strong>
-  and the archive is history. They are kept because the audit trail is worth something: a reader
+  snapshot and its own model variant, so <strong>the pages above are the last successful canonical
+  snapshot, not live numbers</strong> until the refresh status changes and a new dated build passes.
+  The earlier trees are history. They are kept because the audit trail is worth something: a reader
   can see what an earlier round concluded and what changed.</p>
 </section>
 """)
@@ -2968,7 +3061,8 @@ def page_archive(d):
         '<p class="lead">Every dashboard built by an earlier session of this project, in the order '
         'it was published. None of these is current: they use different ID namespaces, different '
         'injury snapshots and different model variants. <strong>The canonical pages linked in the '
-        'navigation are the current numbers.</strong></p>',
+        'navigation are the last successful snapshot, not live numbers; see the live-data status '
+        'notice before treating them as current.</strong></p>',
         '<p>They are kept, not deleted, because being able to read what an earlier round '
         'concluded - and what a later round changed - is the audit trail. Each row links to the '
         'tree itself and to the official pages it was built from; the exact snapshot inside each '
@@ -2989,9 +3083,11 @@ def build_requirements_page(d):
 
 # --------------------------------------------------------------------------
 def main():
+    global REFRESH_STATUS_DATA
     check_only = "--check" in sys.argv
     with open(APP_DATA, encoding="utf-8") as fh:
         d = json.load(fh)
+    REFRESH_STATUS_DATA = d
 
     # ---- header context (CS-41): the window and how much of it the official reports can settle.
     av = d.get("availability") or {}

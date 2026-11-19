@@ -21,6 +21,23 @@
   </div>
 </nav>
 <main class="wrap">
+
+<section class="callout bad" id="live-data-status" role="status">
+  <strong>Live data status: publishing is paused pending a successful refresh.</strong>
+  <p>The recorded scheduled attempt <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929" target="_blank" rel="noopener noreferrer">GitHub Actions run 44424736929</a> (2026-11-18T23:55:01Z) failed at the committed-tree
+  preflight (Unit tests against the committed tree (capture, feed, ledger, estimators, gates)) before official-source fetch. Its capture-integrity, freshness/provenance,
+  model/site, and commit steps were skipped. That run did not update the official schedule, standings,
+  team statistics, injury report, game results, or settlement.</p>
+  <p>The canonical model snapshot shown here was built 2026-11-14 for the dated window
+  <strong>2026-11-15 → 2026-11-18</strong>. These are historical research outputs, not today's lines or
+  picks. The public projection surface is read-only; the separate bet surface remains gated.
+  Existing hashes and recorded settlements remain dated audit records; unsettled entries are not
+  presumed outcomes.</p>
+  <p>Do not publish new bet entries until official-source fetch, capture integrity, freshness and
+  provenance gates, deterministic rebuild, and verified-final settlement all pass. See
+  <a href="flagged.html">Flagged for review: EVE-F04</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml" target="_blank" rel="noopener noreferrer">scheduled refresh workflow</a>.</p>
+</section>
+
   <div class="page-head">
     <div class="crumb">Projection surface (public)</div>
     <h1>Prices for the window</h1>
@@ -36,11 +53,11 @@ be stated. Read this page as “here is what we think each game is worth”, not
 bet”. Suggestion <a href="suggestions.html">CS-36</a> proposes renaming it to match.</p>
 </div>
 
-<p>One row for every one of the 34 games in the
-2026-11-15 → 2026-11-18 window. The brief asks for picks up
-to three days ahead; this is today plus the maximum three-day horizon, generated from our
-originated lines. Games on 2026-11-13 were live on the official schedule page when it was read and
-are excluded — see <a href="flagged.html">NF-54</a>.</p>
+<p>One row for every one of the 34 games in the dated
+2026-11-15 → 2026-11-18 snapshot. These are historical prices,
+not today's upcoming slate. A new rolling window must be captured from the official schedule and
+pass freshness/provenance gates before it can be published. Games on 2026-11-13 were live on the
+official schedule page when it was read and are excluded — see <a href="flagged.html">NF-54</a>.</p>
 
 <p class="note">“Rotation availability” is the explicit minutes-redistribution output: the top-8 minutes share remaining after every player designated OUT on the official injury report is removed and their share redistributed proportionally (replacement shares per player on the <a href="injuries.html">injuries page</a>; sources: official game books and the official per-player minutes snapshot). “Model side” names the team our line favours, printed the way a book would print it. “Availability” is the four-state verdict from the official filing rule — see the <a href="freshness.html">Report-availability page</a>. Only REPORTED means the absence counts in the lines table are real; everywhere else they are blank, not zero. “Re-price after” is the official filing deadline of whichever side has not filed, printed on that arena’s local clock: no time-zone conversion is asserted anywhere in this repository, so the deadline is not directly comparable with the ET tip time in the second column (CQ-43).</p>
 <div class="table-wrap"><table>

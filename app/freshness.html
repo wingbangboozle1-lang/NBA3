@@ -21,6 +21,23 @@
   </div>
 </nav>
 <main class="wrap">
+
+<section class="callout bad" id="live-data-status" role="status">
+  <strong>Live data status: publishing is paused pending a successful refresh.</strong>
+  <p>The recorded scheduled attempt <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929" target="_blank" rel="noopener noreferrer">GitHub Actions run 44424736929</a> (2026-11-18T23:55:01Z) failed at the committed-tree
+  preflight (Unit tests against the committed tree (capture, feed, ledger, estimators, gates)) before official-source fetch. Its capture-integrity, freshness/provenance,
+  model/site, and commit steps were skipped. That run did not update the official schedule, standings,
+  team statistics, injury report, game results, or settlement.</p>
+  <p>The canonical model snapshot shown here was built 2026-11-14 for the dated window
+  <strong>2026-11-15 → 2026-11-18</strong>. These are historical research outputs, not today's lines or
+  picks. The public projection surface is read-only; the separate bet surface remains gated.
+  Existing hashes and recorded settlements remain dated audit records; unsettled entries are not
+  presumed outcomes.</p>
+  <p>Do not publish new bet entries until official-source fetch, capture integrity, freshness and
+  provenance gates, deterministic rebuild, and verified-final settlement all pass. See
+  <a href="flagged.html">Flagged for review: EVE-F04</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml" target="_blank" rel="noopener noreferrer">scheduled refresh workflow</a>.</p>
+</section>
+
   <div class="page-head">
     <div class="crumb">Projection surface (public)</div>
     <h1>Report availability &amp; freshness</h1>
@@ -1370,10 +1387,10 @@ second game of a back-to-back. They are:</p>
 <td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">rule + report</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf</a></td>
 </tr>
 </tbody></table></div>
-<div class="callout ok"><p>Five of ten team-sides are missing tonight, and none
-of them is late. Their deadline is 1 p.m. local on game day, hours before tip — so tonight's games
-are <em>recoverable by waiting</em>, not by guessing. Suggestion
-<a href="suggestions.html">CS-39</a> turns that into a column on the picks page;
+<div class="callout ok"><p>In this dated capture, five of ten team-sides were
+marked missing and none was late at the recorded deadline. Those filing states expire with the
+report and game day; they are not current availability. Suggestion
+<a href="suggestions.html">CS-39</a> turns the dated state into a column on the picks page;
 <a href="questions.html">CQ-41</a> asks whether the engine should re-price itself when each deadline
 passes.</p></div>
 <h2>9. What this page still cannot answer</h2>
@@ -1405,7 +1422,7 @@ passes.</p></div>
 </tr>
 <tr>
 <td>Whether a Probable or Available-with-injury row should move a line</td>
-<td>Nine such rows exist on tonight's slate and none of them has any effect today.</td>
+<td>Nine such rows appear in this dated slate snapshot; the historical model did not move a line for them.</td>
 <td>owner decision CQ-45</td>
 <td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a></td>
 </tr>

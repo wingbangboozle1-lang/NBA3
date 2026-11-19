@@ -21,6 +21,23 @@
   </div>
 </nav>
 <main class="wrap">
+
+<section class="callout bad" id="live-data-status" role="status">
+  <strong>Live data status: publishing is paused pending a successful refresh.</strong>
+  <p>The recorded scheduled attempt <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929" target="_blank" rel="noopener noreferrer">GitHub Actions run 44424736929</a> (2026-11-18T23:55:01Z) failed at the committed-tree
+  preflight (Unit tests against the committed tree (capture, feed, ledger, estimators, gates)) before official-source fetch. Its capture-integrity, freshness/provenance,
+  model/site, and commit steps were skipped. That run did not update the official schedule, standings,
+  team statistics, injury report, game results, or settlement.</p>
+  <p>The canonical model snapshot shown here was built 2026-11-14 for the dated window
+  <strong>2026-11-15 → 2026-11-18</strong>. These are historical research outputs, not today's lines or
+  picks. The public projection surface is read-only; the separate bet surface remains gated.
+  Existing hashes and recorded settlements remain dated audit records; unsettled entries are not
+  presumed outcomes.</p>
+  <p>Do not publish new bet entries until official-source fetch, capture integrity, freshness and
+  provenance gates, deterministic rebuild, and verified-final settlement all pass. See
+  <a href="app/flagged.html">Flagged for review: EVE-F04</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml" target="_blank" rel="noopener noreferrer">scheduled refresh workflow</a>.</p>
+</section>
+
   <div class="page-head">
     <div class="crumb">Home</div>
     <h1>NBA Edge Lab — canonical dashboard</h1>
@@ -29,7 +46,8 @@
 
 <section class="hero">
   <h2>We originate our own NBA lines, then try to prove they are worth anything.</h2>
-  <p>One dashboard for the whole pipeline: lines originated for today and the next three days,
+  <p>One dashboard for the whole pipeline: lines originated for explicitly dated snapshots, with
+  current-slate publication paused until the official refresh and provenance gates succeed;
   15 strategy rules measured out of sample against nine validation gates and ranked on
   a leaderboard with an explicit luck threshold, the correlations that were actually measured (and
   the ones left blank), the official injury report with the rotation minutes it vacates, game-flow
@@ -41,15 +59,32 @@
   107 flagged items · snapshot 2026-11-14</p>
 </section>
 <section class="freshness">
-  <h3>Data freshness — read first</h3>
-  <p><strong>Reference date: 2026-11-16 (UTC).</strong> The published canonical snapshot (window 2026-11-15 → 2026-11-18, built 2026-11-14) is older than today: 11/15 games are already final. Do not treat those lines as live.</p>
-  <p><strong>Current 3-day window (11/16 → 11/18):</strong> 25 official games verified field by field against <a href="https://www.nba.com/schedule?date=2026-11-16" target="_blank" rel="noopener noreferrer">nba.com/schedule</a> — dates, matchups, tip times, venues and game IDs match. Live current-window view: <a href="round/index.html"><b>2026-11-16 dashboard</b></a> (two-estimator projections, disagreement headline, 14 gates, injury diff between two same-day filings).</p>
-  <p class="small">No game value is inferred anywhere on this site. Anything that could not be confirmed from an official source is left blank and listed on the <a href="app/flagged.html">Flagged for review</a> page.</p>
+  <h3>Snapshot boundary — no current-slate values verified</h3>
+  <p>The canonical model window is 2026-11-15 → 2026-11-18,
+  with snapshot stamp 2026-11-14. It is a dated research record, not the current upcoming three-day
+  window. The <a href="round/index.html">2026-11-16 dashboard</a> is another dated capture and is
+  archived, not live.</p>
+  <p>Do not treat any displayed line, projection, injury status, or open ledger entry as current.
+  These records remain available for audit; new projection prices and bet entries stay paused until
+  official-source fetch, capture integrity, freshness/provenance gates, and deterministic rebuild
+  succeed. The status notice above links to the latest observed scheduled run.</p>
+  <p class="small">No current NBA value is inferred. Anything not confirmed from an official source is
+  left blank and listed on the <a href="app/flagged.html">Flagged for review</a> page.</p>
+</section>
+<section class="capture-audit">
+  <h3>Separate 2026-11-19 captures — not a new canonical model</h3>
+  <p>The repository also keeps dated 11/19 injury-report captures outside this canonical dataset.
+  The <a href="b1ce1334/index.html">B1 capture dashboard</a> records the 12:30 AM ET report; a
+  separate <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-19-de0caf5d/injury_2026-11-19_0045AM.json">12:45 AM ET report and comparison record</a>
+  is preserved in the repository. These have separate provenance and parser notes; they do not
+  update the canonical 11/15–11/18 model window, lines, picks or injury rows.</p>
+  <p class="small">Official source files: <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_30AM.pdf" target="_blank" rel="noopener noreferrer">12:30 AM ET PDF</a> ·
+  <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_45AM.pdf" target="_blank" rel="noopener noreferrer">12:45 AM ET PDF</a>. No current availability is inferred from these records.</p>
 </section>
 <div class="cards">
   <div class="card"><div class="k">Verified official rows</div><div class="v">165</div>
-    <div class="s">schedule + team stats + injury report, each cross-checked field by field against
-    the values already stored</div>
+    <div class="s">dated schedule + team stats + injury rows cross-checked against earlier stored
+    values; this snapshot is not current until a fresh capture is verified</div>
     <a href="https://www.nba.com/schedule?date=2026-11-15" target="_blank" rel="noopener noreferrer">official pages</a> · <a href="https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season" target="_blank" rel="noopener noreferrer">https://www.nba.com/stats/teams/advanced?Season=2026-27&amp;SeasonType=Regular%20Season</a> · <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-15_06_15AM.pdf</a></div>
   <div class="card"><div class="k">Strategies funded</div><div class="v">0</div>
     <div class="s">of 15 scored rules. None clears the luck threshold
@@ -91,8 +126,9 @@
   <p>14 complete dashboards built by earlier sessions are still reachable, from the
   first data site at <a href="docs/index.html">docs/index.html</a> onwards; the full dated list is
   on the <a href="archive.html">archive page</a>. Each uses its own ID namespace, its own injury
-  snapshot and its own model variant, so <strong>the pages above are the current numbers</strong>
-  and the archive is history. They are kept because the audit trail is worth something: a reader
+  snapshot and its own model variant, so <strong>the pages above are the last successful canonical
+  snapshot, not live numbers</strong> until the refresh status changes and a new dated build passes.
+  The earlier trees are history. They are kept because the audit trail is worth something: a reader
   can see what an earlier round concluded and what changed.</p>
 </section>
 
