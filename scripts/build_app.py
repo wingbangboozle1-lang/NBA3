@@ -116,9 +116,14 @@ def _load_new():
                            # data/app/flags_<session>.json; the generator never hand-writes output.
                            + rd("data/app/flags_915d2e99.json", []))
     NEW["questions_session"] = (rd("data/app/questions_79341829.json", [])
-                                + rd("data/app/questions_4054e125.json", []))
+                                + rd("data/app/questions_4054e125.json", [])
+                                # session arena/915d2e99-nba3: five questions from the 2026-11-19
+                                # promotion round (partial-day policy, quarter-less settlement, ledger
+                                # duplicates, injury-promotion ownership, priced-window coupling)
+                                + rd("data/app/questions_915d2e99.json", []))
     NEW["suggestions_session"] = (rd("data/app/suggestions_79341829.json", [])
-                                  + rd("data/app/suggestions_4054e125.json", []))
+                                  + rd("data/app/suggestions_4054e125.json", [])
+                                  + rd("data/app/suggestions_915d2e99.json", []))
     NEW["standings"] = rd("data/live/standings.json", {"teams": {}})
     NEW["inj_deltas"] = rd("data/live/injuries/deltas.json", {"deltas": []})
     NEW["inj_archive"] = rd("data/live/injuries/archive_index.json",
