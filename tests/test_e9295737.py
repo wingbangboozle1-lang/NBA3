@@ -263,3 +263,56 @@ class SlateTests(unittest.TestCase):
         self.assertEqual({g["cup_group_printed"] for g in cup},
                          {"East Group A", "East Group B", "East Group C",
                           "West Group A", "West Group B", "West Group C"})
+
+
+class CrossSessionCouplingTests(unittest.TestCase):
+    """The float-sum fix (E1) changed what other sessions' scripts need at import time.
+
+    gamebooks_2ecbccfd.py now imports floatsum from its own directory. Any test that copies
+    that script into a scratch tree must copy the module too, or --check dies at import and
+    the failure looks like a data mismatch. This is exactly the regression the rebase onto
+    main surfaced after dd3edd74's diagnostic tests landed.
+    """
+
+    def test_every_script_importing_floatsum_ships_it(self):
+        scripts_dir = os.path.join(ROOT, "scripts")
+        importers = []
+        for name in sorted(os.listdir(scripts_dir)):
+            if not name.endswith(".py"):
+                continue
+            with open(os.path.join(scripts_dir, name), encoding="utf-8") as fh:
+                if "from floatsum import" in fh.read():
+                    importers.append(name)
+        self.assertTrue(importers, "at least one script should use the deterministic sum")
+        self.assertTrue(os.path.exists(os.path.join(scripts_dir, "floatsum.py")))
+        for name in importers:
+            with self.subTest(script=name):
+                # the module must be importable by a script that inserts its own dir on sys.path
+                self.assertTrue(os.path.exists(os.path.join(scripts_dir, "floatsum.py")))
+
+    def test_dd3edd74_scratch_tree_copies_floatsum(self):
+        path = os.path.join(ROOT, "tests", "test_dd3edd74.py")
+        if not os.path.exists(path):
+            self.skipTest("dd3edd74's test is not present")
+        with open(path, encoding="utf-8") as fh:
+            src = fh.read()
+        self.assertIn('"floatsum.py"', src,
+                      "the scratch-tree test must copy floatsum.py or --check cannot import")
+
+    def test_floatsum_is_deliberately_the_naive_311_sum(self):
+        """floatsum pins CPython <=3.11 semantics, not maximal accuracy.
+
+        That distinction matters: the module exists to reproduce artefacts that were
+        published by the naive algorithm, so a case where naive and compensated summation
+        disagree must return the NAIVE answer. 0.1 added ten times left-to-right gives
+        0.9999999999999999, whereas 3.12's compensated builtin sum() gives 1.0.
+        """
+        from floatsum import total
+        vals = [36.0, 35.0, 34.0, 33.0, 32.0, 31.0, 30.0, 29.0, 28.0, 27.0, 26.0, 25.0]
+        self.assertEqual(total(vals), 366.0)
+        self.assertEqual(total([0.1] * 10), 0.9999999999999999)
+        # integers stay exact, so counts are unaffected
+        self.assertEqual(total([1, 2, 3]), 6)
+        self.assertIsInstance(total([1, 2, 3]), int)
+        # None entries are skipped rather than treated as zero-valued floats
+        self.assertEqual(total([1, None, 2]), 3)

@@ -96,6 +96,10 @@ class GamebookCheckDiagnosticTests(unittest.TestCase):
 
     INPUTS = [
         os.path.join("scripts", "gamebooks_2ecbccfd.py"),
+        # the script imports floatsum from its own directory so that its float sums are
+        # interpreter-independent; the scratch copy needs that module or the import fails
+        # before --check can run (E929-F01 / E1 float-sum fix).
+        os.path.join("scripts", "floatsum.py"),
         os.path.join("data", "live", "team_registry.json"),
     ]
 
