@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Flagged for Review · official NBA capture (9c30f2ae)</title>
+<style>
+body{font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;color:#1d2433;background:#f6f7f9}
+header{background:#1d2433;color:#fff;padding:14px 22px}
+header a{color:#fff;margin-right:16px;text-decoration:none;opacity:.85}
+header a:hover,header a.on{opacity:1;text-decoration:underline}
+header h1{margin:0 0 6px;font-size:19px;font-weight:600}
+main{padding:18px 22px;max-width:1280px}
+h2{font-size:17px;margin:26px 0 8px}
+h3{font-size:15px;margin:18px 0 6px}
+.banner{background:#fff7e0;border:1px solid #e8c766;border-radius:6px;padding:10px 14px;margin:10px 0 16px}
+.cards{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0}
+.card{background:#fff;border:1px solid #dde1e7;border-radius:8px;padding:12px 14px;min-width:210px;flex:1}
+.card b{display:block;font-size:22px;margin-top:4px}
+.card a{text-decoration:none;color:#1f5fbf}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:13.5px;margin-bottom:10px}
+th,td{border-bottom:1px solid #e6e9ee;padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#eef1f5;font-weight:600}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+.unv{color:#8a5a00;font-weight:600}
+.muted{color:#5b6573;font-size:13px}
+a{color:#1f5fbf}
+.tag{display:inline-block;background:#e9eefc;border-radius:4px;padding:1px 6px;font-size:12px}
+.tag.bet{background:#fdeaea}
+.warn{background:#fff1f0;border-left:4px solid #d64541;padding:8px 12px;margin:8px 0}
+.ok{background:#eefaf1;border-left:4px solid #2e9e5b;padding:8px 12px;margin:8px 0}
+code{font-size:12.5px}
+</style></head>
+<body>
+<header><h1>Official NBA capture · 2026-11-19 round</h1><nav><a href="index.html">Home</a><a href="injuries.html">Injuries</a><a href="results.html">11/18 results</a><a href="standings.html">Standings</a><a href="team-stats.html">Team stats</a><a href="slate.html">Slate</a><a href="flagged.html" class=on>Flagged for Review</a></nav></header>
+<main>
+
+<h2>Flagged for Review</h2><p class="muted">Irregularities and unverified items from this capture. None blocks publication of the official facts on this site; each carries a link so the item can be checked by hand.</p><table><thead><tr><th>ID</th><th>Item</th><th>Source</th><th>Note</th></tr></thead><tbody><tr><td>F1</td><td>The 11/19 01:45 AM ET injury revision is listed on the official index but was not captured in this session. The diff published here therefore covers 12:45 AM → 01:30 AM only.</td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/">Source</a></td><td class="muted">One more fetch; recorded as listed-but-uncaptured rather than assumed identical.</td></tr><tr><td>F2</td><td>Two rows of the 01:30 AM report print a player and a status but no team cell (Kuminga, Pullin — both Questionable). They are published unattributed.</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_30AM.pdf">Source</a></td><td class="muted">PDF page-break layout; not matched to a neighbouring row.</td></tr><tr><td>F3</td><td>The Dallas row of the advanced team-stat page is cut off after AST/TO by the fetch tool&#x27;s chunk boundary. Its remaining cells are blank, not inferred.</td><td><a href="https://www.nba.com/stats/teams/advanced">Source</a></td><td class="muted">Chunk 0 ends mid-row; requesting later chunk indexes re-serves the final chunk.</td></tr><tr><td>F4</td><td>The Teams Traditional and Opponent pages were not captured in this session, so the per-team stat set is incomplete: advanced only.</td><td><a href="https://www.nba.com/stats/teams/traditional">Source</a></td><td class="muted">Required by the brief&#x27;s &#x27;re-read the three official team-stat pages&#x27; step; open.</td></tr><tr><td>F5</td><td>The official standings page prints Western seeds 7-9 by wins rather than by winning percentage. Rows are published in printed order and no seed is asserted.</td><td><a href="https://www.nba.com/standings">Source</a></td><td class="muted">No value is changed; this is a display-order note.</td></tr><tr><td>F6</td><td>Venues are blank for 2 of the 4 games on 11/19 and for every game on 11/20-11/22.</td><td><a href="https://www.nba.com/schedule?date=2026-11-19">Source</a></td><td class="muted">Not printed on the pages read; left blank.</td></tr><tr><td>F7</td><td>The PDF and HTML bytes are not stored: the fetch tool returns parsed text. What is stored is the verbatim transcript plus its sha256, so the capture can be re-diffed but not re-parsed from the original file.</td><td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_30AM.pdf">Source</a></td><td class="muted">The bash sandbox cannot reach the official hosts (TLS EOF on every attempt).</td></tr><tr><td>F8</td><td>Retrieval timestamps are the manifest&#x27;s stated window, not a per-call clock reading.</td><td><a href="https://official.nba.com/nba-injury-report-2026-27-season/">Source</a></td><td class="muted">The fetch tool returns no timestamp; the window is bounded in the manifest.</td></tr><tr><td>F9</td><td>Nothing in this round settles a ledger entry. The 11/18 finals are verified and published as facts, but the sealed picks for those games live on the bet surface and were not settled by this session.</td><td><a href="https://www.nba.com/game/mem-vs-cle-0022600258">Source</a></td><td class="muted">Projection and bet surfaces are kept separate by design.</td></tr><tr><td>F10</td><td>Home-court advantage is now pinned to a measured 50.23% home-win rate, where the model on the projection surface was fitted on a 22-game sample that implied a much larger edge. The pin is recorded but the model was not re-run in this session.</td><td><a href="https://www.nba.com/standings">Source</a></td><td class="muted">Re-running the model is a separate, gated change; recorded so it is not lost.</td></tr></tbody></table>
+<p class="muted">Session <code>arena/9c30f2ae-nba3</code>. Every row links to the official NBA page it came from.
+A cell the official document did not print is left blank and marked UNVERIFIED. Source files:
+<code>data/rounds/2026-11-19-9c30f2ae/</code>, reproducible offline with
+<code>python3 scripts/capture_9c30f2ae.py --check</code>.</p>
+</main></body></html>

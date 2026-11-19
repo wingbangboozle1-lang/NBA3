@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Home · official NBA capture (9c30f2ae)</title>
+<style>
+body{font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;color:#1d2433;background:#f6f7f9}
+header{background:#1d2433;color:#fff;padding:14px 22px}
+header a{color:#fff;margin-right:16px;text-decoration:none;opacity:.85}
+header a:hover,header a.on{opacity:1;text-decoration:underline}
+header h1{margin:0 0 6px;font-size:19px;font-weight:600}
+main{padding:18px 22px;max-width:1280px}
+h2{font-size:17px;margin:26px 0 8px}
+h3{font-size:15px;margin:18px 0 6px}
+.banner{background:#fff7e0;border:1px solid #e8c766;border-radius:6px;padding:10px 14px;margin:10px 0 16px}
+.cards{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0}
+.card{background:#fff;border:1px solid #dde1e7;border-radius:8px;padding:12px 14px;min-width:210px;flex:1}
+.card b{display:block;font-size:22px;margin-top:4px}
+.card a{text-decoration:none;color:#1f5fbf}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:13.5px;margin-bottom:10px}
+th,td{border-bottom:1px solid #e6e9ee;padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#eef1f5;font-weight:600}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+.unv{color:#8a5a00;font-weight:600}
+.muted{color:#5b6573;font-size:13px}
+a{color:#1f5fbf}
+.tag{display:inline-block;background:#e9eefc;border-radius:4px;padding:1px 6px;font-size:12px}
+.tag.bet{background:#fdeaea}
+.warn{background:#fff1f0;border-left:4px solid #d64541;padding:8px 12px;margin:8px 0}
+.ok{background:#eefaf1;border-left:4px solid #2e9e5b;padding:8px 12px;margin:8px 0}
+code{font-size:12.5px}
+</style></head>
+<body>
+<header><h1>Official NBA capture · 2026-11-19 round</h1><nav><a href="index.html" class=on>Home</a><a href="injuries.html">Injuries</a><a href="results.html">11/18 results</a><a href="standings.html">Standings</a><a href="team-stats.html">Team stats</a><a href="slate.html">Slate</a><a href="flagged.html">Flagged for Review</a></nav></header>
+<main>
+
+
+<h2>Surfaces</h2>
+<div class="cards">
+ <div class="card"><span class="tag">Projection · published</span><b>Official facts, measured values</b>
+   <span class="muted">Injury report, finals with quarter scores, standings, advanced team statistics and
+   the slate. Every row sourced. The one derived number (home-court advantage) is a measurement with its
+   arithmetic shown.</span></div>
+ <div class="card"><span class="tag bet">Bet · gated</span><b>Not published here</b>
+   <span class="muted">No pick, line, price or ledger entry appears on this subsite. Nothing in this round
+   was staked or settled, so the bet surface has nothing new to show — and putting a projection and a bet
+   on the same page is exactly what the brief forbids.</span></div>
+</div>
+<h2>At a glance</h2>
+<div class="cards">
+ <div class="card"><a href="injuries.html">Injuries</a><b>44 printed rows</b>
+   <span class="muted">newest revision 01:30 AM ET; 0 status changes across the 12:45 → 01:30 step</span></div>
+ <div class="card"><a href="results.html">11/18 results</a><b>12 finals</b>
+   <span class="muted">with quarter scores; 12 of 12 tie out arithmetically</span></div>
+ <div class="card"><a href="standings.html">Standings</a><b>30 clubs</b>
+   <span class="muted">all identities check; measured home-win rate 50.23%</span></div>
+ <div class="card"><a href="team-stats.html">Team stats</a><b>30 clubs</b>
+   <span class="muted">advanced page; 1 row partial and marked</span></div>
+ <div class="card"><a href="slate.html">Slate</a><b>26 games</b>
+   <span class="muted">11/19–11/22; tip times from the official schedule</span></div>
+ <div class="card"><a href="flagged.html">Flagged for Review</a><b>10 items</b>
+   <span class="muted">each with a source link</span></div>
+</div>
+<h2>What this round established</h2>
+<ul>
+ <li><b>Quarter scores now exist for every 11/18 game.</b> Both this session's earlier captures and the
+   other sessions' left them blank; all 12 games now carry four printed quarter cells per team, and each
+   row was checked to sum to its printed final.</li>
+ <li><b>Home-court advantage has a measured value instead of a fitted one:</b> 111 home wins in
+   221 games with a home side, <b>50.2262%</b>.</li>
+ <li><b>The injury report moved four times after 12:45 AM and said nothing new.</b> The 01:30 AM revision is
+   textually identical to 12:45 AM wherever both print a team.</li>
+ <li><b>The advanced team page was captured with its chunk boundary intact</b>, so the one partial row is
+   visible as partial rather than silently plausible.</li>
+</ul>
+<h2>Reproducing this</h2>
+<p class="muted">The round's artefacts are re-derivable offline from the committed transcripts:
+<code>python3 scripts/capture_9c30f2ae.py --check</code> rebuilds every JSON in
+<code>data/rounds/2026-11-19-9c30f2ae/</code> and compares it byte for byte, and
+<code>python3 scripts/build_9c30f2ae.py --check</code> does the same for these pages. Twenty tests in
+<code>tests/test_capture_9c30f2ae.py</code> pin the counts to the transcripts, including a planted-error
+test for the quarter-sum check and one that fails if an unread stat cell ever gets filled in.</p>
+
+<p class="muted">Session <code>arena/9c30f2ae-nba3</code>. Every row links to the official NBA page it came from.
+A cell the official document did not print is left blank and marked UNVERIFIED. Source files:
+<code>data/rounds/2026-11-19-9c30f2ae/</code>, reproducible offline with
+<code>python3 scripts/capture_9c30f2ae.py --check</code>.</p>
+</main></body></html>
