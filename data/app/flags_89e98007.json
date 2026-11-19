@@ -23,8 +23,8 @@
     "severity": "medium",
     "found_on": "2026-11-19",
     "item": "One live published artefact still changes value with the interpreter: scripts/capture_round_79341829.py regenerates data/app/minutes_shares.json with teams.2026-11-14:MIA.top8[6].share (Klay Thompson) as 0.0842 instead of the committed 0.0843 on CPython >= 3.12.",
-    "why": "Reproduced deterministically in this sandbox: PYTHONPATH=<dir with a sitecustomize that installs Neumaier summation> python3 scripts/capture_round_79341829.py leaves exactly one line dirty (git diff: -\"share\": 0.0843 / +\"share\": 0.0842); the same run without the shim leaves the tree clean, so the committed file is the pre-3.12 answer. The same divergence was observed from the other side on the runner during probe run 44478152590: after replaying the committed-tree suites, git status showed ' M data/app/minutes_shares.json'. Consequence: the scheduled refresh would commit a silent value change into a file the model and the site read, and no gate would call it out.",
-    "action_needed": "Owner of scripts/capture_round_79341829.py (arena/915d2e99-nba3, PR #143) or the next integration session: route the two float sums in that script through det.fold/det.dq (scripts/determinism.py). The change is byte-neutral against the committed file because the pin reproduces the pre-3.12 builtins exactly. Alternative: pin the interpreter version in the workflow (see 89E-S-01). Not done in this session: the file is inside another session's claim.",
+    "why": "Reproduced deterministically in this sandbox: PYTHONPATH=<dir with a sitecustomize that installs Neumaier summation> python3 scripts/capture_round_79341829.py leaves exactly one line dirty (git diff: -\"share\": 0.0843 / +\"share\": 0.0842); the same run without the shim leaves the tree clean, so the committed file is the pre-3.12 answer. The same divergence was observed from the other side on the runner during probe run 44478152590: after replaying the committed-tree suites, git status showed ' M data/app/minutes_shares.json'. Consequence: the scheduled refresh would commit a silent value change into a file the model and the site read, and no gate would call it out. Correction to an earlier wording of this flag: the local `sitecustomize` emulator is Kahan-Babuska with a trailing compensation, while CPython >= 3.12 uses Neumaier; the two agree on the Washington field this investigation started from but are NOT bit-identical in general. Re-running scripts/capture_round_79341829.py locally under the emulator on the post-#146 tree leaves data/app/minutes_shares.json byte-identical, so the MIA delta is established on the runner's real 3.14.4 only. Anyone picking this up must reproduce it on a real >= 3.12 interpreter (the branch-probe pattern in this branch's history is the working method here) before attributing it to summation; it could also be an int/float fast-path difference in 3.14's builtin.",
+    "action_needed": "Owner of scripts/capture_round_79341829.py (its PR #143 is CLOSED unmerged, so the file is unclaimed): give it a --check mode like the six gated generators, route its float aggregates through scripts/determinism.py, and if the published share moves, do it as a reviewed republish. Until then the value on the site is one that only a 3.11-class interpreter reproduces.",
     "sources": [
       "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44478152590",
       "https://docs.python.org/3/library/functions.html#sum"
@@ -53,8 +53,8 @@
     "severity": "low",
     "found_on": "2026-11-19",
     "item": "A CI test runs a generator in write mode against the repository, so 'the test suite passed' can mean 'the test suite rewrote a committed artefact'.",
-    "why": "tests/test_finals_1115_settlement.py line 125 invokes scripts/capture_round_79341829.py without --check, which writes data/app/minutes_shares.json in place. On Python 3.11 the write is a no-op byte-for-byte, so the tree stays clean and nobody noticed; on the runner's 3.14 the same test leaves the tree modified (probe run 44478152590 reported ' M data/app/minutes_shares.json'). Because the refresh workflow ends with 'git add -A', a test-induced edit can be swept into a data commit.",
-    "action_needed": "Owner of tests/test_finals_1115_settlement.py and scripts/capture_round_79341829.py: run the generator into a temp directory (or add --check to the test path) so tests never mutate committed artefacts; optionally have the refresh's commit step refuse to stage paths outside an allowlist. Not done here: both files are inside another session's claim (PR #143).",
+    "why": "tests/test_finals_1115_settlement.py line 125 invokes scripts/capture_round_79341829.py without --check, which writes data/app/minutes_shares.json in place. On Python 3.11 the write is a no-op byte-for-byte, so the tree stays clean and nobody noticed; on the runner's 3.14 the same test leaves the tree modified (probe run 44478152590 reported ' M data/app/minutes_shares.json'). Because the refresh workflow ends with 'git add -A', a test-induced edit can be swept into a data commit. Correction to an earlier wording of this flag: the local `sitecustomize` emulator is Kahan-Babuska with a trailing compensation, while CPython >= 3.12 uses Neumaier; the two agree on the Washington field this investigation started from but are NOT bit-identical in general. Re-running scripts/capture_round_79341829.py locally under the emulator on the post-#146 tree leaves data/app/minutes_shares.json byte-identical, so the MIA delta is established on the runner's real 3.14.4 only. Anyone picking this up must reproduce it on a real >= 3.12 interpreter (the branch-probe pattern in this branch's history is the working method here) before attributing it to summation; it could also be an int/float fast-path difference in 3.14's builtin.",
+    "action_needed": "Integration owner, one commit: (a) tests/test_finals_1115_settlement.py:125 and tests/test_capture_round_79341829.py:17 both invoke scripts/capture_round_79341829.py as a writer \u2014 run it in --check mode (or into a temp dir) in both; (b) add the write-mode guard test proposed above. Note the generator has no fixed output timestamp \u2014 RETRIEVED_STAMP is a constant at line 31 \u2014 so a --check mode is byte-comparable today, which is what makes (a) cheap.",
     "sources": [
       "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44478152590"
     ],
@@ -93,5 +93,41 @@
     ],
     "status": "open",
     "legacy_ref": "89E-F-06"
+  },
+  {
+    "id": "89E-F-07",
+    "area": "site publication",
+    "severity": "medium",
+    "found_on": "2026-11-19",
+    "item": "A session's register files are inert unless a second file names them: flags reach the site only through a hand-added block in scripts/assemble_canonical.py, questions/suggestions only through a hard-coded rd() line in scripts/build_app.py. This session's 6 flags, 5 questions and 5 suggestions are on disk and published nowhere.",
+    "why": "Measured against the committed build: 56 flag ids exist across data/app/flags_*.json, 44 appear on app/flagged.html, and every 89E-F id appears on none of the pages. build_app.py reads exactly flags_79341829.json + flags_4054e125.json; assemble_canonical.py reads exactly flags_44e0c051 / 8e199e09 / 965fbd17 / c449d46a / ef6e2e6c. Twelve ids from other sessions are orphaned the same way, so this is a standing defect of the convention, not a mistake of one session. It is invisible in CI for exactly the reason it matters: pages.yml:253-257 regenerates canonical.json + app/ + index.html and requires git diff --exit-code, so an unwired register file cannot fail anything \u2014 it is simply never read.",
+    "action_needed": "Integration owner (shared outputs; this session did not touch build_app.py, which PR #147 claims, nor data/app/canonical.json or app/**): replace the per-session hard-coding with a glob over data/app/{flags,questions,suggestions}_*.json, de-duplicated by id, then regenerate canonical.json + app/ + index.html in the same commit \u2014 pages.yml's git-diff-exit-code step requires it. Until then the Flagged page is not the complete review list the brief asks for, and the counts printed on the homepage (107 flagged items) understate the registers by design.",
+    "sources": [
+      "scripts/build_app.py",
+      "scripts/assemble_canonical.py",
+      ".github/workflows/pages.yml",
+      "data/app/flags_89e98007.json",
+      "app/flagged.html"
+    ],
+    "status": "open",
+    "legacy_ref": "CR-89E-04"
+  },
+  {
+    "id": "89E-F-08",
+    "area": "determinism / integration",
+    "severity": "high",
+    "found_on": "2026-11-19",
+    "item": "PR #147 (session e9295737) re-pins the summation rule to the pre-3.12 naive fold in scripts/gamebooks_2ecbccfd.py. Merged into current main as-is it makes the refresh preflight red again \u2014 the same six-day outage, restored by a merge, not by an interpreter upgrade.",
+    "why": "Measured, not inferred, in two throwaway worktrees of main + #147: `git merge -X theirs` resolves automatically and then `python3 scripts/gamebooks_2ecbccfd.py --check` exits 1 with `.top8_minutes_shares.2026-11-15:WAS.top8[4].share: 0.1087 != 0.1088` (first differing line 7927; the other five gates stay rc=0). Their branch is self-consistent because it forked at bc1f113, before main@78f513d republished that field to 0.1087: on their tree the artefact still says 0.1088 and their scripts/floatsum.total reproduces 0.1088. A merge keeps main's 0.1087 and their fold \u2014 the two halves of one decision pulled apart. Their module header even states the premise the merge invalidates: 'The numbers the site publishes do not change: the committed artefacts ... are still reproduced bit for bit'.",
+    "action_needed": "Do not resolve scripts/gamebooks_2ecbccfd.py by taking either side wholesale. Two correct endings: (A) keep main's det.sum_ + the 0.1087 artefact and let scripts/floatsum.py serve only their own new round files; or (B) if the fold is genuinely wanted, it is a SECOND republish \u2014 artefact, any sealed pick hashes over that field, and the generated pages must move in the same commit, and tests/test_determinism_89e98007.py::TheFieldThatMovedTests + tests/test_gamebook_interpreter_stability.py encode the current answer and will fail until updated deliberately. Note their PR also edits tests/test_dd3edd74.py, which this branch already extended (its scratch-copy INPUTS list must carry scripts/determinism.py).",
+    "sources": [
+      "https://github.com/wingbangboozle1-lang/NBA3/pull/147",
+      "scripts/gamebooks_2ecbccfd.py",
+      "data/rounds/2026-11-17/player_logs_2026-11-15.json",
+      "scripts/determinism.py",
+      "tests/test_determinism_89e98007.py"
+    ],
+    "status": "open",
+    "legacy_ref": "CR-89E-05"
   }
 ]

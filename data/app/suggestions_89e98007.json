@@ -64,5 +64,25 @@
     "sources": [
       "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44467720829"
     ]
+  },
+  {
+    "id": "89E-S-06",
+    "area": "site publication",
+    "suggestion": "Publish session registers by glob instead of by name: in scripts/assemble_canonical.py and scripts/build_app.py, read every data/app/{flags,questions,suggestions}_*.json, de-duplicate by id (first wins, files sorted), and keep the schema check in one place.",
+    "why": "The per-session hard-coding is why 12 flag ids on disk never reached the Flagged page, including this session's. It also creates merge friction: PR #147 adds an rd() line for its own file, which will collide with any other session doing the same in the same three lines. The register JSON schema is already uniform across the 9 session files, so a glob needs no per-file knowledge.",
+    "options": [
+      "glob + de-dup by id, tolerant of unknown extra keys (what this suggests)",
+      "one explicit list file, data/app/registers.json, that each session appends to",
+      "status quo: each session patches two generators and regenerates the site in the same commit"
+    ],
+    "recommended_option": "glob + de-dup by id, with a test that every data/app/flags_*.json id appears in the built page",
+    "dependency": "needs the app/** + data/app/canonical.json regeneration in the same commit (pages.yml:253-257 requires a clean git diff)",
+    "decision": "pending \u2014 integration owner",
+    "sources": [
+      "scripts/assemble_canonical.py",
+      "scripts/build_app.py",
+      ".github/workflows/pages.yml",
+      "data/app/flags_89e98007.json"
+    ]
   }
 ]

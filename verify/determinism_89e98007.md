@@ -12,6 +12,7 @@ on the runner's Python 3.14.4 while every suite passed on 3.11. The rule is now 
 
 | file | bare `sum(` | bare `round(` | exposure | owner |
 |---|---|---|---|---|
+| `scripts/build_9a13efcf.py` | 14 | 25 | writes committed output — at risk | unowned |
 | `scripts/build_app.py` | 14 | 3 | refresh-run, writes committed output — at risk | arena/915d2e99-nba3 (PR #143) |
 | `scripts/build_b1ce1334.py` | 1 | 0 | no artefact written | unowned |
 | `scripts/build_hub.py` | 6 | 0 | no artefact written | unowned |
@@ -94,13 +95,17 @@ once with a `sitecustomize` that installs the CPython >= 3.12 compensated float 
 
 | generator | committed artefact | bytes changed under compensation |
 |---|---|---|
-| `scripts/capture_round_79341829.py` | `data/app/minutes_shares.json` | 1 line: `teams.2026-11-14:MIA.top8[6].share` 0.0843 -> 0.0842 |
+| `scripts/capture_round_79341829.py` | `data/app/minutes_shares.json` | 1 line on the RUNNER (`teams.2026-11-14:MIA.top8[6].share` 0.0843 -> 0.0842, probe runs 44478784862 / 44479468427 after the suite loop); NOT reproduced under this repo's emulator on the post-#146 tree — see the note below on why the emulator is not bit-exact |
 | `scripts/estimators.py` | `data/app/estimators.json` | none |
 | `scripts/minutes_model.py` | `data/app/rotation_impact.json` | none |
 | `scripts/assemble_canonical.py` | `data/app/canonical.json` | none |
 | `scripts/injury_archive.py` | `data/app/injury_reports_archive/` | none |
 | `scripts/freshness_gates.py` | `data/live/freshness.json` | none (12/12 gates) |
 | `scripts/round2_2026_11_16.py` | `data/rounds/2026-11-16-1300PM/model.json` | 6 fields, all unrounded league aggregates: `.league.poss_per_game` 100.47153000000002 -> 100.47153, `.league.off_rtg` 113.22000000000001 -> 113.22, `.league.pts` / `.league.efg_pct` / `.league.tov_pct` / `.league.ts_pct` last-bit |
+
+## What the emulator is, and where it lies
+
+The `sitecustomize` used here replaces `builtins.sum` with Kahan-Babuska compensated summation (a running compensation added at the end). CPython >= 3.12's real `sum()` is Neumaier's variant, which folds the correction in a different order. The two agree on most inputs — including the Washington minutes that started this investigation — but they are not bit-identical in general, so a row that reads 'none' here means 'the emulator did not move it', not 'no interpreter moves it'. For a decision that changes a published number, reproduce on a real >= 3.12 interpreter; the temporary branch-probe workflow in this repository's history is the working method for that.
 
 The round2 row matters for a specific reason: it is the only one where the generator publishes aggregates at full float precision, so the last bit is visible in the JSON. It is covered by `tests/test_round2_2026_11_16.py::Artefacts::test_artifacts_are_byte_identical_to_a_fresh_build`, which `pages.yml:298` runs — green there because pages.yml pins 3.11 — and it is NOT in refresh.yml's nine-suite loop, so today it fails only if something replays that round on a newer interpreter. Rounding at publish (det.dq) would make it interpreter-independent as well as shorter; that is a republish and belongs to the round's owner, not here.
 
