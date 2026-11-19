@@ -22,6 +22,7 @@ on the runner's Python 3.14.4 while every suite passed on 3.11. The rule is now 
 | `scripts/build_round_site.py` | 3 | 0 | writes committed output — at risk | unowned |
 | `scripts/build_v2.py` | 2 | 1 | no artefact written | unowned |
 | `scripts/capture_b1ce1334.py` | 1 | 0 | no artefact written | unowned |
+| `scripts/capture_dd3edd74.py` | 3 | 0 | writes committed output — at risk | unowned |
 | `scripts/capture_official_2026_11_14b.py` | 2 | 0 | writes committed output — at risk | unowned |
 | `scripts/capture_official_2026_11_14c.py` | 10 | 0 | writes committed output — at risk | unowned |
 | `scripts/capture_official_2026_11_14d.py` | 5 | 0 | writes committed output — at risk | unowned |
@@ -69,14 +70,17 @@ on the runner's Python 3.14.4 while every suite passed on 3.11. The rule is now 
 
 ## Rules for extending the pin (why this sweep stopped at six files)
 
-1. A pin is only safe where the committed artefact was produced by the pre-3.12 fold. It is
-   byte-identical to that interpreter's builtins, so re-running the generator changes nothing.
+1. The pinned rule is `det.sum_`: `math.fsum` when a float is in the input (the rule main chose
+   on 2026-11-19 in 78f513d, correctly rounded and identical on every CPython) and exact integer
+   addition otherwise, so counts stay `24` and not `24.0` in published JSON. `det.fold` remains
+   for reproducing a artefact that was committed under the pre-3.12 fold.
 2. `scripts/estimators.py`, `results_feed.py`, `minutes_model.py`, `assemble_canonical.py`,
    `build_app.py`, `model.py` and the site builders are regenerated *on the runner* and their
-   output is what the next refresh commits. Re-pinning them to the naive fold would move live
-   published numbers (e.g. the 0.1088 -> 0.1087 minute share) and read as a data change. The
-   right fix for that half is to pin the interpreter in the workflow (CR-89E-02) and, if the
-   owner wants the more accurate summation, to republish deliberately in one reviewed commit.
+   output is what the next refresh commits. For those, a rule change can move a published number
+   and read as a data change (the game-book artefact is the one that already moved: 0.1088 ->
+   0.1087 in 78f513d). Sweep them one file per commit with a byte-diff proof, and pin the
+   interpreter in the workflow too — `pages.yml` already pins 3.11 while `refresh.yml` pins
+   nothing, which is exactly why PR CI stayed green while the schedule was red (CR-89E-02).
 3. The one-shot `capture_official_*` / `round*` scripts in the table above already wrote their
    artefacts; their committed outputs are the record, and re-running them is not part of CI.
    They are listed so nobody re-runs one on a newer interpreter and mistakes the diff for
@@ -103,8 +107,10 @@ Reproduce: `PYTHONPATH=<dir containing a sitecustomize that sets builtins.sum to
 
 ## Decision this audit surfaces for the owner
 
-The pinned rule is the *less accurate* summation on purpose: it is the one that generated the
-numbers the sealed pick ledger hashed. Moving to compensated summation would change published
-values (0.1088 -> 0.1087 for the Washington minute share) and therefore should be done as an
-explicit republish with a new ledger epoch, not as a drive-by fix. Flagged for review.
+main@78f513d (session f69a11c4) settled the rule question by adopting the correctly-rounded exact
+sum and republishing the one field whose 4th decimal the two rules disagree about. This branch
+adopts the same rule for all six byte-compared generators and measured it to be byte-neutral for
+the other five. What remains a policy question is the rest of the table: a generator whose output
+the refresh commits should move to the pinned rule only in a reviewed commit that shows the diff,
+because a published number that the pick ledger has hashed must not move as a side effect.
 

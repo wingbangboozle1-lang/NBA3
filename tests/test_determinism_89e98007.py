@@ -45,8 +45,12 @@ BUILD_CHAIN = ["scripts/gamebooks_2ecbccfd.py", "scripts/capture_2ecbccfd.py",
                "scripts/slate_extra_2ecbccfd.py", "scripts/model_2ecbccfd.py",
                "scripts/ledger_2ecbccfd.py", "round_2ecbccfd/build.py"]
 
-WA_SHOULD_BE = 0.1088          # the value the ledger and the site were built from
-WA_UNDER_COMPENSATED_SUM = 0.1087   # what CPython >= 3.12 produced on the runner
+# The rule the repository ratified for published float sums on 2026-11-19 (session f69a11c4,
+# main@78f513d): the correctly-rounded exact sum. The artefact carries its answer; the pre-3.12
+# naive fold is the one that used to be published and is still what the runner produced BEFORE the
+# fix — both numbers stay asserted so nobody re-flips the rule by accident.
+WA_PUBLISHED = 0.1087          # det.sum_ / math.fsum: what data/rounds/2026-11-17 now says
+WA_UNDER_NAIVE_FOLD = 0.1088   # the pre-3.12 answer this file held until 2026-11-19
 
 
 def naive(values, start=0):
@@ -69,13 +73,22 @@ class FoldTests(unittest.TestCase):
         self.assertIsInstance(det.fold([]), int)
         self.assertEqual(det.fold([0.5, 0.5]), 1.0)
 
-    def test_fold_matches_the_sum_that_generated_the_committed_artefacts(self):
+    def test_the_two_rules_still_differ_on_the_published_minutes(self):
+        """The exposure is real, not theoretical: the two summations disagree on this input."""
         mins = washington_minutes()
         self.assertEqual(det.fold(mins), naive(mins))
         self.assertEqual(det.fold(mins), 239.99999999999997)
-        self.assertNotEqual(det.fold(mins), math.fsum(mins),
-                            "if these ever agree the divergence is gone and the pin can be "
+        self.assertEqual(det.sum_(mins), math.fsum(mins))
+        self.assertNotEqual(det.fold(mins), det.sum_(mins),
+                            "if these ever agree, the divergence is gone and the pin can be "
                             "revisited — see verify/determinism_89e98007.md")
+
+    def test_ratified_rule_is_exact_for_floats_and_int_exact_for_counts(self):
+        # an int count must stay an int: JSON publishes 24 and 24.0 differently
+        self.assertEqual(det.sum_([1, 2, 3]), 6)
+        self.assertIsInstance(det.sum_([1, 2, 3]), int)
+        self.assertEqual(det.sum_([]), 0)
+        self.assertEqual(det.sum_([0.1, 0.2, 0.7]), 1.0, "fsum: no drift")
 
 
 class DqTests(unittest.TestCase):
@@ -108,25 +121,25 @@ class TheFieldThatMovedTests(unittest.TestCase):
 
     def test_pinned_rule_reproduces_the_published_share(self):
         mins = washington_minutes()
-        tot = det.fold(mins)
+        tot = det.sum_(mins)
         share = det.dq(26.1 / tot, 4)
-        self.assertEqual(share, WA_SHOULD_BE)
+        self.assertEqual(share, WA_PUBLISHED)
         with open(PLAYER_LOGS, encoding="utf-8") as fh:
             doc = json.load(fh)
         ent = [v for k, v in doc["top8_minutes_shares"].items() if "WAS" in k][0]
         self.assertEqual(ent["top8"][4]["player"], "Trae Young")
-        self.assertEqual(ent["top8"][4]["share"], WA_SHOULD_BE)
+        self.assertEqual(ent["top8"][4]["share"], WA_PUBLISHED)
 
-    def test_compensated_rule_would_republish_a_different_number(self):
-        """Why the pin is the naive fold and not the more accurate sum.
+    def test_naive_fold_would_republish_the_old_number(self):
+        """The rule choice is recorded, in both directions.
 
-        The more accurate summation is not free here: model.json, the sealed pick hashes and the
-        published pages were built from the naive value. Switching rules is a republish, not a
-        bug fix, so it is a decision for the owner (flagged for review, not made here).
+        main@78f513d republished this one field to the exact-sum answer. Anyone re-pinning the
+        naive fold would silently move it back, which is a republish of a value the pick ledger
+        hashed — so it must be a reviewed commit, not a side effect of a refactor.
         """
         mins = washington_minutes()
-        self.assertEqual(det.dq(26.1 / math.fsum(mins), 4), WA_UNDER_COMPENSATED_SUM)
-        self.assertNotEqual(WA_UNDER_COMPENSATED_SUM, WA_SHOULD_BE)
+        self.assertEqual(det.dq(26.1 / det.fold(mins), 4), WA_UNDER_NAIVE_FOLD)
+        self.assertNotEqual(WA_UNDER_NAIVE_FOLD, WA_PUBLISHED)
 
     def test_the_gate_passes_on_the_committed_tree(self):
         r = subprocess.run([sys.executable, os.path.join(ROOT, "scripts", "gamebooks_2ecbccfd.py"),
@@ -186,44 +199,57 @@ class EmulatedInterpreterTests(unittest.TestCase):
                                  f"{script} --check drifted under an emulated 3.12+ interpreter:"
                                  f"\n{r.stdout}\n{r.stderr}")
 
-    def test_the_emulator_would_have_caught_the_original_failure(self):
-        """The shim is not a no-op: it reproduces the divergence on the un-pinned expression."""
-        code = textwrap.dedent('''
-            import json, sys
+    def test_the_emulator_moves_the_unpinned_expression_and_nothing_else(self):
+        """The shim must actually reproduce the runner, and the pinned expressions must not move.
+
+        The first version of this test asserted what *this interpreter's* ``sum()`` returned, which is
+        exactly the mistake it exists to catch: it passed on 3.11 and failed on the runner's 3.14.4
+        (probe run 44478784862). So the assertion is now about the two pinned rules, which never call
+        the builtin, plus one check that the shim itself works.
+        """
+        code = textwrap.dedent("""
+            import json, math, os, sys
+            sys.path.insert(0, os.path.join(sys.argv[2], "scripts"))
+            import determinism as det
             doc = json.load(open(sys.argv[1], encoding="utf-8"))
             mins = [r["min"] or 0 for r in doc["clubs"]["WASHINGTON WIZARDS"]["rows"]
                     if r["status"] == "played"]
-            print(round(sum(mins), 2), round(26.1 / sum(mins), 4))
-        ''')
+            print("fold", repr(det.fold(mins)), repr(det.dq(26.1 / det.fold(mins), 4)))
+            print("exact", repr(det.sum_(mins)), repr(det.dq(26.1 / det.sum_(mins), 4)))
+            print("builtin", repr(sum(mins)), repr(round(sum(mins), 2)))
+        """)
         with tempfile.TemporaryDirectory() as td:
-            with open(os.path.join(td, "sitecustomize.py"), "w", encoding="utf-8") as fh:
-                fh.write(self.SHIM)
-            p = os.path.join(td, "check.py")
+            p = os.path.join(td, "probe.py")
             with open(p, "w", encoding="utf-8") as fh:
                 fh.write(code)
-            env = dict(os.environ, PYTHONPATH=td)
-            shim = subprocess.run([sys.executable, p, PLAYER_LOGS], capture_output=True,
-                                  text=True, env=env, cwd=ROOT, timeout=120)
-            plain = subprocess.run([sys.executable, p, PLAYER_LOGS], capture_output=True,
+            shim_dir = os.path.join(td, "shim")
+            os.makedirs(shim_dir)
+            with open(os.path.join(shim_dir, "sitecustomize.py"), "w", encoding="utf-8") as fh:
+                fh.write(self.SHIM)
+            env = dict(os.environ, PYTHONPATH=shim_dir)
+            plain = subprocess.run([sys.executable, p, PLAYER_LOGS, ROOT], capture_output=True,
                                    text=True, cwd=ROOT, timeout=120)
-        self.assertIn(f"{WA_SHOULD_BE}", plain.stdout, "plain interpreter must give the published value")
-        self.assertIn("240.0", shim.stdout)
-        self.assertIn(f"{WA_UNDER_COMPENSATED_SUM}", shim.stdout,
-                      "the emulator must move the share exactly as the runner did")
-        self.assertNotEqual(shim.stdout, plain.stdout,
-                            "the sitecustomize was not applied — this test would prove nothing")
-
+            shim = subprocess.run([sys.executable, p, PLAYER_LOGS, ROOT], capture_output=True,
+                                  text=True, env=env, cwd=ROOT, timeout=120)
+        for out, label in ((plain.stdout, "plain"), (shim.stdout, "shim")):
+            self.assertNotEqual(out, "", f"{label} run produced nothing: {plain.stderr}{shim.stderr}")
+            self.assertIn(f"fold {239.99999999999997!r} {WA_UNDER_NAIVE_FOLD!r}", out,
+                          f"det.fold must give the pre-3.12 answer on {label} (it never calls sum())")
+            self.assertIn(f"exact {240.0!r} {WA_PUBLISHED!r}", out,
+                          f"det.sum_ must give the ratified answer on {label}")
+        self.assertIn("builtin 240.0 240.0", shim.stdout,
+                      "the sitecustomize was not applied — this test would prove nothing")
 
 class GateDiagnosisTests(unittest.TestCase):
     def test_value_drift_names_the_json_path(self):
         with open(PLAYER_LOGS, encoding="utf-8") as fh:
             doc = json.load(fh)
-        doc["top8_minutes_shares"]["2026-11-15:WAS"]["top8"][4]["share"] = 0.1087
+        doc["top8_minutes_shares"]["2026-11-15:WAS"]["top8"][4]["share"] = 0.1088
         blob = json.dumps(doc, indent=1) + "\n"
         ok, detail = det.check_artefact(PLAYER_LOGS, blob)
         self.assertFalse(ok)
         self.assertIn("top8_minutes_shares", detail)
-        self.assertIn("0.1087", detail)
+        self.assertIn("0.1088", detail)
         self.assertTrue(detail.startswith("value drift"), detail)
 
     def test_formatting_only_drift_is_not_called_a_value_change(self):
