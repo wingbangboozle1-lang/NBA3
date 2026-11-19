@@ -1,0 +1,98 @@
+[
+ {
+  "id": "915D-F-01",
+  "area": "Results feed / incomplete official read",
+  "item": "2026-11-16: 6 of the 8 printed finals are published; 0022600250 and 0022600252 have no verified final and their two sealed picks stay unsettled.",
+  "why": "The official date page returns in 2 chunks and the second chunk could not be retrieved, so the last two game cards were never read. The page's own month strip prints 8 GAMES for 11/16 while the capture holds 6, and the sealed ledger carries 8 picks for that day (0022600245-252) — the two routes agree on exactly which ids are missing. Filling them would mean inventing a score, which the no-inference rule forbids.",
+  "severity": "high",
+  "action_needed": "Re-read https://www.nba.com/games?date=2026-11-16 (chunk 1) and run scripts/roll_915d2e99.py, then results_feed.py ingest/verify/settle and pick_ledger.py settle; the day then closes itself. The promoter already names the two ids in official_results_2026-11-16.json (partial_day), so no consumer has to guess.",
+  "status": "Open — needs one more read, not a decision",
+  "found_on": "2026-11-19 promotion round (arena/915d2e99-nba3)",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-16",
+   "https://www.nba.com/game/gsw-vs-nop-0022600251"
+  ]
+ },
+ {
+  "id": "915D-F-02",
+  "area": "Results feed / quarter scores",
+  "item": "17 settled games (2026-11-16 to 2026-11-18) carry no quarter scores at all: the rows have no away_q*/home_q* keys.",
+  "why": "The date pages and the game-page day list printed the finals only — there was no per-period table in the text that was read. The keys are left ABSENT rather than zero-filled or back-computed from the final, so results_feed.py marks each row 'quarter scores not captured — blank, flagged' and settlement rests on the printed final alone.",
+  "severity": "medium",
+  "action_needed": "Capture each game page's LINESCORES table (or the statsdmz game book) and re-ingest; that also closes CR-B1-01 (quarter-dependent grading), which cannot be built while these cells are blank.",
+  "status": "Open — CR-B1-01 stays open until the period reads land",
+  "found_on": "2026-11-19 promotion round (arena/915d2e99-nba3)",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-17",
+   "https://www.nba.com/games?date=2026-11-18",
+   "https://www.nba.com/game/mem-vs-cle-0022600258"
+  ]
+ },
+ {
+  "id": "915D-F-03",
+  "area": "Deploy path / published data loss",
+  "item": "Every Pages build used to reset the live results feed to the 2026-11-12..15 window: scripts/capture_round_79341829.py wrote its own capture OVER data/app/results_feed.json.",
+  "why": ".github/workflows/pages.yml runs that offline replay on every build. It rebuilt the feed from its 11/16 transcripts and replaced the file, deleting every game day promoted afterwards — the published feed sat at 23 rows while the day captures and the ledger held 46, and pick_ledger settled games the feed no longer contained. A stale-but-consistent site is defensible; a deploy that silently forgets data is not.",
+  "severity": "high",
+  "action_needed": "Fixed in this round: the replay now merges (its rows win only where identical, unknown days are carried through, a differing reading is reported as a conflict instead of overwriting) and NBA3_FEED_OUT sends the deploy-time replay to a scratch file so the build cannot mutate published data. Owner: keep the merge, and consider dropping the replay from the build job entirely — its checks belong in CI, not in the deploy.",
+  "status": "Fixed in-repo (915d2e99) — owner confirmation wanted",
+  "found_on": "2026-11-19 promotion round (arena/915d2e99-nba3)",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-18"
+  ]
+ },
+ {
+  "id": "915D-F-04",
+  "area": "Ledger / duplicate settlement evidence",
+  "item": "The published chain holds 67 SETTLED rows for 32 picks: 25 picks were stamped twice or three times by re-runs of pick_ledger.py settle.",
+  "why": "publish() has refused an already-chained game since c449d46a, but settle() had no equivalent gate, so every run re-appended a settlement for every earlier publication. The 2026-11-15 nine were stamped 3 times (11-16T18:37Z, then 11-19T06:03Z and 06:05Z). Nothing double-counts today because open picks and settled picks are keyed by pick_id, but the row count is the audit's evidence that each settled pick was stamped once, and any leaderboard counting entries rather than ids would overstate older days 2x-3x.",
+  "severity": "medium",
+  "action_needed": "settle() now skips any pick that already has a SETTLED entry and prints how many it skipped. The chain is append-only, so the duplicate rows stay — deleting them would be the tamper the ledger exists to detect. Owner: if a settled-picks table is ever built from entries rather than ids, filter by (pick_id, first SETTLED row).",
+  "status": "Gate added; history preserved deliberately",
+  "found_on": "2026-11-19 promotion round (arena/915d2e99-nba3)",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-18"
+  ]
+ },
+ {
+  "id": "915D-F-05",
+  "area": "Results feed / single-source row",
+  "item": "GSW @ NOP 2026-11-16 (0022600251) is published from ONE official read; the other 22 games promoted this round carry two.",
+  "why": "Every other 11/16 card is corroborated by the recap link on the same page (title names both teams and both scores), but that card's recap link sits past the chunk boundary, so no second read exists. The row says so in cross_checks.read_count and read_note instead of pretending to parity.",
+  "severity": "low",
+  "action_needed": "Close it with the same re-read as 915D-F-01 (the game page's own scoreboard line is a sufficient second read).",
+  "status": "Open — one more read",
+  "found_on": "2026-11-19 promotion round (arena/915d2e99-nba3)",
+  "sources": [
+   "https://www.nba.com/game/gsw-vs-nop-0022600251",
+   "https://www.nba.com/games?date=2026-11-16"
+  ]
+ },
+ {
+  "id": "915D-F-06",
+  "area": "Ledger / pre-tip sealing",
+  "item": "The four 2026-11-19 games were first refused publication because the tip time on the official page ('8:00 PM ET') could not be parsed; the 15 games dated later were sealed normally.",
+  "why": "_tip_as_et accepted only '%I:%M %p', so a VERIFIED printed tip read as 'tip time not verified' and the pre-tip gate refused today's games — the opposite of what the gate is for. Future days were unaffected because the gate does not need a tip for them, which is why the failure looked selective rather than broken.",
+  "severity": "medium",
+  "action_needed": "Fixed: the parser now drops a trailing ET/EDT/EST token and accepts 12h and 24h forms, and refuses (never publishes) anything unreadable. The four entries sealed at 2026-11-19T06:06Z, about 13h54m before the 20:00 ET tips. Owner: this only works because the round ran in the morning ET — a refresh scheduled after the first tip will correctly refuse that game, so keep the CI cron early if same-day pre-tip sealing matters.",
+  "status": "Fixed in-repo (915d2e99) with a regression test",
+  "found_on": "2026-11-19 promotion round (arena/915d2e99-nba3)",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-19"
+  ]
+ },
+ {
+  "id": "915D-F-07",
+  "area": "Site window / publish gating",
+  "item": "The dashboard's canonical window was NOT rolled forward to 2026-11-19..21, although the slate, results feed, estimator window and ledger all are.",
+  "why": "A one-line re-point of data/app/snapshot_manifest.json (its stated purpose is 'a later refresh is a data change') moved the site window to 2026-11-19..21 and 34 tests in tests/test_lines_attribution.py failed: the lines/picks blocks carry a per-row schedule source URL, and pointing the block at the new slate would have labelled 2026-11-15..18 games with a https://www.nba.com/games?date=2026-11-19 source — a wrong source link on a row, which is the one thing the table rule never allows. The priced blocks cannot be rolled independently of the window they describe.",
+  "severity": "medium",
+  "action_needed": "Integration session: re-point snapshot_manifest.json (window + slate.path) AND regenerate closing_lines/picks/props/parlays from the 19-game window in the same change, then re-run tests/test_lines_attribution.py. Do not re-point the manifest alone — that is the state that fails, and it fails because the row-level source links would lie. The slate itself is current and correct at data/app/official_slate_current.json; only the site's window label lags.",
+  "status": "Open — change request filed in COORDINATION.md",
+  "found_on": "2026-11-19 promotion round (arena/915d2e99-nba3)",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-19",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json"
+  ]
+ }
+]

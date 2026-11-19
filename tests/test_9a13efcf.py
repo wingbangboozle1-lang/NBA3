@@ -112,6 +112,32 @@ class TestAuditArtefact(unittest.TestCase):
             self.assertTrue(os.path.exists(path), name)
             self.assertEqual(open(path, encoding="utf-8").read(), html, name)
 
+    def test_live_chain_extends_the_audited_snapshot(self):
+        """The audit's ledger claim is pinned to the snapshot at audit time (f69a11c4 G3 repair:
+        the chain is append-only and legitimately grows, so a live-derived count made the artefact
+        drift on every honest settlement). This assertion is the living half of the audit: the
+        live chain must still BEGIN with the snapshot, entry for entry, and must itself verify —
+        i.e. history was extended, never rewritten. It stays green as the chain grows."""
+        snap_lines = [l for l in open(os.path.join(
+            ROOT, "data", "9a13efcf", "ledger_snapshot_at_audit.jsonl"),
+            encoding="utf-8").read().splitlines() if l.strip()]
+        live_lines = [l for l in open(os.path.join(
+            ROOT, "data", "app", "ledger", "ledger.jsonl"),
+            encoding="utf-8").read().splitlines() if l.strip()]
+        self.assertGreaterEqual(len(live_lines), len(snap_lines),
+                                "the live chain shrank below the audited snapshot — history was rewritten")
+        self.assertEqual(live_lines[:len(snap_lines)], snap_lines,
+                         "the live chain's audited prefix no longer matches the snapshot — "
+                         "history was rewritten, not extended")
+        prev = "0" * 64
+        for i, line in enumerate(live_lines):
+            e = json.loads(line)
+            self.assertEqual(e.get("prev_hash"), prev, f"live entry {i}: prev_hash mismatch")
+            body = e.get("body") or {}
+            expect = A.canon_sha({"prev": prev, "body": body})
+            self.assertEqual(e.get("entry_hash"), expect, f"live entry {i}: entry_hash does not reproduce")
+            prev = e.get("entry_hash")
+
     def test_every_requirement_row_is_complete(self):
         for row in self.audit["requirements"]:
             self.assertEqual(len(row), 5)

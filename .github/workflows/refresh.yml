@@ -23,6 +23,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history, matching pages.yml: several generated artefacts and audit legs in this
+          # repository are diffed against a named earlier commit of main, and a shallow clone
+          # cannot resolve those (the reason pages.yml already sets fetch-depth: 0). Refresh runs
+          # the same trees, so a shallow checkout here is a difference without a purpose.
+          fetch-depth: 0
 
       # ---------------------------------------------------------------------------
       # STEP ORDER IS A GATE, NOT A CONVENIENCE.
@@ -60,33 +66,42 @@ jobs:
         # The gate itself is unchanged: any failing suite still fails this step.
         run: |
           set -uo pipefail
-          fail=0
+          # scripts/run_suite_battery.py runs each suite as its own subprocess and, on failure,
+          # writes the failing suite's traceback tail into a ::error:: annotation. The inline loop
+          # this replaces could only say "at least one unittest suite failed", and seven scheduled
+          # runs (43982186917 through 44424736929) were red at this step with the same tree green in
+          # a sandbox — the suite name and the interpreter are now in the annotations API, which is
+          # reachable from environments that cannot download a log archive.
+          # Root cause of those seven, established from run 44616982969's annotation: the loop invoked
+          # one suite as `python -m unittest tests/test_refresh_official.py`, a FILE PATH deprecated
+          # in 3.11 and rejected by newer interpreters, so the runner's /usr/bin/python3 3.12.3
+          # reported a loader failure for that suite while every 3.11 sandbox reported OK. The
+          # battery's argv is pinned to interpreter-stable forms by tests/test_refresh_diagnostic.py.
+          # The battery covers the suites this step used to list inline, in particular
+          # test_round_2ecbccfd (the round's own gates), test_refresh_official, test_freshness_gates,
+          # test_pick_ledger, test_results_feed, test_results_feed_rows, test_gamecard_feed,
+          # test_standings_feed and the 11/15 capture suites (test_*1115*).
+          # scripts/run_suite_battery.py::SUITES is the single source of truth, and
+          # tests/test_refresh_diagnostic.py fails if the workflow grows its own list again.
+          # --log-dir keeps b1ce1334's per-suite transcript (B1-1): the step below uploads it, and
+          # because the log body is not retrievable from every environment, the files are written
+          # per suite rather than only echoed.
           logdir="$RUNNER_TEMP/unit-logs"
           mkdir -p "$logdir"
-          for suite in "test_*1115*.py" "test_results_feed.py" "test_pick_ledger.py" \
-                       "test_freshness_gates.py" "test_refresh_official.py" \
-                       "test_results_feed_rows.py" "test_gamecard_feed.py" "test_standings_feed.py" \
-                       "test_round_2ecbccfd.py"; do
-            echo "::group::unittest $suite"
-            log="$logdir/$(printf '%s' "$suite" | tr -c 'A-Za-z0-9._-' '_').log"
-            if [ "$suite" = "test_refresh_official.py" ]; then
-              cmd=(python3 -m unittest tests/test_refresh_official.py -v)
-            else
-              cmd=(python3 -m unittest discover -s tests -p "$suite" -v)
-            fi
-            if ! "${cmd[@]}" 2>&1 | tee "$log"; then
-              fail=1
-              echo "::error::unit suite $suite failed; failing tests follow"
-              grep -E "^(FAIL|ERROR): " "$log" | head -n 20 | sed 's/^/::error::  /' || true
-              # arena/dd3edd74-nba3 (D1): the assertion text (and any --check reason a script printed)
-              # is what says WHY a test failed; the bare FAIL header does not. Annotate those lines too.
-              grep -E "AssertionError|differs from the regenerated|first differing line|  committed  :|  regenerated:|--check failed|failed on committed inputs" "$log" \
-                | head -n 12 | cut -c1-300 | sed 's/^/::error::  why: /' || true
-            fi
-            echo "::endgroup::"
-          done
-          if [ "$fail" -ne 0 ]; then
-            echo "::error::at least one unittest suite failed on the committed tree (see the group above for which)"
+          log="$logdir/battery.txt"
+          python3 scripts/run_suite_battery.py \
+            --log-dir "$logdir" \
+            --json-out "$RUNNER_TEMP/nba3-battery.json" --annotate 2>&1 | tee "$log"
+          rc=${PIPESTATUS[0]}
+          # The log body is not retrievable from every environment, so each failing test name is
+          # repeated as an annotation (b1ce1334's B1-1 shape, kept while the executor changed).
+          # dd3edd74's D1 `why:` enrichment (assertion text and any --check reason a script printed)
+          # is preserved by the battery's per-failure `detail` annotation, which carries the failing
+          # suite's traceback tail including the assertion message; the suite list is identical to
+          # the inline loop this replaces, and tests/test_refresh_diagnostic.py pins both facts.
+          grep -E "^(FAIL|ERROR): " "$log" | sed 's/^/::error::unit: /' | head -40 || true
+          if [ "$rc" -ne 0 ]; then
+            echo "::error::a unit suite failed on the committed tree; the annotations name the tests"
             exit 1
           fi
 
@@ -203,7 +218,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: refresh-diagnostics-${{ github.run_id }}
-          path: ${{ runner.temp }}/nba3-gamebooks-mismatch.txt
+          path: |
+            ${{ runner.temp }}/nba3-gamebooks-mismatch.txt
+            ${{ runner.temp }}/nba3-battery.json
           if-no-files-found: ignore
           retention-days: 7
 

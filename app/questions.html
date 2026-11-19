@@ -665,6 +665,61 @@ discover the missing information. Nothing is inferred to fill a gap.</p>
 <td>site owner</td>
 <td><a href="https://www.nba.com/games" target="_blank" rel="noopener noreferrer">https://www.nba.com/games</a></td>
 </tr>
+<tr>
+<td>915D-Q-01</td>
+<td>Publishing policy — incomplete official read</td>
+<td>When an official page is delivered in chunks and one chunk cannot be retrieved, should the day be published incomplete (what happened on 2026-11-16: 6 of 8 finals) or refused entirely?</td>
+<td>open — currently published incomplete</td>
+<td>The promoter publishes the day, names the two missing game ids in data/app/official_results_2026-11-16.json (partial_day) and leaves those two picks unsettled; 915D-F-01 carries the item on the Flagged page. Nothing was invented to close the day, and the page&#x27;s own month strip (8 GAMES) is what proves six is short.</td>
+<td>An owner ruling: a partial day is honest but makes the results page&#x27;s count disagree with the league&#x27;s count for that date, which a reader may read as a data error.</td>
+<td>Owner decides; either ruling is one line in scripts/roll_915d2e99.py (refuse vs publish with partial_day) plus a test. Re-reading the page closes it regardless.</td>
+<td>site owner (policy) — capture re-run is mechanical</td>
+<td><a href="https://www.nba.com/games?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-16</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_results_2026-11-16.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_results_2026-11-16.json</a></td>
+</tr>
+<tr>
+<td>915D-Q-02</td>
+<td>Settlement semantics — quarters not captured</td>
+<td>Is a game settled for grading purposes when the printed final is verified by two official reads but no quarter table was read? 17 games (2026-11-16..18) are in exactly that state.</td>
+<td>open — score settled, quarter-dependent grading withheld</td>
+<td>results_feed.py stamps those rows &#x27;quarter scores not captured — blank, flagged&#x27; and the rows carry no away_q*/home_q* keys at all, so nothing can accidentally read a zero as a score. Side and total grading need only the final; CR-B1-01 (quarter-dependent grading) is blocked on the reads, not on a model.</td>
+<td>The per-game LINESCORES table or statsdmz game book for those 17 games.</td>
+<td>Read each game page&#x27;s LINESCORES block and re-ingest; results_feed.py&#x27;s verify already requires the period sums to equal the final, so a bad transcription fails the gate instead of publishing.</td>
+<td>any session with read access to nba.com game pages</td>
+<td><a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a> · <a href="https://www.nba.com/game/mem-vs-cle-0022600258" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/mem-vs-cle-0022600258</a></td>
+</tr>
+<tr>
+<td>915D-Q-03</td>
+<td>Ledger evidence — duplicate settlement rows</td>
+<td>The published chain holds 67 SETTLED rows for 32 picks because settle() lacked publish()&#x27;s &#x27;already in the chain&#x27; gate. The gate is now in place, but do we keep the 35 extra rows as they are, or publish a derived first-settlement-per-pick view over them?</td>
+<td>open — history preserved, gate added</td>
+<td>Deleting or editing chain rows would be the exact tamper the ledger exists to detect, so the recommendation is to keep them and derive: every current view already keys by pick_id, so nothing double-counts today. 915D-F-04 records the arithmetic (2026-11-15&#x27;s nine picks carry 3 rows each from runs at 11-16T18:37Z, 11-19T06:03Z and 11-19T06:05Z).</td>
+<td>Owner sign-off that a derived view is acceptable for the strategy leaderboard, which must not count entries as games.</td>
+<td>Add `pick_ledger.py first-settled` (or filter in the leaderboard build) and pin it with a test.</td>
+<td>site owner + whoever builds the leaderboard</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/pick_ledger.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/pick_ledger.py</a></td>
+</tr>
+<tr>
+<td>915D-Q-04</td>
+<td>Ownership — promoting the 2026-11-19 injury report</td>
+<td>A machine read of today&#x27;s 12:00 AM official injury report exists (data/rounds/2026-11-19/injury_parsed.json, with injury_delta.json) but the injuries surface and availability block still name 2026-11-15/16 captures. Who promotes it — this session or the integration session that owns the shared injury surface?</td>
+<td>open — deliberately not touched here</td>
+<td>The parse is complete for its two revisions and refuses to give values to lines it could not parse (&#x27;unparsed&#x27; rows stay unparsed). Promotion means writing data/app/official_injuries_* plus the availability snapshot the injuries banner reads — files this session&#x27;s rules put to the integration session, so the correct move was a change request, not an edit.</td>
+<td>A decision on ownership, and the report-availability recompute for 2026-11-19..21.</td>
+<td>CR-915-02 in COORDINATION.md: run the promotion with the existing availability script, then the injury gate, then rebuild; the transcript hashes are already in data/rounds/2026-11-19/manifest.json.</td>
+<td>final integration session</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-19/injury_parsed.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-19/injury_parsed.json</a> · <a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>915D-Q-05</td>
+<td>Site window vs priced blocks</td>
+<td>Rolling data/app/snapshot_manifest.json to the current slate fails 34 rows in tests/test_lines_attribution.py, because the lines/picks block carries a per-row schedule source URL from the window it priced. Should the refresh chain regenerate closing_lines, picks, props and parlays in the same transaction as the manifest re-point?</td>
+<td>open — manifest left on the last fully-priced window</td>
+<td>The slate, results feed (46 rows, all settled), estimator window (19 rows) and ledger are current; only the site&#x27;s window label lags, and it lags on purpose: a row whose source link points at a different date is worse than a page that says &#x27;window 2026-11-15..18&#x27;. 915D-F-07 has the detail.</td>
+<td>A priced window for 2026-11-19..21 — our own lines plus the market anchor — which is a model step, not a pointer change.</td>
+<td>Sequence the refresh so the manifest is re-pointed only after the price files for that window exist.</td>
+<td>integration session (owns the priced surfaces)</td>
+<td><a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/tests/test_lines_attribution.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/tests/test_lines_attribution.py</a></td>
+</tr>
 </tbody></table></div>
 </main>
 <footer class="site-footer">

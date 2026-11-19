@@ -1,0 +1,107 @@
+[
+ {
+  "id": "F-DD3-01",
+  "area": "Results feed / quarter scores",
+  "item": "Quarter scores are not captured for any of the 25 finals in data/rounds/2026-11-19-dd3edd74/results_2026-11-16_18.json (all null).",
+  "why": "The official nba.com date pages print no period table, and a per-game box-score read costs about three fetch chunks per game. The brief requires one row per game with quarter scores; the no-inference rule forbids filling them from anywhere but an official page, so they are published blank and flagged rather than reconstructed.",
+  "severity": "medium",
+  "action_needed": "Capture quarter scores from the official box-score/summary pages for games that still lack them (or accept the blank+flagged rule permanently as policy). The 11/15 game-book transcripts (data/rounds/2026-11-17/captures/) show the per-period table IS available at the game-book level for games where the PDF text layer survives.",
+  "session": "arena/dd3edd74-nba3",
+  "published": "2026-11-19",
+  "status": "Open",
+  "found_on": "2026-11-19 D2 capture round (arena/dd3edd74-nba3, PR #144)",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-18"
+  ]
+ },
+ {
+  "id": "F-DD3-02",
+  "area": "Results feed / OT labelling",
+  "item": "CHA @ LAL on 2026-11-17 is labelled Final/OT (114-118); the OT period itself is not itemised.",
+  "why": "The date page prints 'Final/OT' but no period breakdown, and quarter scores are not captured (see F-DD3-01), so the settlement stamp records the OT label without an OT score.",
+  "severity": "low",
+  "action_needed": "Same capture as F-DD3-01 (box-score period table) if OT itemisation is wanted.",
+  "session": "arena/dd3edd74-nba3",
+  "published": "2026-11-19",
+  "status": "Open",
+  "found_on": "2026-11-19 D2 capture round (arena/dd3edd74-nba3, PR #144)",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-17"
+  ]
+ },
+ {
+  "id": "F-DD3-03",
+  "area": "Results feed / single-read verification",
+  "item": "UTA @ LAL on 2026-11-18 (109-97): the recap-video slug was not printed in the read, so the row is verified by the score table plus the independent b1ce1334 capture only.",
+  "why": "The project rule prefers a final printed identically on two official pages. This row's second in-page read (recap slug) was absent, but b1ce1334's independent capture of the same page agrees (12/12 on 11/18), which is the recorded second read.",
+  "severity": "low",
+  "action_needed": "None required; the cross-capture agreement is recorded on the row. If a recap slug is wanted, re-read the game page.",
+  "session": "arena/dd3edd74-nba3",
+  "published": "2026-11-19",
+  "status": "Open",
+  "found_on": "2026-11-19 D2 capture round (arena/dd3edd74-nba3, PR #144)",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-18"
+  ]
+ },
+ {
+  "id": "F-DD3-04",
+  "area": "Schedule / unusual pairing",
+  "item": "POR and MIN meet on consecutive days: 11/16 (0022600250, POR 98 - MIN 106) and 11/17 (0022600254, POR 105 - MIN 106).",
+  "why": "Both rows are printed on the official date pages and both recap slugs agree with the score table, so the data is verified; the pairing is flagged as unusual scheduling worth knowing when reading rest/back-to-back factors.",
+  "severity": "low",
+  "action_needed": "None; informational. The rest/travel factor computation already treats consecutive-day rematches as back-to-backs.",
+  "session": "arena/dd3edd74-nba3",
+  "published": "2026-11-19",
+  "status": "Open",
+  "found_on": "2026-11-19 D2 capture round (arena/dd3edd74-nba3, PR #144)",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-17"
+  ]
+ },
+ {
+  "id": "F-DD3-05",
+  "area": "Provenance / retrieval timestamps",
+  "item": "The fetch tool returns no per-call timestamp; the retrieval window is the session clock and is labelled approximate.",
+  "why": "The brief requires retrieval time on the banner and per artefact; the best available stamp is the session's UTC clock bracket, which is recorded, but it is not a server-side stamp.",
+  "severity": "low",
+  "action_needed": "When the scheduled hosted refresh runs green, its runner clock provides exact per-fetch stamps; until then session-clock brackets remain the best provenance.",
+  "session": "arena/dd3edd74-nba3",
+  "published": "2026-11-19",
+  "status": "Open",
+  "found_on": "2026-11-19 D2 capture round (arena/dd3edd74-nba3, PR #144)",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-16"
+  ]
+ },
+ {
+  "id": "F-DD3-06",
+  "area": "Ledger / settlement scope",
+  "item": "The dd3edd74 round did not settle the sealed pick ledger (no pick in its claimed scope).",
+  "why": "Scope boundary: the session captured finals but the canonical feed and settlement belong to the integration owner.",
+  "severity": "info",
+  "action_needed": "Done by the integration round: f69a11c4 folded the capture into the feed and settled the two previously-unsettleable picks (0022600250-side-proj, 0022600252-side-proj) once verified finals existed.",
+  "session": "arena/dd3edd74-nba3",
+  "published": "2026-11-19",
+  "status": "Resolved by the f69a11c4 integration round (both picks settled from verified finals)",
+  "found_on": "2026-11-19 D2 capture round (arena/dd3edd74-nba3, PR #144)",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-16"
+  ]
+ },
+ {
+  "id": "F-DD3-07",
+  "area": "Canonical site / staleness",
+  "item": "At the time of the dd3edd74 capture the canonical site was stale: slate window 11/15-11/18, canonical injury snapshot 11/16, canonical results feed through 11/15.",
+  "why": "The scheduled hosted refresh has been red since 11/17 (EVE-F04) and the canonical artefacts are only updated by verified refreshes or explicit promotions.",
+  "severity": "medium",
+  "action_needed": "Largely resolved by the 915d2e99 promotion (slate 11/19-21, finals 11/16-18) integrated by f69a11c4; the injury snapshot staleness remains until the hosted refresh runs green (root cause fixed in #146; next scheduled run is the check).",
+  "session": "arena/dd3edd74-nba3",
+  "published": "2026-11-19",
+  "status": "Mostly resolved by the 915d2e99 promotion; injury-snapshot staleness open until the hosted refresh runs green",
+  "found_on": "2026-11-19 D2 capture round (arena/dd3edd74-nba3, PR #144)",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-19"
+  ]
+ }
+]

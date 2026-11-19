@@ -1,0 +1,92 @@
+[
+ {
+  "id": "F-DE0-01",
+  "area": "Schedule / game id sequence",
+  "item": "Game ids are not chronological: 11/20 rows carry 0022600043-0022600051 while 11/19 carry 0022600270-0022600273 and 11/21 carry 0022600274-0022600279.",
+  "why": "Taken as printed (the id is the join key); not corrected. b1ce1334's independent read labels the out-of-sequence block as NBA Cup group games on nba.com; that labelling is observed on the page, not verified against an official Cup document.",
+  "severity": "low",
+  "action_needed": "None for correctness (ids are join keys, taken verbatim). If Cup-group labelling matters for factor modelling (neutral-site games?), verify against an official NBA Cup schedule source.",
+  "session": "arena/de0caf5d-nba3",
+  "published": "2026-11-19",
+  "status": "Open",
+  "found_on": "2026-11-19 injury-revision round (arena/de0caf5d-nba3, PR #141)",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-20"
+  ]
+ },
+ {
+  "id": "F-DE0-02",
+  "area": "Injury report / index lag",
+  "item": "The official injury-report index lags the CDN: the 12:45 AM ET revision resolved on the CDN at 2026-11-19T05:47Z while the index still listed only the 12:30 AM report at the same time.",
+  "why": "A freshness rule keyed to the index would have missed the newest revision; the capture took the newest revision from the CDN probe instead and recorded both states.",
+  "severity": "medium",
+  "action_needed": "The hosted refresh's injury fetch should probe the CDN for the newest revision and use the index as corroboration, not as the sole freshness source. Until that is implemented, index-only freshness claims are an upper bound.",
+  "session": "arena/de0caf5d-nba3",
+  "published": "2026-11-19",
+  "status": "Open",
+  "found_on": "2026-11-19 injury-revision round (arena/de0caf5d-nba3, PR #141)",
+  "sources": [
+   "https://official.nba.com/nba-injury-report-2026-27-season/"
+  ]
+ },
+ {
+  "id": "F-DE0-03",
+  "area": "Injury archive / gap",
+  "item": "No archived injury revision exists in the repository between 11/16 01:30 PM ET and 11/19 12:30 AM ET.",
+  "why": "The scheduled refresh has been red since 11/17 (EVE-F04), so the 11/17-11/18 filing windows were never captured. The gap is recorded as a gap, not bridged; consecutive-report diffs across it are impossible by construction.",
+  "severity": "high",
+  "action_needed": "Once the hosted refresh runs green again (root cause fixed in #146), archive revisions resume; the gap itself cannot be back-filled because the older revisions are no longer on the CDN. Any strategy whose injury-delta factor claims the 11/17-11/18 window must disclose this hole.",
+  "session": "arena/de0caf5d-nba3",
+  "published": "2026-11-19",
+  "status": "Open",
+  "found_on": "2026-11-19 injury-revision round (arena/de0caf5d-nba3, PR #141)",
+  "sources": [
+   "https://official.nba.com/nba-injury-report-2026-27-season/"
+  ]
+ },
+ {
+  "id": "F-DE0-04",
+  "area": "Injury report / PDF text layer",
+  "item": "12:45 AM revision: 9 POR@MIL rows with date/time blank; 2 rows (Kuminga, Pullin) with matchup and team blank; 6 rows with status missing; 10 keyed rows unreadable in the text layer.",
+  "why": "The stored artefacts are the fetch-tool text layers of the official PDFs (the PDF binary is not reachable from the sandbox), and the text layer drops cells. Unreadable rows are reported as unreadable, never inferred.",
+  "severity": "medium",
+  "action_needed": "When the hosted refresh can fetch PDF binaries, re-parse the same revisions from the real PDFs and reconcile against these text-layer transcriptions.",
+  "session": "arena/de0caf5d-nba3",
+  "published": "2026-11-19",
+  "status": "Open",
+  "found_on": "2026-11-19 injury-revision round (arena/de0caf5d-nba3, PR #141)",
+  "sources": [
+   "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_45AM.pdf"
+  ]
+ },
+ {
+  "id": "F-DE0-05",
+  "area": "Canonical slate / window",
+  "item": "At capture time the committed canonical slate (data/app/official_slate_current.json) covered 11/15-11/18 and was stale for the 11/19-11/21 window.",
+  "why": "Nothing downstream had been rebuilt for the new window at the time of the de0caf5d capture.",
+  "severity": "info",
+  "action_needed": "Resolved by the 915d2e99 promotion to 11/19-21 (integrated by f69a11c4); the rolling window advances with each verified promotion or hosted refresh.",
+  "session": "arena/de0caf5d-nba3",
+  "published": "2026-11-19",
+  "status": "Resolved by the 915d2e99 promotion to the 11/19-21 window",
+  "found_on": "2026-11-19 injury-revision round (arena/de0caf5d-nba3, PR #141)",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-19"
+  ]
+ },
+ {
+  "id": "F-DE0-06",
+  "area": "Results / record currency",
+  "item": "Records printed on the nba.com games pages are as of the retrieval time and are not reconciled with the 11/16 snapshot.",
+  "why": "The pages print each team's season record next to the game; those strings were read but not re-derived from a standings source in that round.",
+  "severity": "low",
+  "action_needed": "The standings feed (data/live/standings.json) is the canonical W/L source; when the hosted refresh runs green it re-reads standings and the reconciliation can be automated.",
+  "session": "arena/de0caf5d-nba3",
+  "published": "2026-11-19",
+  "status": "Open",
+  "found_on": "2026-11-19 injury-revision round (arena/de0caf5d-nba3, PR #141)",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-19"
+  ]
+ }
+]

@@ -24,7 +24,12 @@ import sys
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUT_DIR = os.path.join(ROOT, "data", "rounds", "2026-11-19-dd3edd74")
 OUT = os.path.join(OUT_DIR, "results_2026-11-16_18.json")
-SLATE = os.path.join(ROOT, "data", "app", "official_slate_current.json")
+# The cross-check is pinned to the FROZEN 2026-11-15..18 window the capture was verified against,
+# not the rolling canonical slate: the canonical file legitimately advances each round (it held
+# 2026-11-19..21 after the 915d2e99 promotion, which made this historical re-check fail). The
+# frozen copy is the byte-exact `data/app/official_slate_current.json` of commit 454a7ee, kept
+# beside the capture so the verification stays replayable forever. (integration, f69a11c4 G3)
+SLATE = os.path.join(ROOT, "data", "rounds", "2026-11-19-dd3edd74", "slate_reference_1115_1118.json")
 B1CE = os.path.join(ROOT, "data", "rounds", "2026-11-19", "results_2026-11-18.json")
 
 # Count printed in the calendar cell of each date on the official date page (e.g. "16<br>8<br>GAMES").

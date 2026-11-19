@@ -109,11 +109,31 @@ def _load_new():
     NEW["gates"] = rd("data/app/gate_report.json", {"gates": []})
     NEW["closing"] = rd("data/app/closing_lines.json", {})
     NEW["flags_session"] = (rd("data/app/flags_79341829.json", [])
-                           + rd("data/app/flags_4054e125.json", []))
+                           + rd("data/app/flags_4054e125.json", [])
+                           # session arena/915d2e99-nba3: the 2026-11-19 promotion round's flags
+                           # (partial 11/16 day, missing quarter reads, the deploy-time feed reset
+                           # and the duplicate-settlement history). Each session appends its own
+                           # data/app/flags_<session>.json; the generator never hand-writes output.
+                           + rd("data/app/flags_915d2e99.json", [])
+                           # sessions arena/dd3edd74-nba3 (D2 capture round) and arena/de0caf5d-nba3
+                           # (11/19 injury revisions round), transcribed from their completion
+                           # records on COORDINATION.md by the f69a11c4 integration round; the
+                           # de0caf5d archive-fold request (CR-DE0-01/02) is deferred with reason —
+                           # freshness gate F2 requires "model used == newest archived report", so
+                           # the 11/19 transcripts fold into the canonical archive only together
+                           # with the model-input re-cut, which is the scheduled refresh's atomic
+                           # job (unblocked by PR #146).
+                           + rd("data/app/flags_dd3edd74.json", [])
+                           + rd("data/app/flags_de0caf5d.json", []))
     NEW["questions_session"] = (rd("data/app/questions_79341829.json", [])
-                                + rd("data/app/questions_4054e125.json", []))
+                                + rd("data/app/questions_4054e125.json", [])
+                                # session arena/915d2e99-nba3: five questions from the 2026-11-19
+                                # promotion round (partial-day policy, quarter-less settlement, ledger
+                                # duplicates, injury-promotion ownership, priced-window coupling)
+                                + rd("data/app/questions_915d2e99.json", []))
     NEW["suggestions_session"] = (rd("data/app/suggestions_79341829.json", [])
-                                  + rd("data/app/suggestions_4054e125.json", []))
+                                  + rd("data/app/suggestions_4054e125.json", [])
+                                  + rd("data/app/suggestions_915d2e99.json", []))
     NEW["standings"] = rd("data/live/standings.json", {"teams": {}})
     NEW["inj_deltas"] = rd("data/live/injuries/deltas.json", {"deltas": []})
     NEW["inj_archive"] = rd("data/live/injuries/archive_index.json",
@@ -1539,7 +1559,17 @@ official index four times a day, but the latest observed run failed before fetch
 and a separately archived
 <a href="{de0_report_record}" target="_blank" rel="noopener noreferrer">12:45 AM ET report and comparison record</a>
 with its <a href="{de0_report_pdf}" target="_blank" rel="noopener noreferrer">official PDF</a>.
-These records remain outside the canonical model inputs on this page; their capture/parser flags
+Verbatim transcripts of all four 2026-11-19 filing-window revisions (12:00, 12:15, 12:30 and
+12:45 AM ET) are stored in the repository under
+<a href="{REPO_URL}/blob/main/data/rounds/2026-11-19/" target="_blank" rel="noopener noreferrer">data/rounds/2026-11-19/</a>
+(12:00–12:30, session b1ce1334) and
+<a href="{REPO_URL}/blob/main/data/rounds/2026-11-19-de0caf5d/" target="_blank" rel="noopener noreferrer">data/rounds/2026-11-19-de0caf5d/</a>
+(12:45 and its consecutive-report diff, session de0caf5d); their consecutive-report diffs and
+sha256 manifests are in those trees. They are not folded into the consolidated archive yet:
+freshness gate F2 requires the model's archived report and the newest archived report to be the
+same file, so the fold happens together with the model-input re-cut on the next verified refresh
+(root cause of the red refresh fixed in PR #146). These records remain outside the canonical
+model inputs on this page; their capture/parser flags
 must be read before interpreting any row. No current player status is asserted here.</p>
 </div>
 <div class="callout warn">

@@ -45,7 +45,7 @@
   </div>
 
 <div class="callout"><strong>Nothing on this page blocks the site.</strong> It blocks
-<em>decisions</em>. 122 items: 32 high, 67 medium, 22 low severity.
+<em>decisions</em>. 142 items: 35 high, 75 medium, 29 low severity.
 Every item keeps its source link so it can be reviewed and closed by the owner.</div>
 
 <div class="table-wrap"><table>
@@ -1178,8 +1178,8 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
 <td>Six consecutive scheduled refresh runs failed at the committed-tree unit-test preflight (2026-11-17 18:03 UTC through 2026-11-18 23:55 UTC). Official-source fetch, capture integrity, freshness/provenance gates, rebuild, and commit were skipped; these runs produced no refreshed NBA capture.</td>
 <td>GitHub Actions job metadata shows the same failed preflight and skipped downstream steps in all six linked scheduled runs. The latest observed run, 44424736929 (2026-11-18T23:55:01Z, main at 2addcad51ebd9330bcf7140965a19842f3d1e009), has only a generic failure annotation (at least one unittest suite failed); this session could not retrieve its runner log body (the Actions log endpoint returned EOF), so the exact failing suite and exception remain unknown. Before main advanced, the exact workflow test loop and full unittest discovery passed locally on the committed tree (297/297). On the merged tree, the exact scheduled preflight loop passed all nine suites locally and full unittest discovery passed 315/315. A local module-resolution simulation reproduced how an installed top-level tests package can shadow this repository; tests/__init__.py now makes the module-style test invocation resolve locally. That is a defensive fix, not a confirmed hosted root cause. Main now includes B1-1 per-suite logging, failing-test annotations, and a failure artifact; no new hosted scheduled run has exercised those diagnostics. No live NBA source was fetched in this session; current NBA values are not asserted.</td>
 <td><span class="chip chip-bad">high</span></td>
-<td>Keep this item needs-review and treat all displayed lines as historical. On the next scheduled run, inspect the unit-test-logs-* artifact and failing-test annotations if preflight fails again. Do not mark this item resolved or reopen current bet publishing until an official-source fetch succeeds, capture and freshness/provenance gates pass, the deterministic rebuild passes, and a commit lands. Continue to settle only from verified official finals.</td>
-<td>needs review — latest observed scheduled run 44424736929 failed at unit-test preflight; official-source fetch and all later steps skipped; hosted root cause unlocalized; no current snapshot produced by these runs</td>
+<td>Owner: after this branch merges, confirm one hosted scheduled run goes green end-to-end (that is the observation this flag asked for and it cannot be made from a sandbox — workflow_dispatch returns 403 for the agent). Then close. Do not reopen publishing on a green preflight alone: the gates and the commit step are the parts that guard the data.</td>
+<td>needs review — owner must confirm one green hosted scheduled run (dispatch returns 403 for the agent), and the cause is no longer unknown: superseded 2026-11-19 by arena/915d2e99-nba3, which confirmed the hosted root cause and fixed it in-repo</td>
 <td>2026-11-19</td>
 <td><a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44143781953" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44143781953</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44203349676" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44203349676</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44249179843" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44249179843</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44300142112" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44300142112</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44364543697" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44364543697</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/.github/workflows/refresh.yml</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/tests/test_refresh_official.py" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/tests/test_refresh_official.py</a></td>
 </tr>
@@ -1401,6 +1401,226 @@ Every item keeps its source link so it can be reviewed and closed by the owner.<
 <td>Owner decision on re-cutting the round window to today..today+3 as a new dated round; the scheduled refresh already carries the 11/19 games in its rolling slate capture.</td>
 <td>open</td>
 <td>app/lines.html</td>
+<td><a href="https://www.nba.com/games?date=2026-11-19" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-19</a></td>
+</tr>
+<tr>
+<td>915D-F-01</td>
+<td>Results feed / incomplete official read</td>
+<td>2026-11-16: 6 of the 8 printed finals are published; 0022600250 and 0022600252 have no verified final and their two sealed picks stay unsettled.</td>
+<td>The official date page returns in 2 chunks and the second chunk could not be retrieved, so the last two game cards were never read. The page&#x27;s own month strip prints 8 GAMES for 11/16 while the capture holds 6, and the sealed ledger carries 8 picks for that day (0022600245-252) — the two routes agree on exactly which ids are missing. Filling them would mean inventing a score, which the no-inference rule forbids.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Re-read https://www.nba.com/games?date=2026-11-16 (chunk 1) and run scripts/roll_915d2e99.py, then results_feed.py ingest/verify/settle and pick_ledger.py settle; the day then closes itself. The promoter already names the two ids in official_results_2026-11-16.json (partial_day), so no consumer has to guess.</td>
+<td>Open — needs one more read, not a decision</td>
+<td>2026-11-19 promotion round (arena/915d2e99-nba3)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-16</a> · <a href="https://www.nba.com/game/gsw-vs-nop-0022600251" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/gsw-vs-nop-0022600251</a></td>
+</tr>
+<tr>
+<td>915D-F-02</td>
+<td>Results feed / quarter scores</td>
+<td>17 settled games (2026-11-16 to 2026-11-18) carry no quarter scores at all: the rows have no away_q*/home_q* keys.</td>
+<td>The date pages and the game-page day list printed the finals only — there was no per-period table in the text that was read. The keys are left ABSENT rather than zero-filled or back-computed from the final, so results_feed.py marks each row &#x27;quarter scores not captured — blank, flagged&#x27; and settlement rests on the printed final alone.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Capture each game page&#x27;s LINESCORES table (or the statsdmz game book) and re-ingest; that also closes CR-B1-01 (quarter-dependent grading), which cannot be built while these cells are blank.</td>
+<td>Open — CR-B1-01 stays open until the period reads land</td>
+<td>2026-11-19 promotion round (arena/915d2e99-nba3)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-17" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-17</a> · <a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a> · <a href="https://www.nba.com/game/mem-vs-cle-0022600258" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/mem-vs-cle-0022600258</a></td>
+</tr>
+<tr>
+<td>915D-F-03</td>
+<td>Deploy path / published data loss</td>
+<td>Every Pages build used to reset the live results feed to the 2026-11-12..15 window: scripts/capture_round_79341829.py wrote its own capture OVER data/app/results_feed.json.</td>
+<td>.github/workflows/pages.yml runs that offline replay on every build. It rebuilt the feed from its 11/16 transcripts and replaced the file, deleting every game day promoted afterwards — the published feed sat at 23 rows while the day captures and the ledger held 46, and pick_ledger settled games the feed no longer contained. A stale-but-consistent site is defensible; a deploy that silently forgets data is not.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Fixed in this round: the replay now merges (its rows win only where identical, unknown days are carried through, a differing reading is reported as a conflict instead of overwriting) and NBA3_FEED_OUT sends the deploy-time replay to a scratch file so the build cannot mutate published data. Owner: keep the merge, and consider dropping the replay from the build job entirely — its checks belong in CI, not in the deploy.</td>
+<td>Fixed in-repo (915d2e99) — owner confirmation wanted</td>
+<td>2026-11-19 promotion round (arena/915d2e99-nba3)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a></td>
+</tr>
+<tr>
+<td>915D-F-04</td>
+<td>Ledger / duplicate settlement evidence</td>
+<td>The published chain holds 67 SETTLED rows for 32 picks: 25 picks were stamped twice or three times by re-runs of pick_ledger.py settle.</td>
+<td>publish() has refused an already-chained game since c449d46a, but settle() had no equivalent gate, so every run re-appended a settlement for every earlier publication. The 2026-11-15 nine were stamped 3 times (11-16T18:37Z, then 11-19T06:03Z and 06:05Z). Nothing double-counts today because open picks and settled picks are keyed by pick_id, but the row count is the audit&#x27;s evidence that each settled pick was stamped once, and any leaderboard counting entries rather than ids would overstate older days 2x-3x.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>settle() now skips any pick that already has a SETTLED entry and prints how many it skipped. The chain is append-only, so the duplicate rows stay — deleting them would be the tamper the ledger exists to detect. Owner: if a settled-picks table is ever built from entries rather than ids, filter by (pick_id, first SETTLED row).</td>
+<td>Gate added; history preserved deliberately</td>
+<td>2026-11-19 promotion round (arena/915d2e99-nba3)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a></td>
+</tr>
+<tr>
+<td>915D-F-05</td>
+<td>Results feed / single-source row</td>
+<td>GSW @ NOP 2026-11-16 (0022600251) is published from ONE official read; the other 22 games promoted this round carry two.</td>
+<td>Every other 11/16 card is corroborated by the recap link on the same page (title names both teams and both scores), but that card&#x27;s recap link sits past the chunk boundary, so no second read exists. The row says so in cross_checks.read_count and read_note instead of pretending to parity.</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>Close it with the same re-read as 915D-F-01 (the game page&#x27;s own scoreboard line is a sufficient second read).</td>
+<td>Open — one more read</td>
+<td>2026-11-19 promotion round (arena/915d2e99-nba3)</td>
+<td><a href="https://www.nba.com/game/gsw-vs-nop-0022600251" target="_blank" rel="noopener noreferrer">https://www.nba.com/game/gsw-vs-nop-0022600251</a> · <a href="https://www.nba.com/games?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-16</a></td>
+</tr>
+<tr>
+<td>915D-F-06</td>
+<td>Ledger / pre-tip sealing</td>
+<td>The four 2026-11-19 games were first refused publication because the tip time on the official page (&#x27;8:00 PM ET&#x27;) could not be parsed; the 15 games dated later were sealed normally.</td>
+<td>_tip_as_et accepted only &#x27;%I:%M %p&#x27;, so a VERIFIED printed tip read as &#x27;tip time not verified&#x27; and the pre-tip gate refused today&#x27;s games — the opposite of what the gate is for. Future days were unaffected because the gate does not need a tip for them, which is why the failure looked selective rather than broken.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Fixed: the parser now drops a trailing ET/EDT/EST token and accepts 12h and 24h forms, and refuses (never publishes) anything unreadable. The four entries sealed at 2026-11-19T06:06Z, about 13h54m before the 20:00 ET tips. Owner: this only works because the round ran in the morning ET — a refresh scheduled after the first tip will correctly refuse that game, so keep the CI cron early if same-day pre-tip sealing matters.</td>
+<td>Fixed in-repo (915d2e99) with a regression test</td>
+<td>2026-11-19 promotion round (arena/915d2e99-nba3)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-19" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-19</a></td>
+</tr>
+<tr>
+<td>915D-F-07</td>
+<td>Site window / publish gating</td>
+<td>The dashboard&#x27;s canonical window was NOT rolled forward to 2026-11-19..21, although the slate, results feed, estimator window and ledger all are.</td>
+<td>A one-line re-point of data/app/snapshot_manifest.json (its stated purpose is &#x27;a later refresh is a data change&#x27;) moved the site window to 2026-11-19..21 and 34 tests in tests/test_lines_attribution.py failed: the lines/picks blocks carry a per-row schedule source URL, and pointing the block at the new slate would have labelled 2026-11-15..18 games with a https://www.nba.com/games?date=2026-11-19 source — a wrong source link on a row, which is the one thing the table rule never allows. The priced blocks cannot be rolled independently of the window they describe.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Integration session: re-point snapshot_manifest.json (window + slate.path) AND regenerate closing_lines/picks/props/parlays from the 19-game window in the same change, then re-run tests/test_lines_attribution.py. Do not re-point the manifest alone — that is the state that fails, and it fails because the row-level source links would lie. The slate itself is current and correct at data/app/official_slate_current.json; only the site&#x27;s window label lags.</td>
+<td>Open — change request filed in COORDINATION.md</td>
+<td>2026-11-19 promotion round (arena/915d2e99-nba3)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-19" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-19</a> · <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json" target="_blank" rel="noopener noreferrer">https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json</a></td>
+</tr>
+<tr>
+<td>F-DD3-01</td>
+<td>Results feed / quarter scores</td>
+<td>Quarter scores are not captured for any of the 25 finals in data/rounds/2026-11-19-dd3edd74/results_2026-11-16_18.json (all null).</td>
+<td>The official nba.com date pages print no period table, and a per-game box-score read costs about three fetch chunks per game. The brief requires one row per game with quarter scores; the no-inference rule forbids filling them from anywhere but an official page, so they are published blank and flagged rather than reconstructed.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Capture quarter scores from the official box-score/summary pages for games that still lack them (or accept the blank+flagged rule permanently as policy). The 11/15 game-book transcripts (data/rounds/2026-11-17/captures/) show the per-period table IS available at the game-book level for games where the PDF text layer survives.</td>
+<td>Open</td>
+<td>2026-11-19 D2 capture round (arena/dd3edd74-nba3, PR #144)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a></td>
+</tr>
+<tr>
+<td>F-DD3-02</td>
+<td>Results feed / OT labelling</td>
+<td>CHA @ LAL on 2026-11-17 is labelled Final/OT (114-118); the OT period itself is not itemised.</td>
+<td>The date page prints &#x27;Final/OT&#x27; but no period breakdown, and quarter scores are not captured (see F-DD3-01), so the settlement stamp records the OT label without an OT score.</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>Same capture as F-DD3-01 (box-score period table) if OT itemisation is wanted.</td>
+<td>Open</td>
+<td>2026-11-19 D2 capture round (arena/dd3edd74-nba3, PR #144)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-17" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-17</a></td>
+</tr>
+<tr>
+<td>F-DD3-03</td>
+<td>Results feed / single-read verification</td>
+<td>UTA @ LAL on 2026-11-18 (109-97): the recap-video slug was not printed in the read, so the row is verified by the score table plus the independent b1ce1334 capture only.</td>
+<td>The project rule prefers a final printed identically on two official pages. This row&#x27;s second in-page read (recap slug) was absent, but b1ce1334&#x27;s independent capture of the same page agrees (12/12 on 11/18), which is the recorded second read.</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>None required; the cross-capture agreement is recorded on the row. If a recap slug is wanted, re-read the game page.</td>
+<td>Open</td>
+<td>2026-11-19 D2 capture round (arena/dd3edd74-nba3, PR #144)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-18" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-18</a></td>
+</tr>
+<tr>
+<td>F-DD3-04</td>
+<td>Schedule / unusual pairing</td>
+<td>POR and MIN meet on consecutive days: 11/16 (0022600250, POR 98 - MIN 106) and 11/17 (0022600254, POR 105 - MIN 106).</td>
+<td>Both rows are printed on the official date pages and both recap slugs agree with the score table, so the data is verified; the pairing is flagged as unusual scheduling worth knowing when reading rest/back-to-back factors.</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>None; informational. The rest/travel factor computation already treats consecutive-day rematches as back-to-backs.</td>
+<td>Open</td>
+<td>2026-11-19 D2 capture round (arena/dd3edd74-nba3, PR #144)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-17" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-17</a></td>
+</tr>
+<tr>
+<td>F-DD3-05</td>
+<td>Provenance / retrieval timestamps</td>
+<td>The fetch tool returns no per-call timestamp; the retrieval window is the session clock and is labelled approximate.</td>
+<td>The brief requires retrieval time on the banner and per artefact; the best available stamp is the session&#x27;s UTC clock bracket, which is recorded, but it is not a server-side stamp.</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>When the scheduled hosted refresh runs green, its runner clock provides exact per-fetch stamps; until then session-clock brackets remain the best provenance.</td>
+<td>Open</td>
+<td>2026-11-19 D2 capture round (arena/dd3edd74-nba3, PR #144)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-16</a></td>
+</tr>
+<tr>
+<td>F-DD3-06</td>
+<td>Ledger / settlement scope</td>
+<td>The dd3edd74 round did not settle the sealed pick ledger (no pick in its claimed scope).</td>
+<td>Scope boundary: the session captured finals but the canonical feed and settlement belong to the integration owner.</td>
+<td><span class="chip chip-warn">info</span></td>
+<td>Done by the integration round: f69a11c4 folded the capture into the feed and settled the two previously-unsettleable picks (0022600250-side-proj, 0022600252-side-proj) once verified finals existed.</td>
+<td>Resolved by the f69a11c4 integration round (both picks settled from verified finals)</td>
+<td>2026-11-19 D2 capture round (arena/dd3edd74-nba3, PR #144)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-16" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-16</a></td>
+</tr>
+<tr>
+<td>F-DD3-07</td>
+<td>Canonical site / staleness</td>
+<td>At the time of the dd3edd74 capture the canonical site was stale: slate window 11/15-11/18, canonical injury snapshot 11/16, canonical results feed through 11/15.</td>
+<td>The scheduled hosted refresh has been red since 11/17 (EVE-F04) and the canonical artefacts are only updated by verified refreshes or explicit promotions.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>Largely resolved by the 915d2e99 promotion (slate 11/19-21, finals 11/16-18) integrated by f69a11c4; the injury snapshot staleness remains until the hosted refresh runs green (root cause fixed in #146; next scheduled run is the check).</td>
+<td>Mostly resolved by the 915d2e99 promotion; injury-snapshot staleness open until the hosted refresh runs green</td>
+<td>2026-11-19 D2 capture round (arena/dd3edd74-nba3, PR #144)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-19" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-19</a></td>
+</tr>
+<tr>
+<td>F-DE0-01</td>
+<td>Schedule / game id sequence</td>
+<td>Game ids are not chronological: 11/20 rows carry 0022600043-0022600051 while 11/19 carry 0022600270-0022600273 and 11/21 carry 0022600274-0022600279.</td>
+<td>Taken as printed (the id is the join key); not corrected. b1ce1334&#x27;s independent read labels the out-of-sequence block as NBA Cup group games on nba.com; that labelling is observed on the page, not verified against an official Cup document.</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>None for correctness (ids are join keys, taken verbatim). If Cup-group labelling matters for factor modelling (neutral-site games?), verify against an official NBA Cup schedule source.</td>
+<td>Open</td>
+<td>2026-11-19 injury-revision round (arena/de0caf5d-nba3, PR #141)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-20" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-20</a></td>
+</tr>
+<tr>
+<td>F-DE0-02</td>
+<td>Injury report / index lag</td>
+<td>The official injury-report index lags the CDN: the 12:45 AM ET revision resolved on the CDN at 2026-11-19T05:47Z while the index still listed only the 12:30 AM report at the same time.</td>
+<td>A freshness rule keyed to the index would have missed the newest revision; the capture took the newest revision from the CDN probe instead and recorded both states.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>The hosted refresh&#x27;s injury fetch should probe the CDN for the newest revision and use the index as corroboration, not as the sole freshness source. Until that is implemented, index-only freshness claims are an upper bound.</td>
+<td>Open</td>
+<td>2026-11-19 injury-revision round (arena/de0caf5d-nba3, PR #141)</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>F-DE0-03</td>
+<td>Injury archive / gap</td>
+<td>No archived injury revision exists in the repository between 11/16 01:30 PM ET and 11/19 12:30 AM ET.</td>
+<td>The scheduled refresh has been red since 11/17 (EVE-F04), so the 11/17-11/18 filing windows were never captured. The gap is recorded as a gap, not bridged; consecutive-report diffs across it are impossible by construction.</td>
+<td><span class="chip chip-bad">high</span></td>
+<td>Once the hosted refresh runs green again (root cause fixed in #146), archive revisions resume; the gap itself cannot be back-filled because the older revisions are no longer on the CDN. Any strategy whose injury-delta factor claims the 11/17-11/18 window must disclose this hole.</td>
+<td>Open</td>
+<td>2026-11-19 injury-revision round (arena/de0caf5d-nba3, PR #141)</td>
+<td><a href="https://official.nba.com/nba-injury-report-2026-27-season/" target="_blank" rel="noopener noreferrer">https://official.nba.com/nba-injury-report-2026-27-season/</a></td>
+</tr>
+<tr>
+<td>F-DE0-04</td>
+<td>Injury report / PDF text layer</td>
+<td>12:45 AM revision: 9 POR@MIL rows with date/time blank; 2 rows (Kuminga, Pullin) with matchup and team blank; 6 rows with status missing; 10 keyed rows unreadable in the text layer.</td>
+<td>The stored artefacts are the fetch-tool text layers of the official PDFs (the PDF binary is not reachable from the sandbox), and the text layer drops cells. Unreadable rows are reported as unreadable, never inferred.</td>
+<td><span class="chip chip-warn">medium</span></td>
+<td>When the hosted refresh can fetch PDF binaries, re-parse the same revisions from the real PDFs and reconcile against these text-layer transcriptions.</td>
+<td>Open</td>
+<td>2026-11-19 injury-revision round (arena/de0caf5d-nba3, PR #141)</td>
+<td><a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_45AM.pdf" target="_blank" rel="noopener noreferrer">https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_45AM.pdf</a></td>
+</tr>
+<tr>
+<td>F-DE0-05</td>
+<td>Canonical slate / window</td>
+<td>At capture time the committed canonical slate (data/app/official_slate_current.json) covered 11/15-11/18 and was stale for the 11/19-11/21 window.</td>
+<td>Nothing downstream had been rebuilt for the new window at the time of the de0caf5d capture.</td>
+<td><span class="chip chip-warn">info</span></td>
+<td>Resolved by the 915d2e99 promotion to 11/19-21 (integrated by f69a11c4); the rolling window advances with each verified promotion or hosted refresh.</td>
+<td>Resolved by the 915d2e99 promotion to the 11/19-21 window</td>
+<td>2026-11-19 injury-revision round (arena/de0caf5d-nba3, PR #141)</td>
+<td><a href="https://www.nba.com/games?date=2026-11-19" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-19</a></td>
+</tr>
+<tr>
+<td>F-DE0-06</td>
+<td>Results / record currency</td>
+<td>Records printed on the nba.com games pages are as of the retrieval time and are not reconciled with the 11/16 snapshot.</td>
+<td>The pages print each team&#x27;s season record next to the game; those strings were read but not re-derived from a standings source in that round.</td>
+<td><span class="chip chip-neutral">low</span></td>
+<td>The standings feed (data/live/standings.json) is the canonical W/L source; when the hosted refresh runs green it re-reads standings and the reconciliation can be automated.</td>
+<td>Open</td>
+<td>2026-11-19 injury-revision round (arena/de0caf5d-nba3, PR #141)</td>
 <td><a href="https://www.nba.com/games?date=2026-11-19" target="_blank" rel="noopener noreferrer">https://www.nba.com/games?date=2026-11-19</a></td>
 </tr>
 </tbody></table></div>

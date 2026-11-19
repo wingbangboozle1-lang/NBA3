@@ -1,0 +1,72 @@
+[
+ {
+  "id": "915D-Q-01",
+  "category": "Publishing policy — incomplete official read",
+  "question": "When an official page is delivered in chunks and one chunk cannot be retrieved, should the day be published incomplete (what happened on 2026-11-16: 6 of 8 finals) or refused entirely?",
+  "status": "open — currently published incomplete",
+  "known": "The promoter publishes the day, names the two missing game ids in data/app/official_results_2026-11-16.json (partial_day) and leaves those two picks unsettled; 915D-F-01 carries the item on the Flagged page. Nothing was invented to close the day, and the page's own month strip (8 GAMES) is what proves six is short.",
+  "missing": "An owner ruling: a partial day is honest but makes the results page's count disagree with the league's count for that date, which a reader may read as a data error.",
+  "next_step": "Owner decides; either ruling is one line in scripts/roll_915d2e99.py (refuse vs publish with partial_day) plus a test. Re-reading the page closes it regardless.",
+  "owner": "site owner (policy) — capture re-run is mechanical",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-16",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/official_results_2026-11-16.json"
+  ]
+ },
+ {
+  "id": "915D-Q-02",
+  "category": "Settlement semantics — quarters not captured",
+  "question": "Is a game settled for grading purposes when the printed final is verified by two official reads but no quarter table was read? 17 games (2026-11-16..18) are in exactly that state.",
+  "status": "open — score settled, quarter-dependent grading withheld",
+  "known": "results_feed.py stamps those rows 'quarter scores not captured — blank, flagged' and the rows carry no away_q*/home_q* keys at all, so nothing can accidentally read a zero as a score. Side and total grading need only the final; CR-B1-01 (quarter-dependent grading) is blocked on the reads, not on a model.",
+  "missing": "The per-game LINESCORES table or statsdmz game book for those 17 games.",
+  "next_step": "Read each game page's LINESCORES block and re-ingest; results_feed.py's verify already requires the period sums to equal the final, so a bad transcription fails the gate instead of publishing.",
+  "owner": "any session with read access to nba.com game pages",
+  "sources": [
+   "https://www.nba.com/games?date=2026-11-18",
+   "https://www.nba.com/game/mem-vs-cle-0022600258"
+  ]
+ },
+ {
+  "id": "915D-Q-03",
+  "category": "Ledger evidence — duplicate settlement rows",
+  "question": "The published chain holds 67 SETTLED rows for 32 picks because settle() lacked publish()'s 'already in the chain' gate. The gate is now in place, but do we keep the 35 extra rows as they are, or publish a derived first-settlement-per-pick view over them?",
+  "status": "open — history preserved, gate added",
+  "known": "Deleting or editing chain rows would be the exact tamper the ledger exists to detect, so the recommendation is to keep them and derive: every current view already keys by pick_id, so nothing double-counts today. 915D-F-04 records the arithmetic (2026-11-15's nine picks carry 3 rows each from runs at 11-16T18:37Z, 11-19T06:03Z and 11-19T06:05Z).",
+  "missing": "Owner sign-off that a derived view is acceptable for the strategy leaderboard, which must not count entries as games.",
+  "next_step": "Add `pick_ledger.py first-settled` (or filter in the leaderboard build) and pin it with a test.",
+  "owner": "site owner + whoever builds the leaderboard",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/scripts/pick_ledger.py"
+  ]
+ },
+ {
+  "id": "915D-Q-04",
+  "category": "Ownership — promoting the 2026-11-19 injury report",
+  "question": "A machine read of today's 12:00 AM official injury report exists (data/rounds/2026-11-19/injury_parsed.json, with injury_delta.json) but the injuries surface and availability block still name 2026-11-15/16 captures. Who promotes it — this session or the integration session that owns the shared injury surface?",
+  "status": "open — deliberately not touched here",
+  "known": "The parse is complete for its two revisions and refuses to give values to lines it could not parse ('unparsed' rows stay unparsed). Promotion means writing data/app/official_injuries_* plus the availability snapshot the injuries banner reads — files this session's rules put to the integration session, so the correct move was a change request, not an edit.",
+  "missing": "A decision on ownership, and the report-availability recompute for 2026-11-19..21.",
+  "next_step": "CR-915-02 in COORDINATION.md: run the promotion with the existing availability script, then the injury gate, then rebuild; the transcript hashes are already in data/rounds/2026-11-19/manifest.json.",
+  "owner": "final integration session",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-19/injury_parsed.json",
+   "https://official.nba.com/nba-injury-report-2026-27-season/"
+  ]
+ },
+ {
+  "id": "915D-Q-05",
+  "category": "Site window vs priced blocks",
+  "question": "Rolling data/app/snapshot_manifest.json to the current slate fails 34 rows in tests/test_lines_attribution.py, because the lines/picks block carries a per-row schedule source URL from the window it priced. Should the refresh chain regenerate closing_lines, picks, props and parlays in the same transaction as the manifest re-point?",
+  "status": "open — manifest left on the last fully-priced window",
+  "known": "The slate, results feed (46 rows, all settled), estimator window (19 rows) and ledger are current; only the site's window label lags, and it lags on purpose: a row whose source link points at a different date is worse than a page that says 'window 2026-11-15..18'. 915D-F-07 has the detail.",
+  "missing": "A priced window for 2026-11-19..21 — our own lines plus the market anchor — which is a model step, not a pointer change.",
+  "next_step": "Sequence the refresh so the manifest is re-pointed only after the price files for that window exist.",
+  "owner": "integration session (owns the priced surfaces)",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/snapshot_manifest.json",
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/tests/test_lines_attribution.py"
+  ]
+ }
+]
