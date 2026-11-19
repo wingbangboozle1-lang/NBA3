@@ -222,6 +222,33 @@ class Capture04a81bce(unittest.TestCase):
                 self.assertAlmostEqual(sum(shares), 1.0, places=2)
                 self.assertIn("flagged/unverified", b["note"])
 
+    # ---- O5 prereg + ledger ---------------------------------------------
+    def test_prereg_files_frozen_and_untampered(self):
+        import hashlib
+        prereg = ROOT / "data" / "app" / "prereg"
+        files = [f for f in prereg.iterdir() if f.suffix == ".json"]
+        self.assertGreaterEqual(len(files), 15)
+        for f in files:
+            doc = json.loads(f.read_text(encoding="utf-8"))
+            expect = hashlib.sha256(json.dumps(
+                {k: v for k, v in doc.items() if k != "sha256"},
+                sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+            self.assertEqual(doc.get("sha256"), expect, f"{f.name} tampered")
+            self.assertTrue(doc.get("frozen_before_first_bet"))
+            self.assertIn("settlement_rule", doc)
+
+    def test_ledger_hash_publication_check(self):
+        out = cap.ledger_hash_check()
+        self.assertTrue(out["chain_intact"], out["problems"])
+        self.assertEqual(out["problems"], [])
+        self.assertGreaterEqual(out["entries"], 43)
+        for r in out["rows"]:
+            if r["state"] == "PUBLISHED_PRE_TIP":
+                self.assertTrue(r["hash_published_pre_tip"], r)
+            else:
+                self.assertTrue(r["hash_verified_at_settlement"], r)
+                self.assertTrue(r["settlement_stamp"])
+
 
 if __name__ == "__main__":
     unittest.main()

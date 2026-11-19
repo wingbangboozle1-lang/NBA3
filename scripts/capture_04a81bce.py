@@ -548,6 +548,87 @@ def recut(games, injury):
 
 
 # --------------------------------------------------------------------------
+# O5 ledger-hash publication check
+# --------------------------------------------------------------------------
+
+def ledger_hash_check():
+    """Verify data/app/ledger/ledger.jsonl: chain integrity, pre-tip
+    publication (hash published before tip-off) and hash verification at
+    settlement. Output rows leave nothing inferred."""
+    import hashlib
+
+    def sha_entry(obj):
+        return hashlib.sha256(json.dumps(
+            obj, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+    path = ROOT / "data" / "app" / "ledger" / "ledger.jsonl"
+    entries = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()
+               if line.strip()]
+    problems, rows = [], []
+    prev = "0" * 64
+    published_hashes = {}
+    for i, e in enumerate(entries):
+        body = e.get("body") or {}
+        expect = sha_entry({"prev": prev, "body": body})
+        if expect != e.get("entry_hash"):
+            problems.append(f"entry {i}: entry_hash does not recompute")
+        if e.get("prev_hash") != prev:
+            problems.append(f"entry {i}: prev_hash does not chain")
+        if body.get("payload") is not None and body.get("payload_sha256"):
+            if sha_entry(body["payload"]) != body["payload_sha256"]:
+                problems.append(f"entry {i}: payload sha256 does not recompute")
+        prev = e.get("entry_hash")
+        b = body
+        if b.get("state") == "PUBLISHED_PRE_TIP":
+            pub = b.get("published_utc", "")
+            tip = b.get("tip_et", "")
+            pre_tip = None
+            m = re.match(r"(\d{2}):(\d{2})\s*(AM|PM)", tip)
+            dt = re.match(r"(\d{4}-\d{2}-\d{2})T(\d{2}):(\d{2})Z", pub)
+            if m and dt:
+                hh = int(m.group(1)) % 12 + (12 if m.group(3) == "PM" else 0)
+                tip_dt = datetime.strptime(
+                    f"{dt.group(1)} {hh:02d}:{m.group(2)}", "%Y-%m-%d %H:%M")
+                # Nov 2026 tips are EST (UTC-5): tip UTC = ET + 5h (may roll a day)
+                tip_utc = tip_dt.timestamp() + 5 * 3600
+                pub_dt = datetime.strptime(
+                    f"{dt.group(1)} {dt.group(2)}:{dt.group(3)}", "%Y-%m-%d %H:%M")
+                pre_tip = pub_dt.timestamp() < tip_utc
+                if not pre_tip:
+                    problems.append(
+                        f"entry {i} ({b.get('pick_id')}): published {pub} not before tip {tip}")
+            published_hashes[b.get("payload_sha256")] = b.get("pick_id")
+            rows.append({
+                "pick_id": b.get("pick_id"), "state": b.get("state"),
+                "published_utc": pub, "tip_et": tip,
+                "payload_sha256": b.get("payload_sha256"),
+                "hash_published_pre_tip": pre_tip,
+            })
+        elif b.get("state") == "SETTLED":
+            ok = b.get("hash_verified_at_settlement") is True
+            if not ok:
+                problems.append(f"entry {i} ({b.get('pick_id')}): settled without hash verification")
+            if b.get("payload_sha256") not in published_hashes:
+                problems.append(
+                    f"entry {i} ({b.get('pick_id')}): settled payload_sha256 has no "
+                    f"pre-tip publication entry")
+            rows.append({
+                "pick_id": b.get("pick_id"), "state": "SETTLED",
+                "settled_utc": b.get("settled_utc"),
+                "payload_sha256": b.get("payload_sha256"),
+                "hash_verified_at_settlement": ok,
+                "settlement_stamp": b.get("settlement_stamp"),
+            })
+    return {
+        "ledger": "data/app/ledger/ledger.jsonl",
+        "entries": len(entries),
+        "chain_intact": not any("chain" in p or "recompute" in p for p in problems),
+        "problems": problems,
+        "rows": rows,
+    }
+
+
+# --------------------------------------------------------------------------
 # outputs
 # --------------------------------------------------------------------------
 
@@ -613,6 +694,14 @@ def main():
     (VERIFIED / "team_stats_recut_2026-11-19.json").write_text(json.dumps({
         "generated_utc": datetime.utcnow().isoformat(timespec="seconds") + "Z",
         **recut_out,
+    }, indent=2), encoding="utf-8")
+
+    ledger = ledger_hash_check()
+    (VERIFIED / "ledger_hash_check_2026-11-19.json").write_text(json.dumps({
+        "generated_utc": datetime.utcnow().isoformat(timespec="seconds") + "Z",
+        "rule": "hash published pre-tip and verified at settlement; chain integrity "
+                "recomputed from the file itself, nothing inferred",
+        **ledger,
     }, indent=2), encoding="utf-8")
 
     n_qflags = sum(len(g["quarter_flags"]) for g in games.values())
