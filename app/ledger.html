@@ -46,7 +46,7 @@
 
 <p>Every published pick is hashed before tip and appended to a tamper-evident hash chain: each entry
 links the previous entry's hash, so any silent edit of history breaks the chain and
-<code>python3 scripts/pick_ledger.py verify</code> fails loudly. 120 entries are in the
+<code>python3 scripts/pick_ledger.py verify</code> fails loudly. 122 entries are in the
 chain. Because no strategy is funded, entries are <strong>published projections, result-graded</strong>
 — not money bets (the bet surface stays gated).</p>
 <div class="callout"><strong>Verify this table yourself:</strong>
@@ -1265,8 +1265,28 @@ and the chain links. The chain head is published here so a later silent change i
 <td></td>
 <td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
 </tr>
+<tr>
+<td>0022600250-side-proj</td>
+<td>SETTLED</td>
+<td>2026-11-19T07:04Z</td>
+<td><code>064806eb01cdbdda…</code></td>
+<td><code>e6a8c7ffaf73e4ff…</code></td>
+<td><code>41615cf84e239809…</code></td>
+<td>True</td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
+<tr>
+<td>0022600252-side-proj</td>
+<td>SETTLED</td>
+<td>2026-11-19T07:04Z</td>
+<td><code>983c87cf1c4432ad…</code></td>
+<td><code>d8eebfc0d3d3d990…</code></td>
+<td><code>e6a8c7ffaf73e4ff…</code></td>
+<td>True</td>
+<td><a href="https://www.nba.com/games?date=2026-11-15" target="_blank" rel="noopener noreferrer">official schedule</a></td>
+</tr>
 </tbody></table></div>
-<p>Chain head: <code>41615cf84e23980943fc28d2b1ebe45bafcd707279091422f869ece49c3e4994</code></p>
+<p>Chain head: <code>d8eebfc0d3d3d990520f6c267a11c6244f082271c5564b50575299e2eb787f06</code></p>
 </main>
 <footer class="site-footer">
   <div class="wrap">

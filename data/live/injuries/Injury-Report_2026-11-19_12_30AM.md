@@ -16,6 +16,11 @@
 - Reminder: the PDF prints game times as `08:00 (ET)` / `07:00 (ET)` with no AM/PM. nba.com prints
   `8:00 PM ET`. The matchup and date agree; the time column is printed as-is and not corrected.
 
+<!-- machine-readable header and retrieval stamp: the two fields scripts/injury_archive.py extracts from every transcript. The table below is unchanged; the page header is the one the PDF prints. -->
+- retrieved 2026-11-19T07:41Z
+
+**Injury Report: 11/19/26 12:30 AM**
+
 | Game Date | Game Time | Matchup | Team | Player Name | Current Status | Reason |
 | --- | --- | --- | --- | --- | --- | --- |
 | 11/19/2026 | 08:00 (ET) | GSW@MEM | Golden State Warriors |  |  | NOT YET SUBMITTED |
