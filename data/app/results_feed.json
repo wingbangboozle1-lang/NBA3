@@ -2,8 +2,8 @@
  "source_label": "Official per-game result feed. 2026-11-13 rows: official scoreboard capture (data/app/official_results_2026-11-13.json). 2026-11-14 rows: official game books (statsdmz.nba.com PDFs). 2026-11-15 rows: every final and every quarter/OT score read 2026-11-16 from the official scoreboard page and each game's official summary page LINESCORES (data/app/official_results_2026-11-15.json carries per-row cross-checks; the ATL@MIL game-book period-table conflict is recorded on that row and flagged). One row per game: date, teams, final score, quarter scores.",
  "retrieved_stamp": "2026-11-16T18:40Z",
  "settlement_rule": "A row is settled only after the final score is verified from official reads (at minimum the official scoreboard; 2026-11-15 rows carry a second independent read from the game summary page). When quarter scores are captured they must sum to the printed final for both sides or the row is withheld and flagged; quarter values that conflict between two official documents are published from the game-page LINESCORES with the conflict recorded on the row and flagged for review, never repaired by hand. Rows without captured quarter scores are settled on the verified final alone, with that noted in the settlement stamp.",
- "count": 46,
- "settled_count": 46,
+ "count": 48,
+ "settled_count": 48,
  "games": [
   {
    "date": "2026-11-13",
@@ -799,6 +799,74 @@
      "recap link printed on the same page names both scores: game-recap-76ers-135-nets-123-nov-16"
     ],
     "read_count": 2
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600252",
+   "away": "PHX",
+   "home": "DEN",
+   "away_pts": 117,
+   "home_pts": 105,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/phx-vs-den-0022600252",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T07:26Z (game day end, 2026-11-16) from the official final PHX 117 - DEN 105; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "date_page": "https://www.nba.com/games?date=2026-11-16",
+    "recap_slug_repeats_scores": "recap video slug repeats the two final scores",
+    "provenance": "finals for these two games were outside the 915d2e99 transcript (chunk-boundary read); the rows come from the independent dd3edd74 capture (data/rounds/2026-11-19-dd3edd74/results_2026-11-16_18.json), which was read from the same official date page and cross-checked against the recap slugs; the two captures agree on all 23 overlapping games (f69a11c4 G3 cross-check)",
+    "sources": [
+     "https://www.nba.com/games?date=2026-11-16",
+     "https://www.nba.com/game/phx-vs-den-0022600252",
+     "https://www.nba.com/watch/video/game-recap-suns-117-nuggets-105-nov-16"
+    ]
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "game_id": "0022600250",
+   "away": "POR",
+   "home": "MIN",
+   "away_pts": 98,
+   "home_pts": 106,
+   "away_q1": null,
+   "away_q2": null,
+   "away_q3": null,
+   "away_q4": null,
+   "home_q1": null,
+   "home_q2": null,
+   "home_q3": null,
+   "home_q4": null,
+   "state": "final",
+   "verified": true,
+   "verified_from": "https://www.nba.com/game/por-vs-min-0022600250",
+   "quarter_check": "quarter scores not captured \u2014 blank, flagged",
+   "gamebook": null,
+   "raw_file": null,
+   "settled": true,
+   "settlement_stamp": "settled at 2026-11-19T07:26Z (game day end, 2026-11-16) from the official final POR 98 - MIN 106; quarter scores not captured \u2014 score verified from the official scoreboard only",
+   "cross_checks": {
+    "date_page": "https://www.nba.com/games?date=2026-11-16",
+    "recap_slug_repeats_scores": "recap video slug repeats the two final scores",
+    "provenance": "finals for these two games were outside the 915d2e99 transcript (chunk-boundary read); the rows come from the independent dd3edd74 capture (data/rounds/2026-11-19-dd3edd74/results_2026-11-16_18.json), which was read from the same official date page and cross-checked against the recap slugs; the two captures agree on all 23 overlapping games (f69a11c4 G3 cross-check)",
+    "sources": [
+     "https://www.nba.com/games?date=2026-11-16",
+     "https://www.nba.com/game/por-vs-min-0022600250",
+     "https://www.nba.com/watch/video/game-recap-timberwolves-106-trail-blazers-98-nov-16"
+    ]
    }
   },
   {

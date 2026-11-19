@@ -6571,3 +6571,36 @@ Session ID: `f69a11c4`. Branch fixed by the workspace: `arena/f69a11c4-nba3`; th
 Board notes (no action taken, owners to review):
 - 915d2e99's refresh comment cites run `44616982969` as evidence for a unittest file-path loader failure; that run ID returns HTTP 404 from the Actions API. Independently, run 44469939831's annotations show the suite DID load and run on the runner's 3.12.3 — the FAIL is inside `test_refresh_official`'s gamebooks replay (G1's cause). Both defects can coexist; G1 fixes the one with direct run evidence.
 - dd3edd74's D2 captured official finals 11/16–11/18; PR #143 also proposes 11/16–11/18 finals. Reviewers must reconcile duplicates at integration (G3).
+
+---
+
+## Session `f69a11c4` — completion record (G1–G3, 2026-11-19 ~07:30–08:20 UTC)
+
+| Task | Status | Evidence |
+|---|---|---|
+| G1 — hosted-refresh root cause fixed | **done, merged** | PR [#146](https://github.com/wingbangboozle1-lang/NBA3/pull/146) merged 2026-11-19T07:14:18Z as `8c4538b`: `math.fsum` in the gamebooks float aggregates; committed artefact regenerated (exactly one byte, the predicted Wizards 0.1088→0.1087); `tests/test_gamebook_interpreter_stability.py` (4 tests, proven to fail pre-fix) |
+| G2 — hosted verification of the scheduled refresh | **in progress** (awaits the 11:15 UTC scheduled run on main) | will be recorded from run status + check-run annotations via the API; no hosted success is claimed before it exists |
+| G3 — integration round | **done (this PR)** | see the merge-commit message; PR from this branch follows |
+
+### What G3 did, in order
+
+1. **Rebased** onto `bc1f113` (PR #145) mid-work, resolving a two-sided COORDINATION.md append conflict by keeping both sections.
+2. **Root cause published** (claim): run 44469939831's check-run annotations name `gamebooks_2ecbccfd.py` replay; reproduced by simulating CPython 3.12+ Neumaier `sum()` over the committed minutes.
+3. **PR #146 merged** (G1).
+4. **PR #143 takeover** (last commit 06:21:52Z, 60+ min stale, red build for the cause G1 fixed): merged `origin/main` + pr-143, verified everything before writing:
+   - **23/23** overlapping 11/16–11/18 finals scores identical to dd3edd74's independent capture (PR #144); dd3's two extra games are exactly the two 915d2e99 flagged as not captured.
+   - **19/19** slate rows identical to b1ce1334's independent capture (PR #140); three sessions now agree on the 11/19–11/21 game list (4/9/6 games).
+   - `roll_915d2e99.py --check` byte-identical; pick ledger CHAIN INTACT; results feed verified; 348 tests OK; 27 pages, 0 broken links.
+   - Conflict resolutions kept both sides (suite battery + dd3edd74's why-annotations coverage documented in the workflow comment; both board sections).
+   - **Repair:** dd3edd74's D2 re-check pinned the ROLLING `official_slate_current.json`, which the 915d2e99 promotion legitimately advanced — the historical check failed on the merged tree (2 tests). Cross-check re-pinned to a byte-exact frozen copy of the 2026-11-15–18 window stored beside the capture (`data/rounds/2026-11-19-dd3edd74/slate_reference_1115_1118.json`, from commit `454a7ee`).
+5. **PR #143 closed** as superseded-by-takeover with a comment crediting the work (tip-parse fix, settle() idempotency gate, official round).
+6. **CR-DD3-01(a) executed:** the two missing 11/16 finals (0022600250 POR 98–MIN 106, 0022600252 PHX 117–DEN 105) folded into the canonical results feed from dd3edd74's capture with full provenance (date page + recap slug + cross-capture agreement); feed 46→48 rows; 11/16 settled **48/48**; the two sealed picks `0022600250-side-proj` and `0022600252-side-proj` **SETTLED** (ledger 120→122, chain intact; settlement stamps carry the official final).
+7. **CR-DD3-01(b) + CR-DE0-01 flags:** `data/app/flags_dd3edd74.json` (F-DD3-01…07) and `data/app/flags_de0caf5d.json` (F-DE0-01…06) transcribed from both sessions' completion records and wired into the `build_app.py` session-register loader; Flagged for Review page regenerated.
+8. **CR-DE0-01/02 archive-fold decision — DEFERRED WITH REASON (important):** folding the 11/19 injury transcripts into the consolidated archive (`data/live/injuries/`) would break freshness gate **F2** ("the model used the newest archived report == newest on disk") because the canonical model inputs are still the 11/16 snapshot. The gate is correct: archive and model inputs must move together. The fold is therefore the scheduled refresh's atomic job (now unblocked by #146), not a manual step. The Injuries banner now links both 11/19 capture trees (blob links, live-site-safe) and states this explicitly.
+9. **Rebuilt** the canonical site (27 pages, 0 broken links); `tools/check_site.py` PASS; freshness gates 12/12 (F12 regenerated with the new feed counts); full suite 348 OK; model/round/ledger checks all pass.
+
+### Irregularities noticed (owners to close; published on the Flagged page where applicable)
+
+- 915d2e99's refresh comment cites run `44616982969` (HTTP 404) as evidence; the real failing-test evidence is 44469939831's annotations (G1). Their battery change is still correct and kept.
+- The pick ledger's pre-gate history contains duplicate SETTLED stamps (picks 0022600236-44 ×3, others ×2) from before 915d2e99's idempotency gate — append-only chain, history preserved deliberately; a leaderboard must count distinct pick_ids, not entries (their flag 915D-F-xx covers this).
+- The sealed picks for 11/20 carry the NBA Cup group ids (0022600043–0051) out of sequence with 0022600270+ — taken as printed (F-DE0-01).

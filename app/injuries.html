@@ -67,7 +67,17 @@ official index four times a day, but the latest observed run failed before fetch
 and a separately archived
 <a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-19-de0caf5d/injury_2026-11-19_0045AM.json" target="_blank" rel="noopener noreferrer">12:45 AM ET report and comparison record</a>
 with its <a href="https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_12_45AM.pdf" target="_blank" rel="noopener noreferrer">official PDF</a>.
-These records remain outside the canonical model inputs on this page; their capture/parser flags
+Verbatim transcripts of all four 2026-11-19 filing-window revisions (12:00, 12:15, 12:30 and
+12:45 AM ET) are stored in the repository under
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-19/" target="_blank" rel="noopener noreferrer">data/rounds/2026-11-19/</a>
+(12:00–12:30, session b1ce1334) and
+<a href="https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/rounds/2026-11-19-de0caf5d/" target="_blank" rel="noopener noreferrer">data/rounds/2026-11-19-de0caf5d/</a>
+(12:45 and its consecutive-report diff, session de0caf5d); their consecutive-report diffs and
+sha256 manifests are in those trees. They are not folded into the consolidated archive yet:
+freshness gate F2 requires the model's archived report and the newest archived report to be the
+same file, so the fold happens together with the model-input re-cut on the next verified refresh
+(root cause of the red refresh fixed in PR #146). These records remain outside the canonical
+model inputs on this page; their capture/parser flags
 must be read before interpreting any row. No current player status is asserted here.</p>
 </div>
 <div class="callout warn">
