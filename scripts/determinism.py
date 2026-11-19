@@ -62,16 +62,32 @@ Run: ``python3 -m unittest tests/test_determinism_89e98007.py``
 from __future__ import annotations
 
 import json
+import math
 import os
 import sys
 from decimal import Decimal, ROUND_HALF_EVEN, localcontext
 
-__all__ = ["fold", "fold1", "dq", "diff_paths", "check_artefact", "write_or_check", "PINNED"]
+__all__ = ["fold", "tsum", "sum_", "dq", "diff_paths", "check_artefact", "write_or_check", "PINNED"]
 
 PINNED = ("sum/round pinned in scripts/determinism.py: fold = plain left-to-right addition "
           "(CPython < 3.12 sum, the summation that generated the committed artefacts; CPython "
           ">= 3.12 sum() uses Neumaier compensation, see docs.python.org/3/whatsnew/3.12.html), "
           "dq = Decimal half-even rounding of the exact value of the double")
+
+
+def tsum(values):
+    """The exact (correctly-rounded) sum — the rule the repository ratified for published
+    float aggregates on 2026-11-19, via ``math.fsum``
+    (https://docs.python.org/3/library/math.html#math.fsum), which returns a float and is
+    specified to be correctly rounded on every CPython.
+
+    This is what ``scripts/gamebooks_2ecbccfd.py`` uses for club minutes after session
+    ``f69a11c4`` republished the one artefact whose 4th decimal the two rules disagree about
+    (``.top8_minutes_shares.2026-11-15:WAS.top8[4].share`` 0.1088 -> 0.1087), so the choice is
+    named once here instead of being duplicated per file. Use :func:`fold` only to reproduce a
+    artefact that was committed under the pre-3.12 rule.
+    """
+    return math.fsum(values)
 
 
 def fold(values, start=0):
@@ -91,9 +107,22 @@ def fold(values, start=0):
     return acc
 
 
-def fold1(values):
-    """``sum(values[1:])``-style helper kept for readability at call sites that sum a bare list."""
-    return fold(values)
+def sum_(values):
+    """Drop-in for the builtin ``sum`` that follows the repository's ratified rule.
+
+    Ints only -> exact integer addition, so a count published as 24 never becomes 24.0 (JSON
+    distinguishes them and the replay gate compares bytes). Any float in the input -> the
+    correctly-rounded ``math.fsum``, which is the rule session f69a11c4 adopted for published
+    minutes on 2026-11-19 and which is identical on every CPython. Mixed -> fsum, matching what
+    CPython >= 3.12 would have produced but without CPython >= 3.12's dependence on the build.
+    """
+    items = list(values)
+    if any(isinstance(v, float) for v in items):
+        return math.fsum(items)
+    acc = 0
+    for v in items:
+        acc = acc + v
+    return acc
 
 
 def dq(value, places=None):

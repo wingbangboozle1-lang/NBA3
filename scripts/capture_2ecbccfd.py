@@ -459,7 +459,7 @@ def reconcile(log, standings):
         gp[g["home"]] += 1
         winner = g["home"] if g["home_pts"] > g["away_pts"] else g["away"]
         w[winner] += 1
-    total_gp = det.fold(gp.values())
+    total_gp = det.sum_(gp.values())
     checks = []
     for s in standings:
         t = s["team"]
@@ -475,15 +475,15 @@ def reconcile(log, standings):
         "sum_log_gp": total_gp,
         "gp_sum_equals_twice_games": total_gp == 2 * len(log),
         "teams": checks,
-        "teams_reconciled": det.fold(1 for c in checks if c["gp_ok"] and c["w_ok"]),
+        "teams_reconciled": det.sum_(1 for c in checks if c["gp_ok"] and c["w_ok"]),
         "teams_total": len(checks),
     }
 
 
 def home_measures(log):
-    home_games = det.fold(1 for g in log)
-    home_wins = det.fold(1 for g in log if g["home_pts"] > g["away_pts"])
-    ot = det.fold(1 for g in log if g.get("ot"))
+    home_games = det.sum_(1 for g in log)
+    home_wins = det.sum_(1 for g in log if g["home_pts"] > g["away_pts"])
+    ot = det.sum_(1 for g in log if g.get("ot"))
     return {
         "games": home_games,
         "home_wins": home_wins,
@@ -718,7 +718,7 @@ def main():
       "if a club stops reconciling, one of the two sources moved: re-read both before publishing a line")
     g("F6_results_settled_only_on_finals", "no result is used before its official final is verified",
       all(gm.get("final_verified") for gm in added),
-      f"{det.fold(1 for gm in added if gm.get('final_verified'))}/{len(added)} of the 2026-11-15 rows have a "
+      f"{det.sum_(1 for gm in added if gm.get('final_verified'))}/{len(added)} of the 2026-11-15 rows have a "
       "final printed by an official source; the one with a quarter conflict is excluded from "
       "quarter-level measures",
       "a game with no verified final stays unsettled; a settlement stamp must name the source")

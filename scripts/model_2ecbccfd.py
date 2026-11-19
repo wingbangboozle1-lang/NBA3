@@ -124,14 +124,14 @@ def _erfinv(y):
 
 
 def mean(xs):
-    return det.fold(xs) / len(xs) if xs else None
+    return det.sum_(xs) / len(xs) if xs else None
 
 
 def sd(xs):
     if len(xs) < 2:
         return None
     m = mean(xs)
-    return math.sqrt(det.fold((x - m) ** 2 for x in xs) / (len(xs) - 1))
+    return math.sqrt(det.sum_((x - m) ** 2 for x in xs) / (len(xs) - 1))
 
 
 def wilson(k, n, z=1.96):
@@ -149,9 +149,9 @@ def pearson(xs, ys):
     if n < 3:
         return None
     mx, my = mean(xs), mean(ys)
-    sxy = det.fold((x - mx) * (y - my) for x, y in zip(xs, ys))
-    sxx = det.fold((x - mx) ** 2 for x in xs)
-    syy = det.fold((y - my) ** 2 for y in ys)
+    sxy = det.sum_((x - mx) * (y - my) for x, y in zip(xs, ys))
+    sxx = det.sum_((x - mx) ** 2 for x in xs)
+    syy = det.sum_((y - my) ** 2 for y in ys)
     if sxx <= 0 or syy <= 0:
         return None
     return sxy / math.sqrt(sxx * syy)
@@ -364,12 +364,12 @@ def load_minutes():
             players[k] = {
                 "player": names.get((code, k)) or samples[0]["player"],
                 "games_captured": len(samples),
-                "min_mean": det.dq(det.fold(mins) / len(mins), 2) if mins else None,
+                "min_mean": det.dq(det.sum_(mins) / len(mins), 2) if mins else None,
                 "min_by_game": [{"date": s["date"], "min": s["min"],
                                  "status": s.get("status", "played")} for s in samples],
-                "pts_mean": det.dq(det.fold(pts) / len(pts), 2) if pts else None,
-                "reb_mean": det.dq(det.fold(reb) / len(reb), 2) if reb else None,
-                "ast_mean": det.dq(det.fold(ast) / len(ast), 2) if ast else None,
+                "pts_mean": det.dq(det.sum_(pts) / len(pts), 2) if pts else None,
+                "reb_mean": det.dq(det.sum_(reb) / len(reb), 2) if reb else None,
+                "ast_mean": det.dq(det.sum_(ast) / len(ast), 2) if ast else None,
                 "sources": sorted({s["source"] for s in samples if s.get("source")}),
             }
         captured[code] = {"players": players,
@@ -431,7 +431,7 @@ def availability_effect(team, injured_rows, captured):
                 else "already_inactive_in_captured_games")
     for d in detail:
         d["bucket"] = bucket(d)
-    buckets = {k: det.fold(1 for d in detail if d["bucket"] == k)
+    buckets = {k: det.sum_(1 for d in detail if d["bucket"] == k)
                for k in ("rotation_player_out", "bench_player_out",
                          "already_inactive_in_captured_games", "no_captured_row")}
     if not club:
@@ -441,7 +441,7 @@ def availability_effect(team, injured_rows, captured):
                 "replacement_minutes": [], "detail": detail,
                 "unmatched_players": unmeasurable}
     pool = sorted(club["players"].values(), key=lambda p: -(p["min_mean"] or 0))
-    total_pool = det.fold((p["min_mean"] or 0) for p in pool) or None
+    total_pool = det.sum_((p["min_mean"] or 0) for p in pool) or None
     share = (vacated / total_pool) if total_pool else None
     out_keys = {_key(d["player"]) for d in detail}
     last_sets = [_surname_form(d["player"])[0] for d in detail if d["matched"]]
@@ -462,7 +462,7 @@ def availability_effect(team, injured_rows, captured):
                              "new_min": det.dq((p["min_mean"] or 0) + take, 2)})
             remaining -= take
     return {"measurable": True, "out_players": [d["player"] for d in detail],
-            "detail": detail, "matched_logs": det.fold(1 for d in detail if d["matched"]),
+            "detail": detail, "matched_logs": det.sum_(1 for d in detail if d["matched"]),
             "unmatched_players": unmeasurable,
             "buckets": buckets,
             "vacated_min": det.dq(vacated, 2),
@@ -507,9 +507,9 @@ def neutral_site_reconciliation(games, standings_rows):
     cand = {}
     for t, r in st.items():
         ph, pr = tuple(r["home_rec_parsed"] or (0, 0)), tuple(r["road_rec_parsed"] or (0, 0))
-        nw = det.fold(parsed(r.get("neutral_rec")))
-        dh = max(0, len(log_home[t]) - det.fold(ph))
-        da = max(0, len(log_away[t]) - det.fold(pr))
+        nw = det.sum_(parsed(r.get("neutral_rec")))
+        dh = max(0, len(log_home[t]) - det.sum_(ph))
+        da = max(0, len(log_away[t]) - det.sum_(pr))
         if dh + da == nw and nw > 0:
             cand[t] = {"home_shortfall": dh, "road_shortfall": da, "neutral_games": nw,
                        "neutral_record": r.get("neutral_rec"),
@@ -533,7 +533,7 @@ def neutral_site_reconciliation(games, standings_rows):
                     "date": g["date"], "game_id": g["game_id"],
                     "log_home": t, "log_away": opp,
                     "score": f"{opp} {g['away_pts']} at {t} {g['home_pts']}",
-                    "standings_home_games_vs_log": f"{det.fold(tuple(st[t]['home_rec_parsed'] or (0,0)))}"
+                    "standings_home_games_vs_log": f"{det.sum_(tuple(st[t]['home_rec_parsed'] or (0,0)))}"
                                                    f" vs {len(log_home[t])}",
                     "standings_neutral_home_club": st[t].get("neutral_rec"),
                     "standings_neutral_away_club": st[opp].get("neutral_rec"),
@@ -605,7 +605,7 @@ def main():
     arenas, arena_doc = load_arenas()
 
     # ---------------------------------------------------------------- home-court, pinned
-    home_wins = det.fold(1 for g in games if g["home_pts"] > g["away_pts"])
+    home_wins = det.sum_(1 for g in games if g["home_pts"] > g["away_pts"])
     n_games = len(games)
     margins = [g["home_pts"] - g["away_pts"] for g in games]
     margin_sd = sd(margins)
@@ -657,15 +657,15 @@ def main():
             "wins_accounted_for": hw + aw == ph[0] + pr[0] + nw,
             "exact_split_match": exact,
         })
-    st_home_w = det.fold(s["home_rec_parsed"][0] for s in standings_doc["rows"] if s["home_rec_parsed"])
-    st_home_l = det.fold(s["home_rec_parsed"][1] for s in standings_doc["rows"] if s["home_rec_parsed"])
+    st_home_w = det.sum_(s["home_rec_parsed"][0] for s in standings_doc["rows"] if s["home_rec_parsed"])
+    st_home_l = det.sum_(s["home_rec_parsed"][1] for s in standings_doc["rows"] if s["home_rec_parsed"])
     st_rate = st_home_w / (st_home_w + st_home_l)
     st_hca_points = det.dq(probit(st_rate) * margin_sd, 4) if margin_sd else None
 
     neutral = neutral_site_reconciliation(games, standings_doc["rows"])
     excl = {r["game_id"] for r in neutral["games_identified"]}
     games_no_neutral = [g for g in games if g["game_id"] not in excl]
-    hw2 = det.fold(1 for g in games_no_neutral if g["home_pts"] > g["away_pts"])
+    hw2 = det.sum_(1 for g in games_no_neutral if g["home_pts"] > g["away_pts"])
     rate2 = hw2 / len(games_no_neutral)
     sensitivity = {
         "what": ("the same pinned computation with the games the standings classify as neutral-site "
@@ -695,7 +695,7 @@ def main():
             "clubs_that_do_not": [c["team"] for c in per_club_split
                                   if not (c["home_ok"] and c["road_ok"])],
             "standings_home_games": st_home_w + st_home_l,
-            "log_home_games": det.fold(v[1] for v in site.values()),
+            "log_home_games": det.sum_(v[1] for v in site.values()),
             "per_club": per_club_split,
             "note": ("the standings' HOME column totals one game fewer than the log holds, because "
                      "one club's home game is played at another venue and is printed under that "
@@ -731,7 +731,7 @@ def main():
     # ---------------------------------------------------------------- luck: pythagenpat z-score
     luck = []
     for t, v in sorted(per_team.items()):
-        pf, pa = det.fold(v["pts"]), det.fold(v["opp"])
+        pf, pa = det.sum_(v["pts"]), det.sum_(v["opp"])
         gp = v["gp"]
         ppg, oppg = pf / gp, pa / gp
         # Pythagenpat exponent from the league scoring level (standard formulation)
@@ -1130,16 +1130,16 @@ def main():
     rl = log_doc["games_2026_11_15"]
     gate("G5_settlement_only_final", "a result settles only from a verified official final",
          all(r.get("final_verified") for r in rl),
-         f"{det.fold(1 for r in rl if r.get('final_verified'))}/{len(rl)} of the 2026-11-15 rows have a "
+         f"{det.sum_(1 for r in rl if r.get('final_verified'))}/{len(rl)} of the 2026-11-15 rows have a "
          "final printed by an official source and cross-read where a conflict was found; "
-         f"{det.fold(1 for r in rl if r.get('quarter_status') != 'verified')} row keeps an unresolved "
+         f"{det.sum_(1 for r in rl if r.get('quarter_status') != 'verified')} row keeps an unresolved "
          "quarter table and is excluded from quarter-level measures (see "
          "data/rounds/2026-11-17/results_log.json)")
     gate("G6_hca_pinned", "home-court is pinned to the measured rate, never fitted",
          hca_points is not None, f"{hca_points} points from a {rate:.4f} home-win rate")
     gate("G7_two_estimators", "two independent estimators and a published disagreement",
-         det.fold(1 for l in lines if l.get("headline_confidence_signal")) > 0,
-         f"{det.fold(1 for l in lines if l.get('headline_confidence_signal'))} of {len(lines)} lines have both estimators")
+         det.sum_(1 for l in lines if l.get("headline_confidence_signal")) > 0,
+         f"{det.sum_(1 for l in lines if l.get('headline_confidence_signal'))} of {len(lines)} lines have both estimators")
     gate("G8_luck_band", "no strategy is published that leans on a team outside the noise band",
          True, f"teams outside +/-2 z: {', '.join(outside) if outside else 'none'}")
     gate("G9_no_pricing_without_market",
@@ -1155,7 +1155,7 @@ def main():
          f"{correlations['same_night_game_margins']['n_pairs']} same-date game pairs")
     gate("G11_minutes_modelled", "rotation minutes redistribution is modelled where books exist",
          any(a.get("away", {}).get("measurable") for a in avail_rows if isinstance(a.get("away"), dict)),
-         f"{det.fold(1 for a in avail_rows if isinstance(a.get('away'), dict) and a['away'].get('measurable'))} "
+         f"{det.sum_(1 for a in avail_rows if isinstance(a.get('away'), dict) and a['away'].get('measurable'))} "
          "sides have a captured game book on the game day")
     gate("G12_universe_complete", "every club on the slate appears in the team-stat pages",
          all(full_by_code.get(s["team"]) in trad for s in standings_doc["rows"]),
@@ -1197,7 +1197,7 @@ def main():
 
     wf_home = walkforward("home")
     wf_rand = {"games": len(games),
-               "hit_rate": det.dq(det.fold(1 for g in games if True) / len(games) * 0.5, 4),
+               "hit_rate": det.dq(det.sum_(1 for g in games if True) / len(games) * 0.5, 4),
                "brier": 0.25, "log_loss": det.dq(math.log(2), 6)}
 
     # margin-sign backtest from E2 alone (walk-forward, no aggregates)
@@ -1220,7 +1220,7 @@ def main():
             pf[t] += g[side + "_pts"]; pa[t] += g[("away" if side == "home" else "home") + "_pts"]
             gp[t] += 1
     e2_n = len(e2_eval)
-    e2_hits = det.fold(1 for e in e2_eval if e["sign_ok"])
+    e2_hits = det.sum_(1 for e in e2_eval if e["sign_ok"])
     e2_mae = det.dq(mean([e["abs_err"] for e in e2_eval]), 3)
     e2_logloss = det.dq(-mean([math.log(max(phi((e["pred_margin_home"] - 0) / (margin_sd or 12.0)), 1e-9))
                               if e["actual_margin_home"] > 0
@@ -1345,11 +1345,11 @@ def main():
         fh.write(blob)
     print(f"wrote data/rounds/2026-11-17/model.json ({len(blob)} bytes)")
     print(f"games in log {n_games}  home {home_wins} ({rate:.4f})  pinned HCA {hca_points} pts")
-    print(f"lines {len(lines)}  both-estimator {det.fold(1 for l in lines if l.get('headline_confidence_signal'))}")
+    print(f"lines {len(lines)}  both-estimator {det.sum_(1 for l in lines if l.get('headline_confidence_signal'))}")
     print(f"rho(margins) {correlations['same_night_game_margins']['rho']} "
           f"n={correlations['same_night_game_margins']['n_pairs']}")
-    print(f"gates {det.fold(1 for g in gates if g['pass'])}/{len(gates)} pass")
-    print(f"funded strategies {det.fold(1 for s in strategies if s['verdict'] == 'FUNDED')}")
+    print(f"gates {det.sum_(1 for g in gates if g['pass'])}/{len(gates)} pass")
+    print(f"funded strategies {det.sum_(1 for s in strategies if s['verdict'] == 'FUNDED')}")
     print(f"teams outside the noise band: {outside}")
     return 0
 

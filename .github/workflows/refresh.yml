@@ -78,6 +78,10 @@ jobs:
               fail=1
               echo "::error::unit suite $suite failed; failing tests follow"
               grep -E "^(FAIL|ERROR): " "$log" | head -n 20 | sed 's/^/::error::  /' || true
+              # arena/dd3edd74-nba3 (D1): the assertion text (and any --check reason a script printed)
+              # is what says WHY a test failed; the bare FAIL header does not. Annotate those lines too.
+              grep -E "AssertionError|differs from the regenerated|first differing line|  committed  :|  regenerated:|--check failed|failed on committed inputs" "$log" \
+                | head -n 12 | cut -c1-300 | sed 's/^/::error::  why: /' || true
             fi
             echo "::endgroup::"
           done
