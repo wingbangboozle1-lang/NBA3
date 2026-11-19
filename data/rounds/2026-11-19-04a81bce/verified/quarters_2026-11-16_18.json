@@ -1,0 +1,648 @@
+{
+  "generated_utc": "2026-11-19T07:46:10Z",
+  "rule": "quarter vector accepted only when its sum equals the printed final; missing/conflicting vectors left blank + flagged, never inferred",
+  "games": [
+    {
+      "game_id": "20261116_CHICLE",
+      "date": "2026-11-16",
+      "gid": "246",
+      "away": "CHI",
+      "home": "CLE",
+      "final": {
+        "away": 115,
+        "home": 126
+      },
+      "away_quarters": [
+        31,
+        17,
+        31,
+        36
+      ],
+      "home_quarters": [
+        25,
+        32,
+        31,
+        38
+      ],
+      "flags": [],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261116/20261116_CHICLE.pdf",
+      "retrieved_utc": "2026-11-19T07:18Z"
+    },
+    {
+      "game_id": "20261116_GSWNOP",
+      "date": "2026-11-16",
+      "gid": "251",
+      "away": "GSW",
+      "home": "NOP",
+      "final": {
+        "away": 94,
+        "home": 115
+      },
+      "away_quarters": [
+        11,
+        25,
+        29,
+        29
+      ],
+      "home_quarters": [
+        35,
+        26,
+        32,
+        22
+      ],
+      "flags": [],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261116/20261116_GSWNOP.pdf",
+      "retrieved_utc": "2026-11-19T07:22Z"
+    },
+    {
+      "game_id": "20261116_HOUMIA",
+      "date": "2026-11-16",
+      "gid": "249",
+      "away": "HOU",
+      "home": "MIA",
+      "final": {
+        "away": 110,
+        "home": 128
+      },
+      "away_quarters": [
+        15,
+        31,
+        35,
+        29
+      ],
+      "home_quarters": [
+        29,
+        33,
+        39,
+        27
+      ],
+      "flags": [],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261116/20261116_HOUMIA.pdf",
+      "retrieved_utc": "2026-11-19T07:18Z"
+    },
+    {
+      "game_id": "20261116_MEMWAS",
+      "date": "2026-11-16",
+      "gid": "247",
+      "away": "MEM",
+      "home": "WAS",
+      "final": {
+        "away": 136,
+        "home": 120
+      },
+      "away_quarters": [
+        33,
+        26,
+        42,
+        35
+      ],
+      "home_quarters": [
+        35,
+        34,
+        18,
+        33
+      ],
+      "flags": [],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261116/20261116_MEMWAS.pdf",
+      "retrieved_utc": "2026-11-19T07:18Z"
+    },
+    {
+      "game_id": "20261116_ORLBOS",
+      "date": "2026-11-16",
+      "gid": "245",
+      "away": "ORL",
+      "home": "BOS",
+      "final": {
+        "away": 115,
+        "home": 105
+      },
+      "away_quarters": [
+        20,
+        30,
+        25,
+        40
+      ],
+      "home_quarters": [
+        17,
+        24,
+        36,
+        28
+      ],
+      "flags": [],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261116/20261116_ORLBOS.pdf",
+      "retrieved_utc": "2026-11-19T07:18Z"
+    },
+    {
+      "game_id": "20261116_PHIBKN",
+      "date": "2026-11-16",
+      "gid": "248",
+      "away": "PHI",
+      "home": "BKN",
+      "final": {
+        "away": 135,
+        "home": 123
+      },
+      "away_quarters": null,
+      "home_quarters": [
+        26,
+        33,
+        36,
+        28
+      ],
+      "flags": [
+        "PHI: no period vector sums to printed final 135; left blank"
+      ],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261116/20261116_PHIBKN.pdf",
+      "retrieved_utc": "2026-11-19T07:22Z"
+    },
+    {
+      "game_id": "20261116_PHXDEN",
+      "date": "2026-11-16",
+      "gid": "252",
+      "away": "PHX",
+      "home": "DEN",
+      "final": {
+        "away": 117,
+        "home": 105
+      },
+      "away_quarters": [
+        20,
+        36,
+        34,
+        27
+      ],
+      "home_quarters": [
+        24,
+        29,
+        29,
+        23
+      ],
+      "flags": [],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261116/20261116_PHXDEN.pdf",
+      "retrieved_utc": "2026-11-19T07:22Z"
+    },
+    {
+      "game_id": "20261116_PORMIN",
+      "date": "2026-11-16",
+      "gid": "250",
+      "away": "POR",
+      "home": "MIN",
+      "final": {
+        "away": 98,
+        "home": 106
+      },
+      "away_quarters": null,
+      "home_quarters": [
+        26,
+        33,
+        28,
+        19
+      ],
+      "flags": [
+        "POR: no period vector sums to printed final 98; left blank"
+      ],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261116/20261116_PORMIN.pdf",
+      "retrieved_utc": "2026-11-19T07:22Z"
+    },
+    {
+      "game_id": "20261117_CHALAL",
+      "date": "2026-11-17",
+      "gid": "256",
+      "away": "CHA",
+      "home": "LAL",
+      "final": {
+        "away": 114,
+        "home": 118
+      },
+      "away_quarters": [
+        34,
+        32,
+        28,
+        17,
+        3
+      ],
+      "home_quarters": [
+        30,
+        29,
+        22,
+        30,
+        7
+      ],
+      "flags": [],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_CHALAL.pdf",
+      "retrieved_utc": "2026-11-19T07:28Z"
+    },
+    {
+      "game_id": "20261117_DETSAS",
+      "date": "2026-11-17",
+      "gid": "255",
+      "away": "DET",
+      "home": "SAS",
+      "final": {
+        "away": 105,
+        "home": 93
+      },
+      "away_quarters": [
+        26,
+        29,
+        23,
+        27
+      ],
+      "home_quarters": [
+        33,
+        21,
+        18,
+        21
+      ],
+      "flags": [],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_DETSAS.pdf",
+      "retrieved_utc": "2026-11-19T07:26Z"
+    },
+    {
+      "game_id": "20261117_NYKTOR",
+      "date": "2026-11-17",
+      "gid": "253",
+      "away": "NYK",
+      "home": "TOR",
+      "final": {
+        "away": 111,
+        "home": 102
+      },
+      "away_quarters": [
+        23,
+        31,
+        26,
+        31
+      ],
+      "home_quarters": [
+        29,
+        21,
+        33,
+        19
+      ],
+      "flags": [],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_NYKTOR.pdf",
+      "retrieved_utc": "2026-11-19T07:26Z"
+    },
+    {
+      "game_id": "20261117_PORMIN",
+      "date": "2026-11-17",
+      "gid": "254",
+      "away": "POR",
+      "home": "MIN",
+      "final": {
+        "away": 105,
+        "home": 106
+      },
+      "away_quarters": [
+        17,
+        31,
+        31,
+        26
+      ],
+      "home_quarters": [
+        29,
+        20,
+        30,
+        27
+      ],
+      "flags": [],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf",
+      "retrieved_utc": "2026-11-19T07:26Z"
+    },
+    {
+      "game_id": "20261117_UTALAC",
+      "date": "2026-11-17",
+      "gid": "257",
+      "away": "UTA",
+      "home": "LAC",
+      "final": {
+        "away": 132,
+        "home": 107
+      },
+      "away_quarters": [
+        35,
+        23,
+        30,
+        44
+      ],
+      "home_quarters": [
+        29,
+        33,
+        24,
+        21
+      ],
+      "flags": [],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261117/20261117_UTALAC.pdf",
+      "retrieved_utc": "2026-11-19T07:28Z"
+    },
+    {
+      "game_id": "20261118_ATLOKC",
+      "date": "2026-11-18",
+      "gid": "265",
+      "away": "ATL",
+      "home": "OKC",
+      "final": {
+        "away": 117,
+        "home": 112
+      },
+      "away_quarters": [
+        31,
+        33,
+        19,
+        34
+      ],
+      "home_quarters": [
+        29,
+        22,
+        32,
+        29
+      ],
+      "flags": [
+        "OKC: table row 'THUNDER 30 32 32 30 112' rejected by sum gate (sum 124 vs final 112)"
+      ],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261118/20261118_ATLOKC.pdf",
+      "retrieved_utc": "2026-11-19T07:36Z"
+    },
+    {
+      "game_id": "20261118_BOSDEN",
+      "date": "2026-11-18",
+      "gid": "266",
+      "away": "BOS",
+      "home": "DEN",
+      "final": {
+        "away": 101,
+        "home": 105
+      },
+      "away_quarters": [
+        30,
+        31,
+        19,
+        21
+      ],
+      "home_quarters": [
+        24,
+        25,
+        31,
+        25
+      ],
+      "flags": [],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261118/20261118_BOSDEN.pdf",
+      "retrieved_utc": "2026-11-19T07:38Z"
+    },
+    {
+      "game_id": "20261118_CHIBKN",
+      "date": "2026-11-18",
+      "gid": "262",
+      "away": "CHI",
+      "home": "BKN",
+      "final": {
+        "away": 137,
+        "home": 107
+      },
+      "away_quarters": [
+        37,
+        39,
+        35,
+        26
+      ],
+      "home_quarters": [
+        21,
+        30,
+        26,
+        30
+      ],
+      "flags": [
+        "BKN: table row 'NETS 21 30 26 22 127' rejected by sum gate (sum 99 vs final 107)"
+      ],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261118/20261118_CHIBKN.pdf",
+      "retrieved_utc": "2026-11-19T07:32Z"
+    },
+    {
+      "game_id": "20261118_DETNOP",
+      "date": "2026-11-18",
+      "gid": "264",
+      "away": "DET",
+      "home": "NOP",
+      "final": {
+        "away": 122,
+        "home": 109
+      },
+      "away_quarters": [
+        31,
+        36,
+        25,
+        30
+      ],
+      "home_quarters": [
+        31,
+        29,
+        26,
+        23
+      ],
+      "flags": [],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261118/20261118_DETNOP.pdf",
+      "retrieved_utc": "2026-11-19T07:36Z"
+    },
+    {
+      "game_id": "20261118_GSWDAL",
+      "date": "2026-11-18",
+      "gid": "267",
+      "away": "GSW",
+      "home": "DAL",
+      "final": {
+        "away": 94,
+        "home": 116
+      },
+      "away_quarters": [
+        25,
+        24,
+        23,
+        22
+      ],
+      "home_quarters": [
+        35,
+        27,
+        30,
+        24
+      ],
+      "flags": [],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261118/20261118_GSWDAL.pdf",
+      "retrieved_utc": "2026-11-19T07:34Z"
+    },
+    {
+      "game_id": "20261118_HOUIND",
+      "date": "2026-11-18",
+      "gid": "259",
+      "away": "HOU",
+      "home": "IND",
+      "final": {
+        "away": 119,
+        "home": 104
+      },
+      "away_quarters": [
+        39,
+        23,
+        31,
+        26
+      ],
+      "home_quarters": [
+        28,
+        18,
+        30,
+        28
+      ],
+      "flags": [],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261118/20261118_HOUIND.pdf",
+      "retrieved_utc": "2026-11-19T07:30Z"
+    },
+    {
+      "game_id": "20261118_MEMCLE",
+      "date": "2026-11-18",
+      "gid": "258",
+      "away": "MEM",
+      "home": "CLE",
+      "final": {
+        "away": 124,
+        "home": 121
+      },
+      "away_quarters": null,
+      "home_quarters": [
+        37,
+        35,
+        27,
+        22
+      ],
+      "flags": [
+        "MEM: no period vector sums to printed final 124; left blank",
+        "MEM: table row 'Grizzlies 30 41 30 24 124' rejected by sum gate (sum 125 vs final 124)"
+      ],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261118/20261118_MEMCLE.pdf",
+      "retrieved_utc": "2026-11-19T07:12Z"
+    },
+    {
+      "game_id": "20261118_MILMIA",
+      "date": "2026-11-18",
+      "gid": "260",
+      "away": "MIL",
+      "home": "MIA",
+      "final": {
+        "away": 130,
+        "home": 137
+      },
+      "away_quarters": [
+        23,
+        25,
+        38,
+        44
+      ],
+      "home_quarters": [
+        34,
+        40,
+        38,
+        25
+      ],
+      "flags": [],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261118/20261118_MILMIA.pdf",
+      "retrieved_utc": "2026-11-19T07:32Z"
+    },
+    {
+      "game_id": "20261118_PHIORL",
+      "date": "2026-11-18",
+      "gid": "261",
+      "away": "PHI",
+      "home": "ORL",
+      "final": {
+        "away": 121,
+        "home": 116
+      },
+      "away_quarters": [
+        27,
+        37,
+        28,
+        29
+      ],
+      "home_quarters": [
+        40,
+        29,
+        28,
+        19
+      ],
+      "flags": [],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261118/20261118_PHIORL.pdf",
+      "retrieved_utc": "2026-11-19T07:30Z"
+    },
+    {
+      "game_id": "20261118_PHXSAC",
+      "date": "2026-11-18",
+      "gid": "269",
+      "away": "PHX",
+      "home": "SAC",
+      "final": {
+        "away": 128,
+        "home": 107
+      },
+      "away_quarters": null,
+      "home_quarters": [
+        31,
+        29,
+        24,
+        23
+      ],
+      "flags": [
+        "PHX: no period vector sums to printed final 128; left blank"
+      ],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261118/20261118_PHXSAC.pdf",
+      "retrieved_utc": "2026-11-19T07:38Z"
+    },
+    {
+      "game_id": "20261118_UTALAL",
+      "date": "2026-11-18",
+      "gid": "268",
+      "away": "UTA",
+      "home": "LAL",
+      "final": {
+        "away": 109,
+        "home": 97
+      },
+      "away_quarters": null,
+      "home_quarters": [
+        34,
+        20,
+        22,
+        21
+      ],
+      "flags": [
+        "UTA: no period vector sums to printed final 109; left blank"
+      ],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261118/20261118_UTALAL.pdf",
+      "retrieved_utc": "2026-11-19T07:39Z"
+    },
+    {
+      "game_id": "20261118_WASTOR",
+      "date": "2026-11-18",
+      "gid": "263",
+      "away": "WAS",
+      "home": "TOR",
+      "final": {
+        "away": 103,
+        "home": 99
+      },
+      "away_quarters": [
+        29,
+        20,
+        29,
+        25
+      ],
+      "home_quarters": [
+        23,
+        24,
+        32,
+        20
+      ],
+      "flags": [],
+      "source_url": "https://statsdmz.nba.com/pdfs/20261118/20261118_WASTOR.pdf",
+      "retrieved_utc": "2026-11-19T07:34Z"
+    }
+  ]
+}
