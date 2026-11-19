@@ -6197,3 +6197,47 @@ Session ID: `de0caf5d`; current Arena branch: `arena/de0caf5d-nba3` (fixed by wo
 | X3 — Re-verify the 11/19 game list against the live official schedule (fetch of nba.com) and record 0-mismatch / mismatch per row | in progress | de0caf5d | `data/rounds/2026-11-19/slate_check.json` (new) |
 
 Scope boundary: no edits to `index.html`, `app/`, `hub/`, `dashboard/`, `site/`, `docs/`, `audit*/`, `scripts/build_app.py`, `pages.yml`, or any model/ledger file. Nothing is rebuilt or published as a pick by this session. Bash egress reaches GitHub and package registries only; NBA pages were read with the fetch tool and are cited per row.
+
+### Completion record — session `de0caf5d` (2026-11-19, ~05:45–06:30 UTC)
+
+| Task | Status | Evidence |
+|---|---|---|
+| X1 Scheduled refresh: unit-test diagnosability | **needs review** (fix instrumentation landed; root cause NOT found) | `3550d6b`; `tests/test_workflow_diagnostics.py` (5 tests) |
+| X2 11/19 injury revisions, timestamped, diffed | **done, with flags** | `45ffd76`; `data/rounds/2026-11-19/` |
+| X3 11/19–11/21 slate re-read and cross-checked | **done, with flags** | `45ffd76`; `data/rounds/2026-11-19/slate_check.json` |
+
+**X1 — what changed.** `.github/workflows/refresh.yml`, unit-test step only: the step's full output goes to `${RUNNER_TEMP}/nba3-unit-tests.log`; on failure each `ERROR:`/`FAIL:` test id is re-emitted as an `::error::failing test:` annotation, and the log is uploaded inside the existing `refresh-diagnostics-<run_id>` artifact (the upload step now lists two paths and still runs only on failure). The suite list, `set -uo pipefail`, and the non-zero exit are unchanged. Verified by extracting the step's `run:` block and executing it in a copy: clean tree → 9/9 suites green, rc 0; a deliberately failing injected test → named annotation, log written, rc 1. Full suite 302/302 OK.
+
+**X1 — root cause: not found.** Every scheduled run on `2addcad` fails at this step (runs 44143781953, 44203349676, 44249179843, 44300142112, 44364543697, 44424736929; 11/17 18:03Z → 11/18 23:55Z). Runner logs are unreachable (`results-receiver … EOF`, `productionresultssa… EOF`), and a dispatch from this branch returned HTTP 403 (`Resource not accessible by integration`). Reproduction attempts, all green:
+- fresh clone and shallow clone of `2addcad`, the exact nine-suite loop;
+- `env -i` with `CI=true GITHUB_ACTIONS=true TZ=UTC`;
+- `freezegun` (PyPI) frozen at 2026-11-18 05:15, 17:15, 23:15 and 23:55 UTC, plus 2026-11-19/20 slots, applied to the test process and to subprocesses via `sitecustomize`;
+- no `assertEquals`-style removed aliases, no `git` calls in tests, no network in the suites (the `https://x` URLs are mocks).
+Not reproduced: Python 3.12 (the runner's default). Both `uv python install` and the npm standalone-Python package were blocked by TLS interception in this sandbox. **Next step for an owner:** the next scheduled run (11:15 UTC 11/19 onward) now uploads the failing test ids; read the `refresh-diagnostics-*` artifact or the `::error::failing test:` annotations and fix that test.
+
+**X2 — 11/19 injury revisions** (`injury_2026-11-19_0045AM.json`, parser `parse_injury_reports.py`, 5 tests).
+- Newest revision found: **11/19/26 12:45 AM ET**, PDF `Injury-Report_2026-11-19_12_45AM.pdf`, resolved on the CDN at 2026-11-19T05:47Z. The official index ([source](https://official.nba.com/nba-injury-report-2026-27-season/)) fetched at the same time still listed only the 12:30 AM report, so the index **lags the CDN**; the newest revision was taken from the CDN probe.
+- Consecutive pair: 12:30 AM → 12:45 AM. Keyed rows (matchup + team printed): 29 compared, 29 unchanged, 0 status changes, 0 added. Ten rows are keyed in 12:30 but **unreadable** in the 12:45 text layer (status or matchup cell missing); they are reported as unreadable, not as changes or removals.
+- 12:45 AM: 44 rows = 23 player rows, 15 team placeholders (`NOT YET SUBMITTED`), 6 unreadable. Flags: 2 player rows with matchup and team blank (Kuminga, Pullin); 9 POR@MIL rows with date/time blank; 6 rows with status missing (incl. Toronto Raptors / TOR@DET).
+- Gap: no archived injury revision exists in the repo between **11/16 01:30 PM ET** and **11/19 12:30 AM ET** (the scheduled refresh has been red since 11/17), so that interval is not diffed.
+- Raw storage: the PDF binary is not reachable from bash. The stored artefacts are the fetch-tool text layers (`captures/*_raw.md`) with SHA-256 hashes, retrieval stamp, and source URL. Only text the fetch tool returned was used.
+- Banner fields for the Injuries page (revision time `11/19/26 12:45 AM ET`; retrieval `2026-11-19T05:47Z`, approximate) are recorded in the JSON; the site was **not** changed (outside this claim).
+
+**X3 — 11/19–11/21 slate** (`slate_check.json`, builder `build_slate_check.py`, 6 tests).
+- Sources: https://www.nba.com/games?date=2026-11-19 (4 games), …-20 (9 games), …-21 (6 games), each read to its last chunk; each page's game count equals its calendar cell (4 / 9 / 6).
+- Count cross-check: the same per-date counts (4 / 9 / 6) appear in the committed `data/app/official_counts_2026-11-14.json`. Game-level: the 4 games of 11/19 match `data/rounds/2026-11-17/slate_extra_2026-11-19.json` (id, away, home, tip).
+- Injury-report cross-check: time-of-day agrees for every 11/19 and 11/20 matchup the PDF prints with a time (hour:minute; the PDF omits AM/PM, so `08:00 (ET)` is compared with the page's `8:00 PM ET`). Dates are not printed in the PDF text for 5 of the 11/20 games and for POR@MIL (11/19); TOR@DET (11/20) is not attributable from the PDF text. The 12:45 AM report prints no 11/21 rows.
+
+**Flags (for the Flagged for Review page — publishing is an integration step, see CR-DE0-01):**
+- F-DE0-01 Game ids are not chronological: 11/20 rows carry `0022600043`–`0022600051`, while 11/19 carry `0022600270`–`0022600273` and 11/21 `0022600274`–`0022600279`. Taken as printed (the id is the join key); not corrected.
+- F-DE0-02 Official index lags the CDN (12:45 AM PDF resolves; index lists through 12:30 AM).
+- F-DE0-03 No archived injury revisions between 11/16 01:30 PM ET and 11/19 12:30 AM ET in the repo.
+- F-DE0-04 PDF text layer: 9 POR@MIL rows with date/time blank; 2 rows (Kuminga, Pullin) with matchup and team blank; 6 rows with status missing; 10 keyed rows unreadable in the newest revision.
+- F-DE0-05 The 11/16 committed slate (`data/app/official_slate_current.json`) covers 11/15–11/18 and is stale for the 11/19–11/21 window; nothing downstream has been rebuilt for it.
+- F-DE0-06 Records printed on the games pages are as of the retrieval time and are not reconciled with the 11/16 snapshot.
+
+**Not done in this session (honest scope):** no rebuild of models, lines, picks, ledger, prereg, parlays, props, or the site; no odds or closing lines (none reachable under the egress rules); no player game logs; no two-estimator or minutes-redistribution work; no requirement-coverage page. The bash egress allows GitHub and package registries only; NBA pages were read with the fetch tool, and every value above is cited to the page it came from.
+
+**CR-DE0-01 (integration request):** add F-DE0-01…06 to the Flagged for Review page through the generator that owns it (`scripts/build_app.py`/`assemble_canonical.py`, not edited here), and link `data/rounds/2026-11-19/` from the Injuries banner (revision 12:45 AM ET, retrieval 2026-11-19T05:47Z) when the integration session next rebuilds the canonical site.
+
+**Stale claims noticed on the board (not touched, owners to close):** the claims from `d1b96315`, `4c69ab99`, `ef6e2e6c`, `2ecbccfd`, `fbd2484b`, `d68c239f` still read "in progress" although their sessions have ended; PR #119 (`arena/4a59430d-nba3`) is still OPEN from 11/16.
