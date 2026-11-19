@@ -25,10 +25,10 @@ jobs:
           set -uo pipefail
           for script in capture_2ecbccfd gamebooks_2ecbccfd slate_extra_2ecbccfd; do
             echo "--- $script --check (python $(python3 -V 2>&1))"
-            python3 scripts/$script.py --check; echo "   check exit=$?"
+            python3 scripts/$script.py --check || echo "   check exit=$?"
           done
           cp data/rounds/2026-11-17/player_logs_2026-11-15.json /tmp/committed_logs.json
-          python3 scripts/gamebooks_2ecbccfd.py > /tmp/gb.log 2>&1; echo "regen exit=$?"
+          python3 scripts/gamebooks_2ecbccfd.py > /tmp/gb.log 2>&1 || true; echo "regen exit=$?"
           echo "== first differing JSON paths (committed vs regenerated) =="
           python3 - <<'PY' > /tmp/diff.txt 2>&1
           import json
