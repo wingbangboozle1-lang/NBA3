@@ -96,6 +96,11 @@ class GamebookCheckDiagnosticTests(unittest.TestCase):
 
     INPUTS = [
         os.path.join("scripts", "gamebooks_2ecbccfd.py"),
+        # session 89e98007: the script now takes its summation/rounding rule from the shared
+        # module (scripts/determinism.py), so the scratch copy has to carry it too — the
+        # alternative, importing on a path that is not there, is a loud ImportError, which is the
+        # behaviour we want for anyone who copies the generator without its rule.
+        os.path.join("scripts", "determinism.py"),
         os.path.join("data", "live", "team_registry.json"),
     ]
 

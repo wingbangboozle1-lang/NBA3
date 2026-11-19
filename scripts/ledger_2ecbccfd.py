@@ -39,6 +39,22 @@ import os
 import re
 import sys
 
+# determinism (session 89e98007): summation and rounding are pinned in-repo, not inherited from
+# the interpreter that happens to run the build. See scripts/determinism.py: EVE-F04 was a runner
+# Python upgrade (3.11 -> 3.14.4) whose compensated sum() moved one published float by 1 unit in
+# the 4th decimal and froze the byte-for-byte replay gate for six days.
+try:
+    import determinism as det  # noqa: E402  (running from scripts/)
+except ImportError:            # running from elsewhere, e.g. round_2ecbccfd/build.py
+    import os as _det_os
+    import sys as _det_sys
+    _det_here = _det_os.path.dirname(_det_os.path.abspath(__file__))
+    for _det_p in (_det_os.path.join(_det_here, "scripts"),
+                   _det_os.path.join(_det_os.path.dirname(_det_here), "scripts")):
+        if _det_os.path.isdir(_det_p) and _det_p not in _det_sys.path:
+            _det_sys.path.insert(0, _det_p)
+    import determinism as det  # noqa: E402,F401
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 RD = os.path.join(ROOT, "data", "rounds", "2026-11-17")
 PREREG = os.path.join(RD, "prereg")
@@ -294,7 +310,7 @@ def build_picks(model):
                   "source_url": l.get("source_url"), "game_url": l.get("game_url"),
                   "session": SESSION, "round": "2026-11-17"}
         picks.append({"pick_id": f"{gid}-proj", "kind": "projection (no funded strategy -> no money)",
-                      "side": home if margin > 0 else away, "line": round(-margin, 2),
+                      "side": home if margin > 0 else away, "line": det.dq(-margin, 2),
                       "settlement_rule_id": "PROJECTION_ONLY", "strategy_id": None,
                       "payload": dict(common)})
         for sid in ("ST-17-HCA-PINNED", "ST-19-DISAGREEMENT-GATE", "ST-23-TOTAL-POSSESSION"):
@@ -310,7 +326,7 @@ def build_picks(model):
             else:
                 side = None
             p = {"pick_id": f"{gid}-{sid}", "kind": "strategy pick", "strategy_id": sid,
-                 "side": side, "line": None if side is None else round(-margin, 2),
+                 "side": side, "line": None if side is None else det.dq(-margin, 2),
                  "settlement_rule_id": s["settlement_rule"].split(":")[0],
                  "thresholds_frozen": s["thresholds"],
                  "payload": dict(common)}
@@ -389,9 +405,9 @@ def grade_pick(pick, final):
         margin_home = final["home_pts"] - final["away_pts"]
         pred = -(pick["line"]) if pick.get("line") is not None else None
         return {"type": "PROJECTION_ONLY", "outcome": "NOT_BET",
-                "margin_error_points": (round(abs(pred - margin_home), 2)
+                "margin_error_points": (det.dq(abs(pred - margin_home), 2)
                                          if pred is not None else None),
-                "total_error_points": (round(abs(pick["payload"]["originated_total"]
+                "total_error_points": (det.dq(abs(pick["payload"]["originated_total"]
                                                  - (final["home_pts"] + final["away_pts"])), 2)
                                        if pick["payload"].get("originated_total") else None)}
     side = pick.get("side")

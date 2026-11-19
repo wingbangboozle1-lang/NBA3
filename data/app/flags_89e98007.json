@@ -1,0 +1,97 @@
+[
+  {
+    "id": "89E-F-01",
+    "area": "Scheduled refresh / pipeline determinism",
+    "severity": "high",
+    "found_on": "2026-11-19",
+    "item": "EVE-F04 root cause found and closed: the six-day refresh outage was CPython's float summation rule, not NBA data. The committed-tree preflight compares regenerated artefacts byte-for-byte, so an interpreter upgrade froze the pipeline. Fixed twice, independently, an hour apart: main@78f513d (session f69a11c4) pinned this artefact's minutes to math.fsum and republished one field; this branch names the rule once in scripts/determinism.py and applies it to all six byte-compared generators.",
+    "why": "Failing test (run 44469939831 annotation): WorkflowGateTests.test_committed_round_captures_replay_before_the_live_fetch (script='gamebooks_2ecbccfd.py'). Earlier diagnostic run 44467720829 printed the single drifting field: .top8_minutes_shares.2026-11-15:WAS.top8[4].share 0.1088 (committed) vs 0.1087 (runner). Cause: CPython >= 3.12 sums floats with Neumaier compensation (docs.python.org/3/whatsnew/3.12.html; docs.python.org/3/library/functions.html#sum 'Changed in version 3.12'; cpython gh-100425). The 12 Washington rotation minutes sum to 239.99999999999997 left-to-right and to exactly 240.0 compensated, so 26.1/min_total crosses the 0.10875 midpoint and the 4th decimal flips. The runner moved to Python 3.14.4; every artefact in the repo was built by a <= 3.11 fold. Inputs were byte-identical on both machines (sha256 of the four game-book transcripts and the team registry match between this sandbox and the runner, printed in data/rounds/2026-11-19-89e98007/runner_probe.md). Verified on the machine that disagreed: probe runs 44478152590 and 44478784862 replayed the refresh workflow's exact nine-suite loop and all six artefact gates on the runner's own Python 3.14.4 \u2014 suites 9/9 rc=0 and gates 6/6 rc=0 with the artefact gate (gamebooks --check) green, which had been red since run 44143781953. Full reports: data/rounds/2026-11-19-89e98007/runner_probe.md. Two things the same reports exposed, both handled: this session's own emulator test asserted a pre-3.12 builtin value and so failed on 3.14 (rewritten to compare the pinned rules only, green under both), and the suite left data/app/minutes_shares.json modified \u2014 flag 89E-F-04. Note for the board: session f69a11c4's claim says the runner ran 3.12.3; the runner's own banner printed PY=3.14.4 in two independent runs here, so 3.14.4 is the verified reading.",
+    "action_needed": "Owner: confirm the fix by reading the next scheduled run (11:15 / 17:15 / 23:15 UTC) on main after this merges, then mark EVE-F04 resolved in data/app/flags_ef6e2e6c.json (not this session's file). Nothing further is required from the data side.",
+    "sources": [
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44469939831",
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44467720829",
+      "https://docs.python.org/3/whatsnew/3.12.html",
+      "https://docs.python.org/3/library/functions.html#sum",
+      "https://github.com/python/cpython/issues/100425"
+    ],
+    "status": "fix-merged-awaiting-hosted-green",
+    "legacy_ref": "EVE-F04"
+  },
+  {
+    "id": "89E-F-02",
+    "area": "Live data drift / rebuild chain",
+    "severity": "medium",
+    "found_on": "2026-11-19",
+    "item": "One live published artefact still changes value with the interpreter: scripts/capture_round_79341829.py regenerates data/app/minutes_shares.json with teams.2026-11-14:MIA.top8[6].share (Klay Thompson) as 0.0842 instead of the committed 0.0843 on CPython >= 3.12.",
+    "why": "Reproduced deterministically in this sandbox: PYTHONPATH=<dir with a sitecustomize that installs Neumaier summation> python3 scripts/capture_round_79341829.py leaves exactly one line dirty (git diff: -\"share\": 0.0843 / +\"share\": 0.0842); the same run without the shim leaves the tree clean, so the committed file is the pre-3.12 answer. The same divergence was observed from the other side on the runner during probe run 44478152590: after replaying the committed-tree suites, git status showed ' M data/app/minutes_shares.json'. Consequence: the scheduled refresh would commit a silent value change into a file the model and the site read, and no gate would call it out.",
+    "action_needed": "Owner of scripts/capture_round_79341829.py (arena/915d2e99-nba3, PR #143) or the next integration session: route the two float sums in that script through det.fold/det.dq (scripts/determinism.py). The change is byte-neutral against the committed file because the pin reproduces the pre-3.12 builtins exactly. Alternative: pin the interpreter version in the workflow (see 89E-S-01). Not done in this session: the file is inside another session's claim.",
+    "sources": [
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44478152590",
+      "https://docs.python.org/3/library/functions.html#sum"
+    ],
+    "status": "open",
+    "legacy_ref": ""
+  },
+  {
+    "id": "89E-F-03",
+    "area": "Published-numbers policy",
+    "severity": "medium",
+    "found_on": "2026-11-19",
+    "item": "Rule decision, now taken: published float aggregates use the correctly-rounded exact sum (math.fsum, via det.sum_). Any future change to that is a republish, not a refactor.",
+    "why": "Two rules were on the table. The pre-3.12 left-to-right fold is what every committed artefact in this repository was built with; the exact sum is what the official game book prints (12 Washington rotation minutes: 239.99999999999997 folded vs exactly 240.0, and the book's own team total reads 240:00). main@78f513d chose the exact sum and republished one field (.top8_minutes_shares.2026-11-15:WAS.top8[4].share 0.1088 -> 0.1087); this branch adopts the same rule for the rest of the gated chain and measured that it is byte-neutral there (all six --check gates rc=0, tree clean). det.fold stays in the module, documented, so the pre-3.12 number can still be reproduced deliberately.",
+    "action_needed": "Owner: confirm no further republish is wanted. If a published number that the pick ledger hashed ever moves again, open a new ledger epoch in the same commit rather than letting a generator edit do it \u2014 tests/test_determinism_89e98007.py asserts both readings so a silent re-flip fails.",
+    "sources": [
+      "https://docs.python.org/3/library/math.html#math.fsum",
+      "https://docs.python.org/3/library/functions.html#sum"
+    ],
+    "status": "decided-on-main-adopted-here",
+    "legacy_ref": ""
+  },
+  {
+    "id": "89E-F-04",
+    "area": "Test hygiene",
+    "severity": "low",
+    "found_on": "2026-11-19",
+    "item": "A CI test runs a generator in write mode against the repository, so 'the test suite passed' can mean 'the test suite rewrote a committed artefact'.",
+    "why": "tests/test_finals_1115_settlement.py line 125 invokes scripts/capture_round_79341829.py without --check, which writes data/app/minutes_shares.json in place. On Python 3.11 the write is a no-op byte-for-byte, so the tree stays clean and nobody noticed; on the runner's 3.14 the same test leaves the tree modified (probe run 44478152590 reported ' M data/app/minutes_shares.json'). Because the refresh workflow ends with 'git add -A', a test-induced edit can be swept into a data commit.",
+    "action_needed": "Owner of tests/test_finals_1115_settlement.py and scripts/capture_round_79341829.py: run the generator into a temp directory (or add --check to the test path) so tests never mutate committed artefacts; optionally have the refresh's commit step refuse to stage paths outside an allowlist. Not done here: both files are inside another session's claim (PR #143).",
+    "sources": [
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44478152590"
+    ],
+    "status": "open",
+    "legacy_ref": ""
+  },
+  {
+    "id": "89E-F-05",
+    "area": "CI configuration",
+    "severity": "low",
+    "found_on": "2026-11-19",
+    "item": "The two CI workflows disagree about the interpreter, and that asymmetry is why the bug hid: pages.yml pins python-version 3.11 (lines 72-74) so every pull-request check was green, while refresh.yml has no setup-python and used the runner default, 3.14.4.",
+    "why": "A defect that only reproduces on the schedule cannot be reviewed in a PR. Verified in the repo: grep of pages.yml finds actions/setup-python@v5 with 3.11; grep of refresh.yml finds no setup-python at all, so its unit preflight, fetch, gates and rebuild all run on whatever image the runner ships. The in-repo pin in scripts/determinism.py removes the dependence for the six byte-compared generators; the ~40 other files that still call builtins sum()/round() (verify/determinism_89e98007.md) are covered only by a workflow pin.",
+    "action_needed": "Next integration session: give refresh.yml the same setup-python step pages.yml uses, so schedule and PR CI run the same interpreter. This session could not edit either workflow file (both are inside the concurrent claim PR #143). CR-89E-02.",
+    "sources": [
+      "https://docs.python.org/3/whatsnew/3.12.html",
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44469939831"
+    ],
+    "status": "open",
+    "legacy_ref": ""
+  },
+  {
+    "id": "89E-F-06",
+    "area": "determinism",
+    "severity": "medium",
+    "found_on": "2026-11-19",
+    "item": "round2's model.json publishes six league aggregates at full float precision, so an interpreter change moves them and its byte-identity test is interpreter-dependent: 100.47153000000002 (3.11, committed) vs 100.47153 (>=3.12).",
+    "why": "Measured by running scripts/round2_2026_11_16.py in a scratch tree under the emulated CPython >= 3.12 compensated sum: six fields in data/rounds/2026-11-16-1300PM/model.json move (.league.poss_per_game, off_rtg, pts, efg_pct, tov_pct, ts_pct), all last-bit. tests/test_round2_2026_11_16.py asserts byte identity and pages.yml:298 runs it \u2014 green today only because pages.yml pins python-version 3.11 (lines 72-74). The round2 replay is NOT in refresh.yml's nine-suite loop, so this is a latent hazard for whoever moves the pin or replays that round, not a current failure. Every rounded field in the same file is already immune, which is the evidence for rounding at publish.",
+    "action_needed": "Owner of round 2026-11-16-1300PM: either route scripts/round2_2026_11_16.py's float aggregates through scripts/determinism.py (det.sum_ + det.dq) and republish the six fields in one reviewed commit, or leave it and keep the 3.11 pin. Not touched here: the file is unclaimed but the round belongs to another session, and this session's scope was the six gated generators.",
+    "sources": [
+      "data/rounds/2026-11-16-1300PM/model.json",
+      "scripts/round2_2026_11_16.py",
+      "tests/test_round2_2026_11_16.py",
+      ".github/workflows/pages.yml",
+      "verify/determinism_89e98007.md"
+    ],
+    "status": "open",
+    "legacy_ref": "89E-F-06"
+  }
+]
