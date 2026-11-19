@@ -1,0 +1,105 @@
+name: determinism probe (temporary, session 89e98007)
+
+# TEMPORARY. This workflow exists only to answer one question with runner evidence, because the
+# sandbox cannot reach the Actions log/artifact blob hosts: does the failing byte-comparison of
+# data/rounds/2026-11-17/player_logs_2026-11-15.json come from the interpreter's round() or from
+# a different INPUT on the runner? Everything is printed as annotations, which the Checks API does
+# return. Nothing here fetches, writes, commits or pushes. Delete before the PR merges.
+
+on:
+  push:
+    branches: ['arena/89e98007-nba3']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: probe the rounding site and replay every committed-tree gate
+        run: |
+          set +e
+          ann() { printf '::notice::%s\n' "$1"; }
+          ann "PY=$(python3 -VV | head -1)"
+          ann "UTC=$(date -u +%Y-%m-%dT%H:%M:%SZ) HEAD=$(git rev-parse --short HEAD)"
+          ann "TREE modified files after checkout: $(git status --porcelain | wc -l)"
+
+          # --- 1. inputs: are the files the artefact is derived from byte-identical to main?
+          for f in data/live/team_registry.json data/rounds/2026-11-17/player_logs_2026-11-15.json; do
+            ann "SHA $f=$(sha256sum "$f" | cut -c1-16)"
+          done
+          for f in data/rounds/2026-11-17/captures/gamebook_2026-11-15_*.md; do
+            ann "SHA $(basename "$f")=$(sha256sum "$f" | cut -c1-16)"
+          done
+
+          # --- 2. the exact arithmetic of the divergent field, printed every way that matters
+          python3 - <<'PY'
+          import glob, json, os, re, sys
+          from decimal import Decimal
+          sys.path.insert(0, "scripts")
+          import gamebooks_2ecbccfd as gb
+          # reparse the transcripts exactly as main() does, for the Washington club only
+          clubs = {}
+          for path in sorted(glob.glob(os.path.join(gb.CAP, "gamebook_2026-11-15_*.md"))):
+              text = open(path, encoding="utf-8").read()
+              m = re.search(r"Source: (\S+)", text)
+              teams, _ = gb.parse_book(text, m.group(1) if m else "")
+              for club, blk in gb.reconcile(teams).items():
+                  clubs[club] = blk
+          target = [c for c in clubs if "WIZARD" in c.upper()]
+          if not target:
+              print("::notice::NO WAS club block found; keys=%s" % list(clubs))
+              sys.exit(0)
+          blk = clubs[target[0]]
+          played = [r for r in blk["rows"] if r["status"] == "played"]
+          tot = sum(r["min"] or 0 for r in played)
+          ranked = sorted(played, key=lambda r: -(r["min"] or 0))[:8]
+          ann("INPUT n_played=%d tot=%s" % (len(played), Decimal(tot)))
+          for i, r in enumerate(ranked):
+              ratio = (r["min"] or 0) / tot
+              if i == 4 or abs(ratio - 0.10875) < 1e-9:
+                  ann("FIELD %s idx=%d min=%s" % (r["player"], i, Decimal(r["min"] or 0)))
+                  ann("RATIO decimal-exact=%s" % Decimal(ratio))
+                  ann("RATIO shortest-repr=%r" % ratio)
+                  ann("ROUND builtins=%r" % round(ratio, 4))
+          committed = json.load(open(gb.OUT, encoding="utf-8"))
+          key = [k for k in committed["top8_minutes_shares"] if "WAS" in k]
+          if key:
+              v = committed["top8_minutes_shares"][key[0]]["top8"][4]
+              ann("COMMITTED share=%r player=%s" % (v["share"], v["player"]))
+              ann("COMMITTED total_min_played=%r" % committed["top8_minutes_shares"][key[0]]["total_min_played"])
+          # how many values in the whole artefact are sensitive to the rounding rule?
+          def walk(o, p=""):
+              if isinstance(o, dict):
+                  for k, x in o.items():
+                      yield from walk(x, f"{p}.{k}")
+              elif isinstance(o, list):
+                  for i, x in enumerate(o):
+                      yield from walk(x, f"{p}[{i}]")
+              elif isinstance(o, float):
+                  yield (p, o)
+          floats = list(walk(committed))
+          ann("FLOATS in artefact: %d" % len(floats))
+          PY
+
+          # --- 3. replay every committed-tree gate the refresh workflow runs
+          for s in capture_2ecbccfd gamebooks_2ecbccfd slate_extra_2ecbccfd; do
+            out=$(python3 "scripts/$s.py" --check 2>&1); rc=$?
+            ann "CHECK scripts/$s.py --check rc=$rc"
+            if [ "$rc" -ne 0 ]; then ann "CHECK $s output: $(echo "$out" | head -3 | tr '\n' '|')"; fi
+          done
+          tmp=$(mktemp -d)
+          for s in model_2ecbccfd ledger_2ecbccfd; do
+            out=$(python3 "scripts/$s.py" --check 2>&1); rc=$?
+            ann "CHECK scripts/$s.py --check rc=$rc"
+            if [ "$rc" -ne 0 ]; then ann "CHECK $s output: $(echo "$out" | head -3 | tr '\n' '|')"; fi
+          done
+          out=$(python3 round_2ecbccfd/build.py --check 2>&1); rc=$?
+          ann "CHECK round_2ecbccfd/build.py --check rc=$rc"
+          git status --porcelain | head -20 | sed 's/^/::notice::DIRTY /'
+          ann "PROBE DONE"
+        timeout-minutes: 8
