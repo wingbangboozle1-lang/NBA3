@@ -24,7 +24,14 @@ import sys
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUT_DIR = os.path.join(ROOT, "data", "rounds", "2026-11-19-dd3edd74")
 OUT = os.path.join(OUT_DIR, "results_2026-11-16_18.json")
-SLATE = os.path.join(ROOT, "data", "app", "official_slate_current.json")
+# The dated capture of the window these games belong to, NOT the rolling "current" slate: a
+# later round legitimately re-points official_slate_current.json at a newer 72-hour window, and
+# reading it here made this check fail on a tree where nothing about 11/16-18 had changed
+# (main @ 8c4538b still held 11/15-18; the 2026-11-19 round rolled it to 11/19-21). A dated
+# capture is the immutable record of which games were on the schedule for those dates.
+SLATE = os.path.join(ROOT, "data", "app", "official_slate_1115_1118.json")
+if not os.path.exists(SLATE):  # older trees only had the rolling file
+    SLATE = os.path.join(ROOT, "data", "app", "official_slate_current.json")
 B1CE = os.path.join(ROOT, "data", "rounds", "2026-11-19", "results_2026-11-18.json")
 
 # Count printed in the calendar cell of each date on the official date page (e.g. "16<br>8<br>GAMES").
