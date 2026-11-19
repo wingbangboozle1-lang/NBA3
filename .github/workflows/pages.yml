@@ -593,6 +593,13 @@ jobs:
           python3 scripts/build_b1ce1334.py --check
           python3 -m unittest tests/test_b1ce1334.py -v
 
+      - name: 2026-11-19 injury player logs (arena/93becd26) - capture diff, site checks, tests
+        run: |
+          set -euo pipefail
+          python3 scripts/capture_93becd26.py --check
+          python3 scripts/build_93becd26.py --check
+          python3 -m unittest tests/test_93becd26.py -v
+
       - name: Verification audit (arena/9a13efcf) - recompute, drift check, tests
         # Independent line-by-line audit of the brief: every published model value recomputed
         # from the committed captures with its own maths, arena coordinates re-verified against
@@ -628,6 +635,7 @@ jobs:
           rm -rf d1b96315/__pycache__ d1b96315/tests/__pycache__
           cp -r d1b96315 _pages/d1b96315
           cp -r b1ce1334 _pages/b1ce1334
+          cp -r 93becd26 _pages/93becd26
           cp executive-summary.html _pages/
           cp -r dashboard _pages/dashboard
           cp -r docs _pages/docs
