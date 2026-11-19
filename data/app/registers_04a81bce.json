@@ -23,7 +23,7 @@
         "source_url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-11-19_01_45AM.pdf"
       },
       {
-        "text": "Pre-registration: 15 strategy files frozen before first bet and hash-verified (0 problems). Ledger hash publication check: 43 entries, chain intact, every published pick hashed pre-tip and verified at settlement with visible stamps.",
+        "text": "Pre-registration: 15 strategy files frozen before first bet and hash-verified (0 problems). Ledger hash publication check: 68 entries, chain intact, every published pick hashed pre-tip and verified at settlement with visible stamps.",
         "source_url": "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/ledger/ledger.jsonl"
       },
       {
@@ -183,9 +183,9 @@
     {
       "cr": "CR-B1-01",
       "from": "session b1ce1334",
-      "answer": "Settlement input delivered: 25 verified official finals 11/16-18 with quarter vectors (45/50 verified; 5 blank+flagged). Settlement runs from verified finals only at integration; quarter-dependent grading stays blocked for the flagged rows.",
-      "status": "answered \u2014 settle at O7 integration",
-      "evidence": "data/rounds/2026-11-19-04a81bce/verified/quarters_2026-11-16_18.json"
+      "answer": "DONE 2026-11-19: 25 gradeable published picks settled from the verified official finals (11/16-18); every settlement stamp carries its official game-book URL and states the grading convention of the chain (side win = actual margin sign matches the projected margin sign; total win = combined final over the originated total, per the 9 pre-existing settlements). Chain re-verified intact after settlement: 68 entries, 0 problems. Quarter-dependent grading stays blocked for the 5 flagged games (PHI 11/16, POR 11/16, MEM 11/18, PHX 11/18, UTA 11/18): those settle at final-score level with quarter sums flagged unverified in the stamp.",
+      "status": "DONE 2026-11-19 \u2014 settled with stamps",
+      "evidence": "data/app/ledger/ledger.jsonl (68 entries, chain intact); data/rounds/2026-11-19-04a81bce/verified/quarters_2026-11-16_18.json"
     },
     {
       "cr": "CR-DE0-01",

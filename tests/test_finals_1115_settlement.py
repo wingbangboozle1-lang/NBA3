@@ -89,19 +89,30 @@ class QuarterConflictTest(unittest.TestCase):
 
 
 class LedgerSettlementTest(unittest.TestCase):
-    def test_nine_settlement_entries_appended_and_chain_intact(self):
+    def test_settlement_entries_appended_and_chain_intact(self):
         r = subprocess.run([sys.executable, os.path.join(ROOT, "scripts", "pick_ledger.py"),
                             "verify"], capture_output=True, text=True)
         self.assertIn("CHAIN INTACT", r.stdout)
         entries = [json.loads(l) for l in open(LEDGER, encoding="utf-8")]
         settled = [e for e in entries if e["body"]["state"] == "SETTLED"]
-        self.assertEqual(len(settled), 9)
+        # 9 settlements of the 2026-11-15 slate (this session) + 25 of the
+        # 2026-11-16..18 slates (session 04a81bce, CR-B1-01), each against an
+        # official game book
+        self.assertEqual(len(settled), 34)
         for e in settled:
             self.assertIn("official final", e["body"]["settlement_stamp"])
 
     def test_settlement_entries_match_the_feed_finals(self):
         feed = {(g["date"], g["away"], g["home"]): g
                 for g in load_feed()["games"] if g.get("settled")}
+        # second official record: the 04a81bce game-book capture (11/16..18)
+        q = json.load(open(os.path.join(ROOT, "data", "rounds", "2026-11-19-04a81bce",
+                                        "verified", "quarters_2026-11-16_18.json"),
+                           encoding="utf-8"))
+        for g in q["games"]:
+            feed.setdefault((g["date"], g["away"], g["home"]),
+                            {"away_pts": g["final"]["away"],
+                             "home_pts": g["final"]["home"]})
         entries = [json.loads(l) for l in open(LEDGER, encoding="utf-8")]
         published = {e["body"]["pick_id"]: e["body"] for e in entries
                      if e["body"]["state"] == "PUBLISHED_PRE_TIP"}
@@ -115,7 +126,7 @@ class LedgerSettlementTest(unittest.TestCase):
             self.assertEqual(b["final"], {"away_pts": row["away_pts"],
                                           "home_pts": row["home_pts"]})
             seen += 1
-        self.assertEqual(seen, 9)
+        self.assertEqual(seen, 34)
 
 
 class OfflineRebuildTest(unittest.TestCase):

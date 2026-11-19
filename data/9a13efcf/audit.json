@@ -1644,9 +1644,9 @@
    "id": "V-LEDGER-1",
    "area": "tamper-evident ledger (publish/settle chain)",
    "requirement": "Settle the sealed ledger from official finals as soon as each game day ends, and keep the settlement stamp visible.",
-   "what_i_recomputed": "43 entries: payload sha256 + entry chain + settlement stamps",
-   "entries": 43,
-   "settled_entries": 9,
+   "what_i_recomputed": "68 entries: payload sha256 + entry chain + settlement stamps",
+   "entries": 68,
+   "settled_entries": 34,
    "settlement_stamps_sample": [
     "settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final IND 124 - PHI 131; quarter sums == finals (4 periods, verified)",
     "settled at 2026-11-16T18:36Z (game day end, 2026-11-15) from the official final LAL 131 - PHX 123; quarter sums == finals (4 periods, verified)",

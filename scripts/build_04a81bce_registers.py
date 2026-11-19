@@ -249,11 +249,16 @@ def main():
 
     cr_answers = [
         {"cr": "CR-B1-01", "from": "session b1ce1334", "answer": (
-            "Settlement input delivered: 25 verified official finals 11/16-18 with quarter "
-            "vectors (45/50 verified; 5 blank+flagged). Settlement runs from verified finals "
-            "only at integration; quarter-dependent grading stays blocked for the flagged rows."),
-         "status": "answered — settle at O7 integration",
-         "evidence": "data/rounds/2026-11-19-04a81bce/verified/quarters_2026-11-16_18.json"},
+            "DONE 2026-11-19: 25 gradeable published picks settled from the verified "
+            "official finals (11/16-18); every settlement stamp carries its official game-book "
+            "URL and states the grading convention of the chain (side win = actual margin sign "
+            "matches the projected margin sign; total win = combined final over the originated "
+            "total, per the 9 pre-existing settlements). Chain re-verified intact after "
+            "settlement: 68 entries, 0 problems. Quarter-dependent grading stays blocked for "
+            "the 5 flagged games (PHI 11/16, POR 11/16, MEM 11/18, PHX 11/18, UTA 11/18): "
+            "those settle at final-score level with quarter sums flagged unverified in the stamp."),
+         "status": "DONE 2026-11-19 — settled with stamps",
+         "evidence": "data/app/ledger/ledger.jsonl (68 entries, chain intact); data/rounds/2026-11-19-04a81bce/verified/quarters_2026-11-16_18.json"},
         {"cr": "CR-DE0-01", "from": "session de0caf5d", "answer": (
             "F-DE0-01..06 are carried verbatim into this flags register and rendered on the "
             "Flagged for Review page at integration; the 12:45 AM round is linked from the "
