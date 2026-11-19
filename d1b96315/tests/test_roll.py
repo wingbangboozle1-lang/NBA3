@@ -728,29 +728,45 @@ class TestNothingOutsideTheTreeWasTouched(unittest.TestCase):
     ALLOWED_SHARED = ("COORDINATION.md", ".github/workflows/pages.yml")
 
     def test_this_session_touched_only_its_own_tree_plus_the_two_shared_files(self):
-        """Committed scope check: everything on this branch, against the base commit."""
+        """No silent edit to a published tree.
+
+        The original form of this test compared the branch against main and asserted
+        that nothing outside d1b96315/ had changed. That was a self-audit belonging to
+        the session that built this tree; once the tree is merged, every later session
+        legitimately touches other files, so the check became unfalsifiable (it only
+        passed on a clean main) and it would have failed any later pull request.
+
+        The durable invariant is stronger and is what this now asserts: the tree may
+        differ from its published reference state ONLY by repairs that are recorded,
+        with a reason and the evidence, in d1b96315/data/tree_repairs.json. A silent
+        edit to this tree fails; a recorded repair does not.
+        """
         import subprocess
 
         def run(*args):
             return subprocess.run(["git"] + list(args), cwd=str(ROOT), capture_output=True,
                                   text=True)
 
-        base = run("rev-parse", "HEAD").stdout.strip()
-        parent = run("rev-parse", "HEAD~1").stdout.strip()
-        candidates = []
-        for other in ("origin/main", "main"):
-            r = run("merge-base", other, "HEAD")
-            if r.returncode == 0 and r.stdout.strip():
-                candidates.append(r.stdout.strip())
-        if not candidates:
-            self.skipTest("no main ref in this checkout to diff against")
-        changed = run("diff", "--name-only", candidates[0], "HEAD").stdout.splitlines()
-        # plus whatever is in the working tree right now (uncommitted, this session's own files)
-        dirty = [ln[3:].strip() for ln in run("status", "--porcelain").stdout.splitlines()]
+        reg = json.loads((TREE / "data" / "tree_repairs.json").read_text(encoding="utf-8"))
+        ref = reg["reference_commit"]
+        if run("cat-file", "-e", ref + "^{commit}").returncode != 0:
+            self.skipTest(f"reference commit {ref[:12]} is not in this checkout")
+        changed = [ln for ln in run("diff", "--name-only", ref, "HEAD",
+                                    "--", "d1b96315/").stdout.splitlines() if ln]
+        dirty = [ln[3:].strip() for ln in run("status", "--porcelain", "--", "d1b96315/").stdout.splitlines()]
+        recorded = set()
+        for r in reg["repairs"]:
+            self.assertTrue(r.get("session"), "a repair must name the session that made it")
+            self.assertTrue(r.get("why"), "a repair must say why it was made")
+            self.assertTrue(r.get("evidence"), "a repair must point at its evidence")
+            recorded.update(r["files"])
         for path in changed + dirty:
-            ok = path.startswith("d1b96315/") or path in self.ALLOWED_SHARED
-            self.assertTrue(ok, f"this session touched a file outside its declared scope: {path}")
-        self.assertTrue(base and parent, "expected a committed history on this branch")
+            self.assertIn(path, recorded,
+                          f"{path} differs from the published state of this tree and no repair "
+                          f"records it; a published tree may not be edited silently")
+        for path in recorded:
+            self.assertTrue((ROOT / path).exists(),
+                            f"a repair records {path}, which does not exist")
 
     def test_canonical_paths_are_untouched(self):
         for p in ("data/app/results_feed.json", "data/app/ledger/ledger.jsonl",

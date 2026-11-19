@@ -25,6 +25,8 @@ from datetime import date as _date, timedelta
 
 HERE = pathlib.Path(__file__).resolve().parent
 ROOT = HERE.parent
+sys.path.insert(0, str(ROOT / "scripts"))
+from numeric import fsum, rnd          # noqa: E402  (version-independent float arithmetic)
 D = HERE / "data"
 
 INJ_LATEST = D / "injuries_2026-11-16_latest.json"
@@ -85,7 +87,7 @@ def bivariate_cdf(a: float, b: float, rho: float, steps: int = 4000) -> float:
 
 def mean(xs):
     xs = [x for x in xs if x is not None]
-    return sum(xs) / len(xs) if xs else None
+    return fsum(xs) / len(xs) if xs else None
 
 
 def sd(xs):
@@ -93,7 +95,7 @@ def sd(xs):
     if len(xs) < 2:
         return None
     m = mean(xs)
-    return math.sqrt(sum((x - m) ** 2 for x in xs) / (len(xs) - 1))
+    return math.sqrt(fsum((x - m) ** 2 for x in xs) / (len(xs) - 1))
 
 
 def wilson(k: float, n: float, z: float = 1.959963985):
@@ -103,18 +105,18 @@ def wilson(k: float, n: float, z: float = 1.959963985):
     den = 1 + z * z / n
     ctr = (p + z * z / (2 * n)) / den
     half = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / den
-    return [round(max(0.0, ctr - half), 4), round(min(1.0, ctr + half), 4)]
+    return [rnd(max(0.0, ctr - half), 4), rnd(min(1.0, ctr + half), 4)]
 
 
 def corr(xs, ys):
     if len(xs) < 3:
         return None
     mx, my = mean(xs), mean(ys)
-    sx = math.sqrt(sum((x - mx) ** 2 for x in xs))
-    sy = math.sqrt(sum((y - my) ** 2 for y in ys))
+    sx = math.sqrt(fsum((x - mx) ** 2 for x in xs))
+    sy = math.sqrt(fsum((y - my) ** 2 for y in ys))
     if not sx or not sy:
         return None
-    return sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / (sx * sy)
+    return fsum((x - mx) * (y - my) for x, y in zip(xs, ys)) / (sx * sy)
 
 
 def fisher_ci(r, nn):
@@ -122,13 +124,13 @@ def fisher_ci(r, nn):
         return None
     z = 0.5 * math.log((1 + r) / (1 - r))
     se = 1 / math.sqrt(nn - 3)
-    return [round(math.tanh(z - 1.959963985 * se), 3), round(math.tanh(z + 1.959963985 * se), 3)]
+    return [rnd(math.tanh(z - 1.959963985 * se), 3), rnd(math.tanh(z + 1.959963985 * se), 3)]
 
 
 def american(p):
     if p is None or not (0 < p < 1):
         return None
-    return round(-100 * p / (1 - p), 1) if p >= 0.5 else round(100 * (1 - p) / p, 1)
+    return rnd(-100 * p / (1 - p), 1) if p >= 0.5 else rnd(100 * (1 - p) / p, 1)
 
 
 def load(p: pathlib.Path):
@@ -303,8 +305,8 @@ def availability_for(team: str, report: dict, idx: dict) -> dict:
         return res
     res["rotation_source"] = {"date": rot["date"], "opponent": rot["opponent"], "source": rot["source"]}
     played = sorted([r for r in rot["rows"] if r.get("min")], key=lambda r: -r["min"])
-    total_min = sum(r["min"] for r in played) or 240.0
-    res["top8_share_before"] = round(sum(r["min"] for r in played[:8]) / total_min, 4)
+    total_min = fsum(r["min"] for r in played) or 240.0
+    res["top8_share_before"] = rnd(fsum(r["min"] for r in played[:8]) / total_min, 4)
     out_names = {norm_name(r["player"]) for r in listed if r.get("status") in APPLIED_STATUSES}
     if not out_names:
         res["status"] = "nothing to apply"
@@ -318,19 +320,19 @@ def availability_for(team: str, report: dict, idx: dict) -> dict:
     avail = [r for r in played if norm_name(r["player"]) not in out_names]
     out = [r for r in played if norm_name(r["player"]) in out_names]
     res["out_applied"] = [{"player": r["player"], "min": r["min"], "pts": r.get("pts"),
-                           "share_of_team_minutes": round(r["min"] / total_min, 4)} for r in out]
+                           "share_of_team_minutes": rnd(r["min"] / total_min, 4)} for r in out]
     if not avail:
         res["status"] = "no replacement pool"
         res["notes"].append("every player in the captured box is on the out list; no replacement "
                             "exists in the sample")
         return res
-    removed = sum(r["min"] for r in out)
-    avail_min = sum(r["min"] for r in avail)
-    res["minutes_share_removed"] = round(removed / total_min, 4)
+    removed = fsum(r["min"] for r in out)
+    avail_min = fsum(r["min"] for r in avail)
+    res["minutes_share_removed"] = rnd(removed / total_min, 4)
     res["replacement_shares"] = [
         {"player": r["player"], "min_before": r["min"],
-         "added_min": round(removed * r["min"] / avail_min, 2),
-         "min_after": round(r["min"] + removed * r["min"] / avail_min, 2)} for r in avail]
+         "added_min": rnd(removed * r["min"] / avail_min, 2),
+         "min_after": rnd(r["min"] + removed * r["min"] / avail_min, 2)} for r in avail]
     rated = [r for r in played if r.get("pts") is not None]
     rated_avail = [r for r in avail if r.get("pts") is not None]
     res["rows_without_readable_points"] = len(played) - len(rated)
@@ -339,13 +341,13 @@ def availability_for(team: str, report: dict, idx: dict) -> dict:
         res["notes"].append("no readable points in the rows the replacement would come from; the "
                             "minutes effect is published, the production effect is left null")
         return res
-    before = sum(r["pts"] for r in rated)
-    after = sum(r["pts"] + removed * (r["min"] / avail_min) * (r["pts"] / r["min"])
+    before = fsum(r["pts"] for r in rated)
+    after = fsum(r["pts"] + removed * (r["min"] / avail_min) * (r["pts"] / r["min"])
                 for r in rated_avail)
     lost = before - after
     poss = idx.get(team, {}).get("poss_pg")
-    res["points_lost_per_game"] = round(lost, 2)
-    res["ortg_delta"] = round(lost / poss * 100.0, 2) if poss else None
+    res["points_lost_per_game"] = rnd(lost, 2)
+    res["ortg_delta"] = rnd(lost / poss * 100.0, 2) if poss else None
     res["status"] = "applied"
     res["caveat"] = ("built on one captured box score for the club: the rate is that game's points "
                      "per minute, redistributed pro rata to the minutes each available player "
@@ -456,7 +458,7 @@ def travel(away: str, home: str, venue) -> dict:
     to_rad = math.pi / 180.0
     h = (math.sin((la2 - la1) * to_rad / 2) ** 2
          + math.cos(la1 * to_rad) * math.cos(la2 * to_rad) * math.sin((lo2 - lo1) * to_rad / 2) ** 2)
-    out["km"] = round(2 * 6371.0 * math.asin(math.sqrt(h)), 1)
+    out["km"] = rnd(2 * 6371.0 * math.asin(math.sqrt(h)), 1)
     out["status"] = "computed (haversine, derived — not an NBA-published figure)"
     out["same_building_back_to_back"] = (out["km"] < 1.0)
     if venue and a2.get("arena") and venue.strip().lower() != str(a2["arena"]).strip().lower():
@@ -480,7 +482,7 @@ def luck_z(team_row: dict, sigma: float | None = None) -> float | None:
     if not gp or net is None or not sigma:
         return None
     p = phi(net / sigma)
-    return round((w - gp * p) / math.sqrt(gp * p * (1 - p)), 3)
+    return rnd((w - gp * p) / math.sqrt(gp * p * (1 - p)), 3)
 
 
 # ---------------------------------------------------------------- main
@@ -497,7 +499,7 @@ def main(check: bool = False) -> int:
     home_margins = [g["home_pts"] - g["away_pts"] for g in settled]
     sd_margin = sd(home_margins) or 0.0
     p_st = st["measured_home_win_rate"]
-    hca = round(phi_inv(p_st) * sd_margin, 2)
+    hca = rnd(phi_inv(p_st) * sd_margin, 2)
     PIN.update(hca_points=hca, sd_margin=sd_margin)
     home_court = {
         "pinned": True,
@@ -506,17 +508,17 @@ def main(check: bool = False) -> int:
                       f"in {st['measured_home_games']} home games)",
         "measured_home_win_rate_standings": p_st,
         "wilson95_standings": wilson(st["measured_home_wins"], st["measured_home_games"]),
-        "measured_home_win_rate_finals_log": round(home_wins_log / len(settled), 4) if settled else None,
+        "measured_home_win_rate_finals_log": rnd(home_wins_log / len(settled), 4) if settled else None,
         "finals_log_n": len(settled),
         "wilson95_finals_log": wilson(home_wins_log, len(settled)),
-        "sd_home_margin_finals_log": round(sd_margin, 3),
+        "sd_home_margin_finals_log": rnd(sd_margin, 3),
         "hca_points_used": hca,
         "hca_formula": "Phi^-1(home win rate) x sd(home margin): the rate from the standings "
                        f"(n = {st['measured_home_games']}), the spread from the verified finals "
                        f"(n = {len(settled)}). Neither estimator may move this number.",
         "why_pinned": "fitting HCA inside a short log lets the ratings absorb the season's luck; the "
                       "brief pins it to the measured rate, so it is measured once and used twice",
-        "two_readings_disagree_by": round(abs(p_st - (home_wins_log / len(settled))), 4) if settled else None,
+        "two_readings_disagree_by": rnd(abs(p_st - (home_wins_log / len(settled))), 4) if settled else None,
         "readings_note": "the finals log is 23 games and its Wilson interval is wide; the standings "
                          "measurement covers the whole league to date and is the pin. The gap is "
                          "published, not averaged away.",
@@ -533,10 +535,10 @@ def main(check: bool = False) -> int:
             pred = pred_factory(sub)
             g = subset[k]
             errs.append((pred(g) - (g["home_pts"] - g["away_pts"])) ** 2)
-        return math.sqrt(sum(errs) / len(errs)) if errs else None
+        return math.sqrt(fsum(errs) / len(errs)) if errs else None
 
     loo_a = [{"ridge": lam,
-              "loo_rmse": round(loo(lambda s, lam=lam: predict_fn(s, hca, lam)), 4)} for lam in lams]
+              "loo_rmse": rnd(loo(lambda s, lam=lam: predict_fn(s, hca, lam)), 4)} for lam in lams]
     best = min(loo_a, key=lambda c: c["loo_rmse"])
     baseline = loo(lambda s: (lambda g: hca))
     resid = []
@@ -551,10 +553,10 @@ def main(check: bool = False) -> int:
         "name": "Massey ratings on verified final margins, pinned HCA, ridge chosen by leave-one-game-out",
         "inputs_used": "final margins only: no efficiency data, no availability data",
         "ridge_candidates": loo_a, "ridge_chosen": best,
-        "baseline_loo_rmse_predicting_only_the_pinned_hca": round(baseline, 4),
-        "out_of_sample_skill_vs_baseline": round(1 - best["loo_rmse"] / baseline, 4),
-        "residual_sd_points": round(sd_resid, 3),
-        "ratings": {k: round(v, 3) for k, v in sorted(ratings_a.items())},
+        "baseline_loo_rmse_predicting_only_the_pinned_hca": rnd(baseline, 4),
+        "out_of_sample_skill_vs_baseline": rnd(1 - best["loo_rmse"] / baseline, 4),
+        "residual_sd_points": rnd(sd_resid, 3),
+        "ratings": {k: rnd(v, 3) for k, v in sorted(ratings_a.items())},
         "games_fitted_on": len(settled),
         "atl_mil_note": "0022600243 (ATL @ MIL) is included: the final 113-106 is confirmed by the "
                         "scoreboard, the game-book recap line and the box-score team totals. Only its "
@@ -582,32 +584,32 @@ def main(check: bool = False) -> int:
             lines.append(row)
             continue
         ma = ratings_a.get(h, 0.0) - ratings_a.get(a, 0.0) + hca
-        poss = round((ta["poss_pg"] + th["poss_pg"]) / 2.0, 2)
+        poss = rnd((ta["poss_pg"] + th["poss_pg"]) / 2.0, 2)
         dA = avail[a]["ortg_delta"] if avail[a]["status"] == "applied" else 0.0
         dH = avail[h]["ortg_delta"] if avail[h]["status"] == "applied" else 0.0
         off_a, off_h = ta["off_rtg"] - dA, th["off_rtg"] - dH
         ppp_a = (off_a + th["def_rtg"]) / 2.0 / 100.0
         ppp_h = (off_h + ta["def_rtg"]) / 2.0 / 100.0
         pts_a, pts_h = poss * ppp_a, poss * ppp_h
-        mb = round(pts_h - pts_a + hca, 2)
-        total_b = round(pts_a + pts_h, 2)
+        mb = rnd(pts_h - pts_a + hca, 2)
+        total_b = rnd(pts_a + pts_h, 2)
         naive = None
         na, nb_ = ta.get("naive_scoring_averages"), th.get("naive_scoring_averages")
         if na and nb_ and None not in (na["pts_pg"], nb_["pts_pg"]):
-            naive = round(na["pts_pg"] + nb_["pts_pg"], 2)
-        dis = round(abs(ma - mb), 2)
+            naive = rnd(na["pts_pg"] + nb_["pts_pg"], 2)
+        dis = rnd(abs(ma - mb), 2)
         rz = {"away": luck_z(ta), "home": luck_z(th)}
         out_outside = [k for k, v in rz.items() if v is not None and abs(v) > OUT_OF_NOISE_BAND]
         row.update({
-            "estimator_a_margin": round(ma, 2), "estimator_b_margin": mb,
+            "estimator_a_margin": rnd(ma, 2), "estimator_b_margin": mb,
             "disagreement_margin_points": dis,
             "headline_confidence": ("agreeing" if dis <= 2.5 else
                                     "watch" if dis <= DISAGREE_CAP else "too wide to publish as a bet"),
-            "blend_margin_underneath": round((ma + mb) / 2.0, 2),
-            "possessions": poss, "ppp_away": round(ppp_a, 4), "ppp_home": round(ppp_h, 4),
+            "blend_margin_underneath": rnd((ma + mb) / 2.0, 2),
+            "possessions": poss, "ppp_away": rnd(ppp_a, 4), "ppp_home": rnd(ppp_h, 4),
             "total_possessions_model": total_b,
             "total_naive_scoring_average": naive,
-            "total_gap_between_the_two_methods": (round(abs(total_b - naive), 2)
+            "total_gap_between_the_two_methods": (rnd(abs(total_b - naive), 2)
                                                   if naive is not None else None),
             "availability": {"away": avail[a], "home": avail[h]},
             "rotation_availability": {
@@ -648,9 +650,9 @@ def main(check: bool = False) -> int:
     rho_xg = corr(m1, m2)
     pricing = {
         "measured_on": {"settled_games": len(settled), "same_date_game_pairs": len(pairs)},
-        "rho_margin_vs_total": round(rho_mt, 4) if rho_mt is not None else None,
+        "rho_margin_vs_total": rnd(rho_mt, 4) if rho_mt is not None else None,
         "rho_margin_vs_total_ci95": fisher_ci(rho_mt, len(settled)),
-        "rho_cross_game_margin": round(rho_xg, 4) if rho_xg is not None else None,
+        "rho_cross_game_margin": rnd(rho_xg, 4) if rho_xg is not None else None,
         "rho_cross_game_ci95": fisher_ci(rho_xg, len(m1)),
         "rho_method": "both rhos are measured on the verified finals in this repo: margin against "
                       "total, and the margin of one game against the margin of another game on the "
@@ -676,11 +678,11 @@ def main(check: bool = False) -> int:
         joint = bivariate_cdf(phi_inv(p_fav), phi_inv(p_over), rho)
         naive_p = p_fav * p_over
         price = {"legs": ["home side at our originated number", "game total over our number"],
-                 "p_leg_1": round(p_fav, 4), "p_leg_2": round(p_over, 4),
-                 "rho_used": round(rho, 4),
-                 "p_parlay_measured_rho": round(joint, 4),
-                 "p_parlay_naive_product": round(naive_p, 4),
-                 "difference_in_probability_points": round((joint - naive_p) * 100, 2),
+                 "p_leg_1": rnd(p_fav, 4), "p_leg_2": rnd(p_over, 4),
+                 "rho_used": rnd(rho, 4),
+                 "p_parlay_measured_rho": rnd(joint, 4),
+                 "p_parlay_naive_product": rnd(naive_p, 4),
+                 "difference_in_probability_points": rnd((joint - naive_p) * 100, 2),
                  "fair_american_measured_rho": american(joint),
                  "fair_american_naive": american(naive_p),
                  "surface": "projection — this is a price we publish, not a bet we place",
@@ -697,9 +699,9 @@ def main(check: bool = False) -> int:
             "share_of_points_by_quarter": None, "back_to_back_fourth_quarter": None}
     if qgames:
         all_pts = sum(sum(g["quarters"]["away"]) + sum(g["quarters"]["home"]) for g in qgames)
-        shares = {f"Q{i + 1}": round(sum(g["quarters"]["away"][i] + g["quarters"]["home"][i]
+        shares = {f"Q{i + 1}": rnd(sum(g["quarters"]["away"][i] + g["quarters"]["home"][i]
                                           for g in qgames) / all_pts, 4) for i in range(4)}
-        shares["sum"] = round(sum(v for k, v in shares.items() if k != "sum"), 4)
+        shares["sum"] = rnd(sum(v for k, v in shares.items() if k != "sum"), 4)
         flow["share_of_points_by_quarter"] = shares
         b2b, rested = [], []
         for g in qgames:
@@ -711,8 +713,8 @@ def main(check: bool = False) -> int:
         flow["back_to_back_fourth_quarter"] = {
             "definition": "4th-quarter points minus 3rd-quarter points, by club, split on whether "
                           "the club played the previous day (verified finals only)",
-            "on_a_back_to_back": {"n": len(b2b), "mean": round(mean(b2b), 2) if b2b else None},
-            "rested": {"n": len(rested), "mean": round(mean(rested), 2) if rested else None},
+            "on_a_back_to_back": {"n": len(b2b), "mean": rnd(mean(b2b), 2) if b2b else None},
+            "rested": {"n": len(rested), "mean": rnd(mean(rested), 2) if rested else None},
             "note": "small n; published as a measurement with its sample size, not as a rule",
         }
 
@@ -733,7 +735,7 @@ def main(check: bool = False) -> int:
             "hca_points": vals, "source_file": "data/app/ledger/ledger.jsonl",
             "note": "the value every sealed entry in that chain records; it is a constant, not a "
                     "measurement recomputed per game day"}
-    published["spread_between_the_three_points"] = round(
+    published["spread_between_the_three_points"] = rnd(
         max([v for v in [hca, (published.get("data_rounds_2026_11_16") or {}).get("hca_points"),
                          *((published.get("data_app_ledger_constant") or {}).get("hca_points") or [])]
              if v is not None]) -
@@ -741,7 +743,7 @@ def main(check: bool = False) -> int:
                          *((published.get("data_app_ledger_constant") or {}).get("hca_points") or [])]
              if v is not None]), 2)
     published["effect_on_this_builds_lines"] = {
-        "vs_the_round_capture": round(hca - ((published.get("data_rounds_2026_11_16") or {})
+        "vs_the_round_capture": rnd(hca - ((published.get("data_rounds_2026_11_16") or {})
                                             .get("hca_points") or hca), 2),
         "reading": "every home margin in this build is this many points smaller than the same model "
                    "run at the previously pinned value; the number moved because the pin moved from "
@@ -753,11 +755,11 @@ def main(check: bool = False) -> int:
     stability = []
     for cand in loo_a:
         fn = predict_fn(settled, hca, cand["ridge"])
-        deltas = [abs(round(fn({"home": r["home"], "away": r["away"], "home_pts": 0, "away_pts": 0})
+        deltas = [abs(rnd(fn({"home": r["home"], "away": r["away"], "home_pts": 0, "away_pts": 0})
                               - r["estimator_a_margin"], 2)) for r in tonight]
         stability.append({"ridge": cand["ridge"], "loo_rmse": cand["loo_rmse"],
-                          "max_abs_shift_on_tonights_lines": round(max(deltas), 2) if deltas else None,
-                          "mean_abs_shift": round(mean(deltas), 2) if deltas else None})
+                          "max_abs_shift_on_tonights_lines": rnd(max(deltas), 2) if deltas else None,
+                          "mean_abs_shift": rnd(mean(deltas), 2) if deltas else None})
     model_stability = {"table": stability,
                        "why": "23 verified finals cannot determine 30 club ratings on its own; the "
                               "ridge is the only thing holding the system up, so the page prints how "
@@ -851,8 +853,8 @@ def main(check: bool = False) -> int:
             "why": "a scoring average already contains the pace the team actually played and the "
                    "opponent it faced; adding two of them makes a total that no single game implies. "
                    "Both are printed for every row so the difference is auditable.",
-            "league_mean_total_from_verified_finals": round(mean_total, 2) if mean_total else None,
-            "sd_total": round(sd_total, 2) if sd_total else None,
+            "league_mean_total_from_verified_finals": rnd(mean_total, 2) if mean_total else None,
+            "sd_total": rnd(sd_total, 2) if sd_total else None,
         },
         "injury_coverage": coverage,
         "luck_z": luck,

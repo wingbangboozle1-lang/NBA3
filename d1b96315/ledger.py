@@ -262,14 +262,53 @@ def verify_tree(path: pathlib.Path, recipe: str) -> dict:
             "head_hash": entries[-1]["entry_hash"] if entries else None}
 
 
-def amend(now: datetime) -> dict:
+REASONS_FILE = D / "amend_reasons.json"
+
+
+def registered_reasons() -> list:
+    """The register of reasons a sealed line may be amended for."""
+    if not REASONS_FILE.exists():
+        return []
+    return json.loads(REASONS_FILE.read_text(encoding="utf-8")).get("reasons", [])
+
+
+def resolve_reason(reason: dict | None) -> tuple[str, str]:
+    """(id, text) of the reason this amendment is written under.
+
+    A caller may pass a registered reason id; anything else is refused, because a
+    chain entry must not carry a reason that is not on the register. With no id
+    given, the first registered reason is used, which is the one the earlier
+    amendment round was written under.
+    """
+    reg = registered_reasons()
+    if not reg:
+        raise SystemExit("d1b96315/data/amend_reasons.json is missing; an amendment may not be "
+                         "written without a registered reason")
+    if reason is None:
+        chosen = reg[0]
+    else:
+        rid = reason.get("id") if isinstance(reason, dict) else reason
+        matches = [r for r in reg if r.get("id") == rid]
+        if not matches:
+            raise SystemExit(f"amendment reason {rid!r} is not registered in "
+                             f"d1b96315/data/amend_reasons.json")
+        chosen = matches[0]
+    return chosen["id"], chosen["text"]
+
+
+def amend(now: datetime, reason: dict | None = None) -> dict:
     """Append an AMEND entry for every sealed pick whose *current* line differs from the sealed one.
 
     A sealed entry is never edited — that is the whole point of the chain. When a model fix lands
     after a seal (this session's page-break carry moved two Memphis rows), the honest record is an
     appended entry that names both values and says why they differ, so a reader can see the
     divergence instead of finding a chain that quietly matches today's numbers.
+
+    The reason is not written from the caller's memory: it is looked up in
+    d1b96315/data/amend_reasons.json by id, so a chain entry can never carry a reason that was
+    composed after the fact. The register is the record of what is allowed to move a sealed line.
     """
+    reason_id, reason_text = resolve_reason(reason)
     entries = read(LFILE)
     prev = entries[-1]["entry_hash"] if entries else GENESIS
     # the newest recorded value for each pick is what a re-amendment has to beat; a second fix to the
@@ -310,10 +349,8 @@ def amend(now: datetime) -> dict:
                 "supersedes_recorded": {f: compare_to.get(f) for f in fields} if no > 1 else None,
                 "current": {f: c.get(f) for f in fields},
                 "max_delta_points": round(max(abs((a or 0) - (b or 0)) for _, a, b in deltas), 2),
-                "why": "the model changed after this line was sealed: the injury parser now carries a "
-                       "club across a PDF page break, so the availability adjustment applies to rows "
-                       "the earlier build silently dropped (board flag D-05). The sealed entry is "
-                       "left exactly as it was; this entry records what the same row reads now",
+                "reason_id": reason_id,
+                "why": reason_text,
                 "stamp": now.strftime("%Y-%m-%dT%H:%M:%SZ")}
         entry = {"seq": len(entries) + 1, "kind": "AMEND",
                  "pick_id": f"{e['pick_id']}-amend-{no}" if no > 1 else f"{e['pick_id']}-amend",
@@ -392,6 +429,9 @@ def main() -> int:
     ap.add_argument("action", choices=["publish", "settle", "amend", "verify", "seal-round"])
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--now", default=None, help="override the clock, ISO-8601 UTC (for tests)")
+    ap.add_argument("--reason-id", default=None,
+                    help="the registered reason id an amendment is written under "
+                         "(see d1b96315/data/amend_reasons.json)")
     a = ap.parse_args()
     now = (datetime.strptime(a.now, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
            if a.now else datetime.now(timezone.utc))
@@ -400,11 +440,11 @@ def main() -> int:
     elif a.action == "settle":
         res = settle(now)
     elif a.action == "amend":
-        res = amend(now)
+        res = amend(now, {"id": a.reason_id} if a.reason_id else None)
     elif a.action == "seal-round":
         p = publish(now)
         s = settle(now)
-        m = amend(now)
+        m = amend(now, {"id": a.reason_id} if a.reason_id else None)
         v = verify(now)
         (D / "ledger_check.json").write_text(json.dumps(v, indent=1) + "\n", encoding="utf-8")
         res = {"publish": p, "settle": s, "amend": m, "verify": v}

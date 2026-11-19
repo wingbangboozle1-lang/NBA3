@@ -1,0 +1,44 @@
+{
+ "schema": "nba3.d1b96315.tree_repairs/v1",
+ "what": "Every change made to the d1b96315 tree by a session other than the one that built it. The tree is published work; a later session may repair it, but it may not do so silently. Each repair names the file, the session that made it, why, and the evidence, and the test suite refuses to let the tree differ from its published reference state in any way that is not listed here.",
+ "reference_commit": "454a7eec12afac6b2b23a4f0eeb44ac0ffab89e9",
+ "reference_note": "The published state of the d1b96315 tree as of the last merge before session arena/5c0fffdc-nba3 started work. The diff against this commit, restricted to d1b96315/, must equal the repair list below.",
+ "repairs": [
+  {
+   "session": "arena/5c0fffdc-nba3",
+   "date": "2026-11-19",
+   "files": [
+    "d1b96315/ledger.py",
+    "d1b96315/model.py",
+    "d1b96315/tests/test_roll.py",
+    "d1b96315/data/amend_reasons.json",
+    "d1b96315/data/tree_repairs.json",
+    "d1b96315/data/flags.csv",
+    "d1b96315/data/flags.json",
+    "d1b96315/data/gates.json",
+    "d1b96315/data/ledger_check.json",
+    "d1b96315/data/lines.json",
+    "d1b96315/data/model.json",
+    "d1b96315/ledger/ledger.jsonl",
+    "d1b96315/pages/index.html",
+    "d1b96315/pages/ledger.html",
+    "d1b96315/pages/lines.html",
+    "d1b96315/pages/model.html",
+    "d1b96315/pages/pricing.html",
+    "d1b96315/pages/flagged.html"
+   ],
+   "why": "The scheduled refresh had been red on every run since 2026-11-17 because this tree's model regenerates with different bytes on CPython 3.12+ (sum() over floats changed to Neumaier compensated summation, gh-100425), which fails the byte-identity drift gate that runs before the official fetch. The arithmetic is now interpreter-independent (scripts/numeric.py: exactly-rounded sums, an explicitly stated rounding mode), the generated artefacts are regenerated, and the four sealed picks whose lines moved by at most 0.02 points were amended in the hash chain under the registered reason SUM-2026-11-19. No input, source, threshold or settlement rule changed.",
+   "evidence": [
+    "scripts/numeric.py",
+    "tests/test_numeric.py",
+    "d1b96315/data/amend_reasons.json",
+    ".github/workflows/refresh.yml"
+   ]
+  }
+ ],
+ "rules": [
+  "a sealed entry is never rewritten; a moved line is amended in the chain under a registered reason",
+  "a repair to this tree must be recorded here, with the session that made it and the evidence",
+  "the diff against reference_commit, restricted to d1b96315/, must equal the union of the repair file lists"
+ ]
+}

@@ -28,6 +28,9 @@ import re
 import sys
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, os.path.join(ROOT, "scripts"))
+from numeric import fsum, rnd          # noqa: E402  (version-independent float arithmetic)
+
 CAP = os.path.join(ROOT, "data", "rounds", "2026-11-17", "captures")
 OUT = os.path.join(ROOT, "data", "rounds", "2026-11-17", "player_logs_2026-11-15.json")
 
@@ -210,7 +213,7 @@ def reconcile(teams):
         complete = len(full) == len(rows)
         sums = {k: (sum((r[k] or 0) for r in full) if complete else None) for k in cols}
         pts_only = sum((r.get("pts") or 0) for r in rows)
-        mins = round(sum(r["min"] or 0 for r in rows), 2)
+        mins = rnd(fsum(r["min"] or 0 for r in rows), 2)
         checks = {k: (t.get(k) == sums[k]) if (t and sums.get(k) is not None and sums[k] is not None)
                   else None for k in cols}
         checks["min_total_240"] = abs(mins - 240.0) < 0.35
@@ -277,13 +280,13 @@ def main():
                     "source_url": d["source_url"],
                 })
             ranked = sorted(played, key=lambda r: -(r["min"] or 0))[:8]
-            tot = sum(r["min"] or 0 for r in played) or None
+            tot = fsum(r["min"] or 0 for r in played) or None
             top8[f"2026-11-15:{code or club}"] = {
                 "date": "2026-11-15", "team": code, "club": club,
                 "source": d["source_url"], "reconciles": blk["reconciles"],
-                "total_min_played": round(tot, 2) if tot else None,
+                "total_min_played": rnd(tot, 2) if tot else None,
                 "top8": [{"player": r["player"], "min": r["min"],
-                          "share": round((r["min"] or 0) / tot, 4) if tot else None}
+                          "share": rnd((r["min"] or 0) / tot, 4) if tot else None}
                          for r in ranked],
             }
     payload = {

@@ -25,6 +25,29 @@ jobs:
       - uses: actions/checkout@v4
 
       # ---------------------------------------------------------------------------
+      # The refresh runner and the Pages runner must be the SAME interpreter.
+      #
+      # pages.yml pins Python 3.11 (actions/setup-python@v5). This job used to take
+      # the runner image's default, which is now 3.14. Since CPython 3.12 `sum()` over
+      # floats uses Neumaier compensated summation (gh-100425) instead of the naive
+      # left-to-right accumulation of 3.11, three committed artefacts regenerated with
+      # different bytes on the newer interpreter, their byte-identity drift gates
+      # failed, and the job aborted at the unit-test gate BEFORE it fetched any
+      # official source. Every scheduled run from 2026-11-17 to 2026-11-19 was red
+      # for that reason alone (runs 44143781953, 44203349676, 44249179843,
+      # 44300142112, 44364543697, 44424736929, 44469939831).
+      #
+      # Pinning the interpreter is the belt; scripts/numeric.py (exactly-rounded
+      # sums, an explicitly stated rounding mode) is the braces, and
+      # tests/test_numeric.py holds the property that a committed artefact must not
+      # move when the interpreter's summation algorithm changes. The gate is NOT
+      # weakened: every suite still has to pass before the fetch is allowed to run.
+      # ---------------------------------------------------------------------------
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # ---------------------------------------------------------------------------
       # STEP ORDER IS A GATE, NOT A CONVENIENCE.
       #
       # The unit tests run BEFORE the live fetch on purpose. One of them,
@@ -66,7 +89,7 @@ jobs:
           for suite in "test_*1115*.py" "test_results_feed.py" "test_pick_ledger.py" \
                        "test_freshness_gates.py" "test_refresh_official.py" \
                        "test_results_feed_rows.py" "test_gamecard_feed.py" "test_standings_feed.py" \
-                       "test_round_2ecbccfd.py"; do
+                       "test_round_2ecbccfd.py" "test_numeric.py"; do
             echo "::group::unittest $suite"
             log="$logdir/$(printf '%s' "$suite" | tr -c 'A-Za-z0-9._-' '_').log"
             if [ "$suite" = "test_refresh_official.py" ]; then

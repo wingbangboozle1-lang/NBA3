@@ -1,0 +1,21 @@
+{
+ "schema": "nba3.d1b96315.amend_reasons/v1",
+ "what": "Every reason a line may carry in the tamper-evident ledger is registered here before it is written into the chain. An AMEND entry names the sealed value, the current value and the reason, so a reader can see the divergence instead of finding a chain that quietly matches today's numbers. A reason may only be used once per amendment round; the reason id is stored on the entry so the chain itself says why it moved.",
+ "reasons": [
+  {
+   "id": "D-05",
+   "round": 1,
+   "text": "the model changed after this line was sealed: the injury parser now carries a club across a PDF page break, so the availability adjustment applies to rows the earlier build silently dropped (board flag D-05). The sealed entry is left exactly as it was; this entry records what the same row reads now"
+  },
+  {
+   "id": "SUM-2026-11-19",
+   "round": 2,
+   "text": "the model changed after this line was sealed because the arithmetic was made interpreter-independent, not because the inputs changed: since CPython 3.12 sum() over floats uses Neumaier compensated summation (gh-100425), so the 2026-11-16 build summed the minutes and the possessions in a different order than the 2026-11-19 build does, and the two differed in the fourth decimal. The published lines are now computed with an exactly-rounded sum (math.fsum) and an explicitly stated rounding mode (decimal ROUND_HALF_EVEN), which reproduces byte-for-byte on CPython 3.11, 3.12 and 3.14. No input, source, threshold or settlement rule changed; the sealed entry is left exactly as it was, and this entry records what the same row reads now. The cause of the red scheduled refresh, which this repair also closes, is recorded in COORDINATION.md and in scripts/numeric.py"
+  }
+ ],
+ "rules": [
+  "an amendment never rewrites a sealed entry; it appends",
+  "the reason text is registered here before it is written, so a chain entry can never carry a reason that was written after the fact",
+  "the reason id is stored on the entry, so the chain is self-describing"
+ ]
+}

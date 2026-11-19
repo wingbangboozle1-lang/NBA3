@@ -49,6 +49,9 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
+sys.path.insert(0, os.path.join(ROOT, "scripts"))
+from numeric import fsum as numeric_fsum          # noqa: E402
+from numeric import rnd as numeric_rnd            # noqa: E402  (version-independent rounding)
 ROUND = os.path.join(ROOT, "data", "rounds", "2026-11-16-1300PM")
 RAW = os.path.join(ROUND, "raw")
 
@@ -119,9 +122,13 @@ def read_text(path: str) -> str:
 
 
 def rnd(x, n=4):
-    if x is None:
-        return None
-    return float(round(x, n))
+    """Round with an explicit, interpreter-independent rounding mode.
+
+    Delegates to scripts/numeric.py so a published number does not depend on
+    how a particular CPython version implements round(). See that module for
+    the defect this avoids.
+    """
+    return numeric_rnd(x, n)
 
 
 # ----------------------------------------------------------------------------------------------
@@ -842,16 +849,16 @@ def league_averages(rows: list) -> dict:
     n = len(rows)
     return {
         "n": n,
-        "poss_per_game": sum(r["poss_per_game"] for r in rows) / n,
-        "ppp": sum(r["ppp"] for r in rows) / n,
-        "pace": sum(r["pace"] for r in rows) / n,
-        "off_rtg": sum(r["off_rtg"] for r in rows) / n,
-        "def_rtg": sum(r["def_rtg"] for r in rows) / n,
-        "efg_pct": sum(r["efg_pct"] for r in rows) / n,
-        "tov_pct": sum(r["tov_pct"] for r in rows) / n,
-        "oreb_pct": sum(r["oreb_pct"] for r in rows) / n,
-        "ts_pct": sum(r["ts_pct"] for r in rows) / n,
-        "pts": sum(r["pts"] for r in rows) / n,
+        "poss_per_game": numeric_fsum(r["poss_per_game"] for r in rows) / n,
+        "ppp": numeric_fsum(r["ppp"] for r in rows) / n,
+        "pace": numeric_fsum(r["pace"] for r in rows) / n,
+        "off_rtg": numeric_fsum(r["off_rtg"] for r in rows) / n,
+        "def_rtg": numeric_fsum(r["def_rtg"] for r in rows) / n,
+        "efg_pct": numeric_fsum(r["efg_pct"] for r in rows) / n,
+        "tov_pct": numeric_fsum(r["tov_pct"] for r in rows) / n,
+        "oreb_pct": numeric_fsum(r["oreb_pct"] for r in rows) / n,
+        "ts_pct": numeric_fsum(r["ts_pct"] for r in rows) / n,
+        "pts": numeric_fsum(r["pts"] for r in rows) / n,
     }
 
 
@@ -1062,8 +1069,8 @@ def build_model(stats: dict, hca: dict, schedule: dict, standings: dict) -> dict
     # information paths, which is the question worth asking - not the size of a constant.
     raw_b = {t["abbr"]: estimator_b(t, lg) for t in stats["rows"]}
     raw_a = {t["abbr"]: estimator_a(t, lg) for t in stats["rows"]}
-    mean_a = sum(raw_a.values()) / len(raw_a)
-    mean_b = sum(raw_b.values()) / len(raw_b)
+    mean_a = numeric_fsum(raw_a.values()) / len(raw_a)
+    mean_b = numeric_fsum(raw_b.values()) / len(raw_b)
     per_club = []
     for t in stats["rows"]:
         a = raw_a[t["abbr"]] - mean_a

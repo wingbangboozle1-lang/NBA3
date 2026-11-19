@@ -1,18 +1,18 @@
 {
- "stamp": "2026-11-16T19:08:39Z",
+ "stamp": "2026-11-19T07:07:03Z",
  "stamp_note": "newest stamp inside the chains, not a clock read \u2014 verify() is run by CI and its output is drift-checked, so it must not depend on when it ran",
  "trees": {
   "d1b96315": {
    "file": "d1b96315/ledger/ledger.jsonl",
-   "entries": 31,
+   "entries": 35,
    "kinds": {
     "PUBLISH": 29,
-    "AMEND": 2
+    "AMEND": 6
    },
    "recipe": "pair",
    "problems": [],
    "result": "CHAIN INTACT",
-   "head_hash": "a3851ca8b233e6e15898281e19a7698b52cf8e90328454c01158dd3f5bc7bfef"
+   "head_hash": "c085ae24159f0a3159a6f0f4382c38c6586686a36f06f0822444e97327316589"
   },
   "ledger_A": {
    "file": "ledger/ledger.jsonl",
@@ -48,15 +48,19 @@
   "conclusion": "K-17 resolved as a documentation gap, not a linkage break. No entry was re-hashed and no file in another session's tree was modified."
  },
  "ledger": {
-  "entries": 31,
+  "entries": 35,
   "published_pre_tip": 29,
-  "amendments": 2,
+  "amendments": 6,
   "amended_picks": [
    "0022600247-d1b96315-amend",
-   "0022600258-d1b96315-amend"
+   "0022600258-d1b96315-amend",
+   "0022600251-d1b96315-amend",
+   "0022600256-d1b96315-amend",
+   "0022600264-d1b96315-amend",
+   "0022600273-d1b96315-amend"
   ],
   "settled": 0,
-  "head_hash": "a3851ca8b233e6e15898281e19a7698b52cf8e90328454c01158dd3f5bc7bfef",
+  "head_hash": "c085ae24159f0a3159a6f0f4382c38c6586686a36f06f0822444e97327316589",
   "settlement_stamps": []
  }
 }
