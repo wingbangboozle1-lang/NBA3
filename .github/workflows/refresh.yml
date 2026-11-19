@@ -95,6 +95,10 @@ jobs:
           rc=${PIPESTATUS[0]}
           # The log body is not retrievable from every environment, so each failing test name is
           # repeated as an annotation (b1ce1334's B1-1 shape, kept while the executor changed).
+          # dd3edd74's D1 `why:` enrichment (assertion text and any --check reason a script printed)
+          # is preserved by the battery's per-failure `detail` annotation, which carries the failing
+          # suite's traceback tail including the assertion message; the suite list is identical to
+          # the inline loop this replaces, and tests/test_refresh_diagnostic.py pins both facts.
           grep -E "^(FAIL|ERROR): " "$log" | sed 's/^/::error::unit: /' | head -40 || true
           if [ "$rc" -ne 0 ]; then
             echo "::error::a unit suite failed on the committed tree; the annotations name the tests"
