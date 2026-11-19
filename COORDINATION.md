@@ -6356,3 +6356,76 @@ F2 includes the generated site renderer and its generated pages because the curr
 **Live-data limitation:** a read-only Actions run-list inspection at 2026-11-19T06:05:57Z found no scheduled run after [44424736929](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929), which failed before official fetch. The separate main Pages run [44468540389](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44468540389) at 05:56Z succeeded for `main`; it does not validate this branch's changes. No NBA source was fetched by this integration pass. Existing 11/19 source records were preserved from merged main; they are separate captures, not current canonical model inputs. No present-day projection, injury status, or new settlement is claimed.
 
 **PR and Pages integration remain pending** until the final diff is reviewed, committed and pushed on this branch.
+
+---
+
+## Coordination note — `915d2e99` on `b1ce1334`'s merged PR #140 (written during rebase)
+
+Both sessions claimed the same base and B1-1/L1 overlap. This section is the merge resolution, recorded
+so neither side's claim is silently overwritten:
+
+* **B1-1 (needs review) is now RESOLVED with a cause and a fix**, superseding the artifact-upload
+  diagnostic: the failing step invoked one suite as `python -m unittest tests/test_refresh_official.py`
+  — a FILE PATH, deprecated in 3.11 and no longer accepted by newer interpreters — so on the runner's
+  `/usr/bin/python3` **3.12.3** the whole suite reported a *loader* failure while every 3.11 sandbox
+  reported OK. Evidence: PR #141 pages-build annotation (run 44616982969) read verbatim
+  `suite test_refresh_official.py failed under Python 3.12.3 ... FAIL: test_published_slate_matches_the_promotion
+  (unittest.loader._FailedTest.)`. This is why b1ce1334's clock-shift and fresh-clone repros both passed:
+  the difference was the interpreter, not the data or the clock — their note already listed 3.12 as
+  "one candidate cause that could not be excluded"; it is now the confirmed cause, and 3.12 is also why
+  the earlier hosted `gamebooks_2ecbccfd.py --check` red and the sandbox green could not be reconciled
+  from content alone.
+* **L1 does not edit their artifact-upload step** beyond the suite-loop replacement it subsumes
+  (`$RUNNER_TEMP/unit-logs` is gone with the nine-shell-invocation loop it came from; `unit-test-logs-*`
+  and `refresh-diagnostics-*` are replaced by `nba3-battery.json`, and the suite's full output is now
+  reproduced as a file under `data/app/refresh_diagnostics/` instead of only in the unreachable log body).
+* **B1-2/B1-3/B1-4/B1-5/B1-6 are taken as done by them and NOT redone here.** This session's L2 is
+  reduced to what their record lists as open: the 11/17 finals (absent from the repo), quarter scores
+  for 11/18, the standings/team-stat reads, and the canonical roll + settlement their CR-B1-01 asks the
+  ledger owner to run. No file under `b1ce1334/` is edited; `data/rounds/2026-11-19/**` files they own
+  are read-only inputs here, and anything this session writes into that round lands in new files
+  prefixed `915d2e99`.
+
+## Session `arena/915d2e99-nba3` — claims (2026-11-19)
+
+Session ID: `915d2e99`; current Arena branch: `arena/915d2e99-nba3` (fixed by the workspace; branched
+from `main` @ `2addcad`, the commit the scheduled refresh last ran against). Branch naming follows the
+same rule recorded by earlier sessions: one Arena branch per session, `session-<id>/<task>` naming is
+not available here.
+
+Live state read at claim time (evidence, not inference):
+- `git rev-list --left-right --count HEAD...origin/main` → `0 0` (branch is level with `main`).
+- Scheduled `official data refresh` on `main` @ `2addcad`: runs
+  [44424736929](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929) (2026-11-18T23:55Z),
+  [44364543697](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44364543697) (17:58Z),
+  [44300142112](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44300142112) (12:02Z),
+  [44249179843](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44249179843) (06:08Z),
+  [44203349676](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44203349676) (2026-11-17T23:54Z),
+  [44143781953](https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44143781953) (18:03Z) — all
+  `conclusion=failure`; per-job step data shows step 4 "Unit tests against the committed tree" FAIL and
+  every later step (fetch, capture integrity, gates, rebuild, commit) SKIPPED. The refresh has therefore
+  not published a refresh commit since 2026-11-16, i.e. the published site is two game days stale while
+  official data moved.
+- Local reproduction at the same commit: `python3 -m unittest discover -s tests` → 297 OK; each of the
+  nine suites the step loops over passes when replayed in a **clean `git clone` of `2addcad`**;
+  `scripts/freshness_gates.py` → 12/12. So the red is runner-side, not content-side.
+- Actions log bodies are unreachable from this sandbox (curl to `results-receiver.actions.githubusercontent.com`
+  → `SSL_ERROR_SYSCALL`; the annotations API returns only "Process completed with exit code 1"), so the
+  failing suite is not yet named. Log access is the blocker that has kept EVE-F04 open across three sessions.
+- Open PRs on the repository: **#119** only (`arena/4a59430d-nba3`, last touched 2026-11-16T19:01Z,
+  `build` check fail, `mergeable=UNKNOWN`, 459 unmerged commits). Its board claims are older than 60
+  minutes with no commits, so per protocol this session may take over its still-live subject (the refresh
+  test step) and must record a disposition for it.
+
+| # | Task | Status | Owner | Files in scope |
+|---|------|--------|-------|----------------|
+| L1 | Localise and fix the runner-only unit-test failure that blocks every scheduled refresh (EVE-F04); add self-reporting per-suite diagnostics so the runner names the failing suite without log access | in progress | 915d2e99 | `.github/workflows/refresh.yml`, `.github/workflows/pages.yml` (diagnostic step only), `tests/test_refresh_official.py`, `tests/test_freshness_gates.py`, `tests/test_refresh_diagnostic.py` (new) |
+| L2 | Roll the official data forward: new round `2026-11-19` capture (injury-report revisions, per-game results + quarter scores for 11/17 and 11-18, standings, three team-stat pages, rolling 72-hour slate 11/19–11/21), freshness/provenance gates, ledger settlement from official finals | in progress | 915d2e99 | `data/rounds/2026-11-19/**`, `scripts/refresh_2026_11_19.py` (new), `tests/test_round_2026_11_19.py` (new) |
+| L3 | Registers: questions, suggestions, flagged-for-review (incl. CR-5BA-01 disposition of the published EVE-F04 row), executive summary | in progress | 915d2e99 | `data/app/questions.csv`, `data/app/suggestions.csv`, `data/app/flags_915d2e99.json` (new), `scripts/build_app.py` (register wiring only), `app/*.html` (regenerated) |
+| L4 | Disposition of stale PR #119 (port what is still valid, close with a comment, record) | in progress | 915d2e99 | PR #119 comment, `COORDINATION.md` |
+| L5 | Integration: full offline replay, PR → `main`, merge, confirm Pages deploy, record PR link + merge SHA | in progress | 915d2e99 | `COORDINATION.md` (append), PR, generated trees |
+
+Rules I will follow: no edit to a file another session's live claim covers (none is active — see the
+live-state read above); `git pull --rebase origin main` before every push; small frequent commits;
+nothing marked verified without an official source link; values that cannot be confirmed stay blank and
+get flagged; derived trees are regenerated by their own scripts, never hand-edited.
