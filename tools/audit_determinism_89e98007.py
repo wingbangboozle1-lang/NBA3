@@ -151,7 +151,10 @@ def main():
         "",
         "| generator | committed artefact | bytes changed under compensation |",
         "|---|---|---|",
-        "| `scripts/capture_round_79341829.py` | `data/app/minutes_shares.json` | 1 line: `teams.2026-11-14:MIA.top8[6].share` 0.0843 -> 0.0842 |",
+        "| `scripts/capture_round_79341829.py` | `data/app/minutes_shares.json` | 1 line on the RUNNER "
+        "(`teams.2026-11-14:MIA.top8[6].share` 0.0843 -> 0.0842, probe runs 44478784862 / 44479468427 "
+        "after the suite loop); NOT reproduced under this repo's emulator on the post-#146 tree — see the "
+        "note below on why the emulator is not bit-exact |",
         "| `scripts/estimators.py` | `data/app/estimators.json` | none |",
         "| `scripts/minutes_model.py` | `data/app/rotation_impact.json` | none |",
         "| `scripts/assemble_canonical.py` | `data/app/canonical.json` | none |",
@@ -161,6 +164,16 @@ def main():
         "unrounded league aggregates: `.league.poss_per_game` 100.47153000000002 -> 100.47153, "
         "`.league.off_rtg` 113.22000000000001 -> 113.22, `.league.pts` / `.league.efg_pct` / "
         "`.league.tov_pct` / `.league.ts_pct` last-bit |",
+        "",
+        "## What the emulator is, and where it lies",
+        "",
+        "The `sitecustomize` used here replaces `builtins.sum` with Kahan-Babuska compensated summation "
+        "(a running compensation added at the end). CPython >= 3.12's real `sum()` is Neumaier's variant, "
+        "which folds the correction in a different order. The two agree on most inputs — including the "
+        "Washington minutes that started this investigation — but they are not bit-identical in general, so "
+        "a row that reads 'none' here means 'the emulator did not move it', not 'no interpreter moves it'. "
+        "For a decision that changes a published number, reproduce on a real >= 3.12 interpreter; the "
+        "temporary branch-probe workflow in this repository's history is the working method for that.",
         "",
         "The round2 row matters for a specific reason: it is the only one where the generator "
         "publishes aggregates at full float precision, so the last bit is visible in the JSON. It is "
