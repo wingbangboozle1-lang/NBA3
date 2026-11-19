@@ -28,6 +28,22 @@ import os
 import re
 import sys
 
+# determinism (session 89e98007): summation and rounding are pinned in-repo, not inherited from
+# the interpreter that happens to run the build. See scripts/determinism.py: EVE-F04 was a runner
+# Python upgrade (3.11 -> 3.14.4) whose compensated sum() moved one published float by 1 unit in
+# the 4th decimal and froze the byte-for-byte replay gate for six days.
+try:
+    import determinism as det  # noqa: E402  (running from scripts/)
+except ImportError:            # running from elsewhere, e.g. round_2ecbccfd/build.py
+    import os as _det_os
+    import sys as _det_sys
+    _det_here = _det_os.path.dirname(_det_os.path.abspath(__file__))
+    for _det_p in (_det_os.path.join(_det_here, "scripts"),
+                   _det_os.path.join(_det_os.path.dirname(_det_here), "scripts")):
+        if _det_os.path.isdir(_det_p) and _det_p not in _det_sys.path:
+            _det_sys.path.insert(0, _det_p)
+    import determinism as det  # noqa: E402,F401
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 CAP = os.path.join(ROOT, "data", "rounds", "2026-11-17", "captures")
 OUT = os.path.join(ROOT, "data", "rounds", "2026-11-17", "player_logs_2026-11-15.json")
@@ -209,16 +225,20 @@ def reconcile(teams):
         full = [r for r in rows if r.get("columns_published") and r.get("verified")]
         cols = ("fg", "fga", "3p", "3pa", "ft", "fta", "oreb", "dreb", "treb", "ast", "pts")
         complete = len(full) == len(rows)
-        sums = {k: (sum((r[k] or 0) for r in full) if complete else None) for k in cols}
-        pts_only = sum((r.get("pts") or 0) for r in rows)
+        sums = {k: (det.fold((r[k] or 0) for r in full) if complete else None) for k in cols}
+        pts_only = det.fold((r.get("pts") or 0) for r in rows)
         # Minutes are floats, so the aggregate must not depend on which interpreter runs the
         # replay: CPython 3.12 switched builtin sum() for floats to compensated (Neumaier)
         # summation (gh-100425), which changed the last bit of these totals versus the 3.11 build
         # that generated the committed artefact and made the committed-tree --check red on the
         # hosted runner while every 3.11 sandbox stayed green (scheduled run 44469939831's
-        # annotations name exactly this replay). math.fsum is correctly rounded on every CPython,
-        # so the published bytes stop depending on the runner's minor version.
-        mins = round(math.fsum(r["min"] or 0 for r in rows), 2)
+        # annotations name exactly this replay). det.tsum is math.fsum — correctly rounded on
+        # every CPython — the rule session f69a11c4 ratified for this artefact, now named once in
+        # scripts/determinism.py so the whole gated chain states the same rule instead of leaving
+        # it to the runner image; det.dq pins the rounding for the same reason.
+        # The integer column sums above stay det.fold: exact for ints, where fsum would publish 24
+        # as 24.0.
+        mins = det.dq(det.tsum(r["min"] or 0 for r in rows), 2)
         checks = {k: (t.get(k) == sums[k]) if (t and sums.get(k) is not None and sums[k] is not None)
                   else None for k in cols}
         checks["min_total_240"] = abs(mins - 240.0) < 0.35
@@ -289,13 +309,13 @@ def main():
             # same number on 3.11 and 3.12, or a top-8 share rounds to a different 4th decimal
             # (this is the exact byte that failed the hosted replay check: a Wizards 0.1088 vs
             # 0.1087 under the two summations).
-            tot = math.fsum(r["min"] or 0 for r in played) or None
+            tot = det.tsum(r["min"] or 0 for r in played) or None
             top8[f"2026-11-15:{code or club}"] = {
                 "date": "2026-11-15", "team": code, "club": club,
                 "source": d["source_url"], "reconciles": blk["reconciles"],
-                "total_min_played": round(tot, 2) if tot else None,
+                "total_min_played": det.dq(tot, 2) if tot else None,
                 "top8": [{"player": r["player"], "min": r["min"],
-                          "share": round((r["min"] or 0) / tot, 4) if tot else None}
+                          "share": det.dq((r["min"] or 0) / tot, 4) if tot else None}
                          for r in ranked],
             }
     payload = {
@@ -313,22 +333,26 @@ def main():
         "top8_minutes_shares": top8,
         "problems": all_problems,
         "row_count": len(per_player),
-        "reconciled_clubs": sum(1 for book, d in books.items() for v in d["clubs"].values()
+        "reconciled_clubs": det.fold(1 for book, d in books.items() for v in d["clubs"].values()
                                 if v["reconciles"]),
-        "club_count": sum(len(d["clubs"]) for d in books.values()),
+        "club_count": det.fold(len(d["clubs"]) for d in books.values()),
     }
     blob = json.dumps(payload, indent=1) + "\n"
     if "--check" in args:
         committed = open(OUT, encoding="utf-8").read()
         if committed == blob:
             return 0
-        # Diagnostic only (arena/dd3edd74-nba3, D1): the gate's result is unchanged. Name the first
-        # line where the committed artefact and the regenerated output part ways, so a red CI run
-        # says why without needing the runner log body.
+        # Gate result is unchanged; both reports below are diagnostics, kept from both sessions:
+        # det.check_artefact names the JSON path and both values (session 89e98007), and the
+        # line-level report names where the files part ways when no scalar moved (session
+        # dd3edd74, D1).
         cl, bl = committed.splitlines(), blob.splitlines()
         first = next((i for i, (a, b) in enumerate(zip(cl, bl)) if a != b), min(len(cl), len(bl)))
         print(f"gamebooks --check: {os.path.relpath(OUT, ROOT)} differs from the regenerated output; "
               f"first differing line {first + 1} (committed {len(cl)} lines, regenerated {len(bl)})")
+        ok, detail = det.check_artefact(OUT, blob)
+        if not ok:
+            print("  value drift:", detail[:2000])
         print("  committed  :", (cl[first] if first < len(cl) else "<end of file>")[:240])
         print("  regenerated:", (bl[first] if first < len(bl) else "<end of file>")[:240])
         return 1

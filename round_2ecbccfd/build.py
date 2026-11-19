@@ -20,6 +20,22 @@ import json
 import os
 import sys
 
+# determinism (session 89e98007): summation and rounding are pinned in-repo, not inherited from
+# the interpreter that happens to run the build. See scripts/determinism.py: EVE-F04 was a runner
+# Python upgrade (3.11 -> 3.14.4) whose compensated sum() moved one published float by 1 unit in
+# the 4th decimal and froze the byte-for-byte replay gate for six days.
+try:
+    import determinism as det  # noqa: E402  (running from scripts/)
+except ImportError:            # running from elsewhere, e.g. round_2ecbccfd/build.py
+    import os as _det_os
+    import sys as _det_sys
+    _det_here = _det_os.path.dirname(_det_os.path.abspath(__file__))
+    for _det_p in (_det_os.path.join(_det_here, "scripts"),
+                   _det_os.path.join(_det_os.path.dirname(_det_here), "scripts")):
+        if _det_os.path.isdir(_det_p) and _det_p not in _det_sys.path:
+            _det_sys.path.insert(0, _det_p)
+    import determinism as det  # noqa: E402,F401
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 RD = os.path.join(ROOT, "data", "rounds", "2026-11-17")
@@ -176,7 +192,7 @@ def p_index(model, ledger_idx, results_log, standings_doc, injury_doc, flags):
     hca = model["hca"]
     corr = model["correlations"]
     gates = model["gates"]
-    npass = sum(1 for g in gates if g["pass"])
+    npass = det.sum_(1 for g in gates if g["pass"])
     tonight_lines = [l for l in model["lines"] if l["date"] == "2026-11-16"]
     cards = [
         ("verified games in the log", results_log["count"],
@@ -550,14 +566,14 @@ def p_results(results_log, model, flags):
                              f'{"verified" if g.get("final_verified") else "unverified"}</span>'),
                      esc(g.get("settlement_stamp") or ""),
                      src(g.get("source_url"), "game book"), src(g.get("scoreboard_url"), "scoreboard")])
-    tot = sum(g.get("away_pts", 0) + g.get("home_pts", 0)
+    tot = det.sum_(g.get("away_pts", 0) + g.get("home_pts", 0)
               for g in results_log["games_2026_11_15"])
     body = f"""
 <section><h2>Official per-game results, one row per game</h2>
 <div class="note">Nine games on 2026-11-15, each row from that game's own official box score, with
 the scoreboard page as the second reading. A row settles only when the printed final is verified:
-{sum(1 for g in results_log['games_2026_11_15'] if g.get('settled'))} of 9 are settled and
-{sum(1 for g in results_log['games_2026_11_15'] if g.get('final_verified'))} of 9 have a verified
+{det.sum_(1 for g in results_log['games_2026_11_15'] if g.get('settled'))} of 9 are settled and
+{det.sum_(1 for g in results_log['games_2026_11_15'] if g.get('final_verified'))} of 9 have a verified
 final — the difference is the one game whose quarter table contradicts its own final, named below.
 Settlement stamp is kept visible on every row because a settlement without a time is not evidence.
 {results_log['settlement_note']}</div>
@@ -767,7 +783,7 @@ weight is unestimated and the blended line is blank on every row.</li>
 </ol></section>
 <section><h2>Freshness and provenance, as the job enforces them</h2>
 <div class="note">The scheduled job fetches, gates, and only then rebuilds. Gates in this round:
-{sum(1 for g in model['gates'] if g['pass'])}/{len(model['gates'])} pass, and each is recomputed from
+{det.sum_(1 for g in model['gates'] if g['pass'])}/{len(model['gates'])} pass, and each is recomputed from
 the artefacts on disk rather than recorded by hand — see the <a href="index.html">gate board</a>.
 The injury gate compares the newest report's <i>printed</i> revision time against the game day being
 priced; the provenance gate requires an https NBA source on every published row; the settlement gate
