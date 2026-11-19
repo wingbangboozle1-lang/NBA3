@@ -27,22 +27,22 @@
   },
   "ledger_B": {
    "file": "data/app/ledger/ledger.jsonl",
-   "entries": 43,
+   "entries": 68,
    "kinds": {
     "PUBLISHED_PRE_TIP": 34,
-    "SETTLED": 9
+    "SETTLED": 34
    },
    "recipe": "chain_hash_pair_body",
    "problems": [],
    "result": "CHAIN INTACT",
-   "head_hash": "7affd68aa22acf9e3fbbf407d12c3d4346b3dc365ca9e9034c5b19e6624f6f5a"
+   "head_hash": "6c5f0cbc64e140fb82c0bf2cbf30a075d6572c9959ed3ee41099cf657e0f3cc5"
   }
  },
  "k17_resolution": {
   "question": "is data/app/ledger/ledger.jsonl verifiable, and what is its entry_hash recipe?",
-  "entries": 43,
-  "recompute_with_chain_hash_prev_and_body": "43/43",
-  "recompute_with_body_alone": "0/43",
+  "entries": 68,
+  "recompute_with_chain_hash_prev_and_body": "68/68",
+  "recompute_with_body_alone": "0/68",
   "finding": "the hash is over the PAIR {prev, body} produced by chain_hash() in scripts/pick_ledger.py, not over the body alone \u2014 which is why hashing the body under four canonicalisations never reproduced it. The recipe is documented in the writer and CI already runs `python3 scripts/pick_ledger.py verify`, which passes. Note for anyone re-deriving this: a SETTLED entry carries payload_sha256 but no payload of its own \u2014 it copies the hash of the publish entry it grades \u2014 so re-hashing its body is a false alarm, not tampering. This session's first verifier made exactly that mistake and reported 9 problems before the kind check was added.",
   "verifier_in_repo": "scripts/pick_ledger.py verify",
   "conclusion": "K-17 resolved as a documentation gap, not a linkage break. No entry was re-hashed and no file in another session's tree was modified."

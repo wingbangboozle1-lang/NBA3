@@ -192,7 +192,7 @@
    "severity": "medium",
    "surface": "ledger / tamper evidence",
    "title": "the second ledger chain is verifiable, but its recipe was never written down",
-   "measured": "independent re-verification of all three chains: data/app/ledger/ledger.jsonl 43 entries, 43/43 recompute with sha256(canon({prev, body})) and 0/43 with the body alone; ledger/ledger.jsonl 13 entries intact under its documented recipe; this session's chain 29 entries, head a3851ca8b233e6e1..., 0 settled",
+   "measured": "independent re-verification of all three chains: data/app/ledger/ledger.jsonl 68 entries, 68/68 recompute with sha256(canon({prev, body})) and 0/68 with the body alone; ledger/ledger.jsonl 13 entries intact under its documented recipe; this session's chain 29 entries, head a3851ca8b233e6e1..., 0 settled",
    "why_it_matters": "board item K-17 called this 'undocumented hash recipe' and left it open; the hash is over the {prev, body} pair produced by chain_hash() in scripts/pick_ledger.py, so the chain is intact and the 'problem' was missing documentation, not a linkage break",
    "action": "nothing re-hashed, nothing in another session's tree modified; the verifier here (d1b96315/ledger.py verify) is the recipe, restated in code and in this row",
    "blocks_merge": false,

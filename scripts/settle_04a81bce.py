@@ -30,9 +30,20 @@ QUARTERS = ROOT / "data" / "rounds" / "2026-11-19-04a81bce" / "verified" / \
 
 
 def canon_sha(obj) -> str:
+    # exact chain recipe: sha256(json.dumps(x, sort_keys=True,
+    # separators=(",", ":")) over the {"prev","body"} pair. The chain's entries
+    # are ASCII-only so this agrees byte-for-byte with the ensure_ascii=False
+    # variant used by d1b96315/ledger.py; stamps are sanitized to ASCII below
+    # to keep that property.
     import hashlib
     return hashlib.sha256(json.dumps(
-        obj, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+        obj, sort_keys=True, separators=(",", ":"),
+        ensure_ascii=False).encode("utf-8")).hexdigest()
+
+
+def ascii_only(s: str) -> str:
+    import re
+    return re.sub(r"[^\x00-\x7f]", "-", s)
 
 
 def main():
@@ -91,7 +102,7 @@ def main():
             "result_side": result_side,
             "result_total": result_total,
             "settled_utc": now,
-            "settlement_stamp": (
+            "settlement_stamp": ascii_only(
                 f"settled at {now} (game day end, {fin['date']}) from the official "
                 f"final {fin['away']} {fin['away_pts']} - {fin['home']} "
                 f"{fin['home_pts']}; {qnote}; grading convention of the chain: "
@@ -111,7 +122,8 @@ def main():
     if added:
         with LEDGER.open("w", encoding="utf-8") as fh:
             for e in entries:
-                fh.write(json.dumps(e, sort_keys=True, separators=(",", ":")) + "\n")
+                fh.write(json.dumps(e, sort_keys=True, separators=(",", ":"),
+                            ensure_ascii=False) + "\n")
     print(f"settle: {added} entr(ies) appended to {LEDGER.relative_to(ROOT)}")
     return 0
 
