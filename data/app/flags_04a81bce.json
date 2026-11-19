@@ -1,0 +1,171 @@
+[
+ {
+  "id": "F-DE0-01",
+  "area": "Official round 2026-11-19 (game books + reports)",
+  "item": "Game ids are not chronological: 11/20 rows carry 0022600043-0022600051, while 11/19 carry 0022600270-0022600273 and 11/21 0022600274-0022600279. Taken as printed (the id is the join key); not corrected. The Cup-label observation from b1ce1334's note is the printed explanation.",
+  "why": "Kept visible for manual review with its official source; values are never inferred and blocked rows stay blank until an owner decision.",
+  "action_needed": "Review against the linked official source; answer the matching question on the Open questions page where one applies.",
+  "status": "open \u2014 flagged for review (does not block the site)",
+  "severity": "medium",
+  "found_on": "2026-11-19",
+  "sources": [
+   "https://www.nba.com/games"
+  ]
+ },
+ {
+  "id": "F-DE0-02",
+  "area": "Official round 2026-11-19 (game books + reports)",
+  "item": "Official injury-report index lags the CDN (12:45 AM PDF resolves; index lists through 12:30 AM).",
+  "why": "Kept visible for manual review with its official source; values are never inferred and blocked rows stay blank until an owner decision.",
+  "action_needed": "Review against the linked official source; answer the matching question on the Open questions page where one applies.",
+  "status": "open \u2014 flagged for review (does not block the site)",
+  "severity": "low",
+  "found_on": "2026-11-19",
+  "sources": [
+   "https://ak-static.cms.nba.com/referee/injury/"
+  ]
+ },
+ {
+  "id": "F-DE0-03",
+  "area": "Official round 2026-11-19 (game books + reports)",
+  "item": "No archived injury revisions between 11/16 01:30 PM ET and 11/19 12:30 AM ET in the repo.",
+  "why": "Kept visible for manual review with its official source; values are never inferred and blocked rows stay blank until an owner decision.",
+  "action_needed": "Review against the linked official source; answer the matching question on the Open questions page where one applies.",
+  "status": "open \u2014 flagged for review (does not block the site)",
+  "severity": "medium",
+  "found_on": "2026-11-19",
+  "sources": [
+   "https://ak-static.cms.nba.com/referee/injury/"
+  ]
+ },
+ {
+  "id": "F-DE0-04",
+  "area": "Official round 2026-11-19 (game books + reports)",
+  "item": "PDF text layer: 9 POR@MIL rows with date/time blank; 2 rows (Kuminga, Pullin) with matchup and team blank; 6 rows with status missing; 10 keyed rows unreadable in the newest revision. RESOLVED for Kuminga/Pullin team attribution to Minnesota Timberwolves via official game books 20261116_PORMIN + 20261117_PORMIN; the extraction defect itself remains flagged.",
+  "why": "Kept visible for manual review with its official source; values are never inferred and blocked rows stay blank until an owner decision.",
+  "action_needed": "Review against the linked official source; answer the matching question on the Open questions page where one applies.",
+  "status": "open \u2014 flagged for review (does not block the site)",
+  "severity": "high",
+  "found_on": "2026-11-19",
+  "sources": [
+   "https://statsdmz.nba.com/pdfs/20261117/20261117_PORMIN.pdf"
+  ]
+ },
+ {
+  "id": "F-DE0-05",
+  "area": "Official round 2026-11-19 (game books + reports)",
+  "item": "The 11/16 committed slate (data/app/official_slate_current.json) covers 11/15-11/18 and is stale for the 11/19-11/21 window; the roll-forward is CR-915-01 (this session's O7).",
+  "why": "Kept visible for manual review with its official source; values are never inferred and blocked rows stay blank until an owner decision.",
+  "action_needed": "Review against the linked official source; answer the matching question on the Open questions page where one applies.",
+  "status": "open \u2014 flagged for review (does not block the site)",
+  "severity": "high",
+  "found_on": "2026-11-19",
+  "sources": [
+   "https://www.nba.com/games"
+  ]
+ },
+ {
+  "id": "F-DE0-06",
+  "area": "Official round 2026-11-19 (game books + reports)",
+  "item": "Records printed on the games pages are as of the retrieval time and are not reconciled with the 11/16 snapshot.",
+  "why": "Kept visible for manual review with its official source; values are never inferred and blocked rows stay blank until an owner decision.",
+  "action_needed": "Review against the linked official source; answer the matching question on the Open questions page where one applies.",
+  "status": "open \u2014 flagged for review (does not block the site)",
+  "severity": "low",
+  "found_on": "2026-11-19",
+  "sources": [
+   "https://www.nba.com/games"
+  ]
+ },
+ {
+  "id": "F-04A-01",
+  "area": "Official round 2026-11-19 (game books + reports)",
+  "item": "Official game book 20261118_MEMCLE: the printed Grizzlies SCORE BY PERIOD row '30 41 30 24 124' sums to 125, not the printed final 124. Row rejected by the sum gate and preserved verbatim; MEM quarter vector left BLANK (not inferred).",
+  "why": "Kept visible for manual review with its official source; values are never inferred and blocked rows stay blank until an owner decision.",
+  "action_needed": "Review against the linked official source; answer the matching question on the Open questions page where one applies.",
+  "status": "open \u2014 flagged for review (does not block the site)",
+  "severity": "medium",
+  "found_on": "2026-11-19",
+  "sources": [
+   "https://statsdmz.nba.com/pdfs/20261118/20261118_MEMCLE.pdf"
+  ]
+ },
+ {
+  "id": "F-04A-02",
+  "area": "Official round 2026-11-19 (game books + reports)",
+  "item": "Visitor period lines absent from the official game-book text layer in 4 books: PHI (20261116_PHIBKN), POR (20261116_PORMIN), PHX (20261118_PHXSAC), UTA (20261118_UTALAL). Quarter vectors left BLANK and flagged.",
+  "why": "Kept visible for manual review with its official source; values are never inferred and blocked rows stay blank until an owner decision.",
+  "action_needed": "Review against the linked official source; answer the matching question on the Open questions page where one applies.",
+  "status": "open \u2014 flagged for review (does not block the site)",
+  "severity": "medium",
+  "found_on": "2026-11-19",
+  "sources": [
+   "https://statsdmz.nba.com/pdfs/"
+  ]
+ },
+ {
+  "id": "F-04A-03",
+  "area": "Official round 2026-11-19 (game books + reports)",
+  "item": "Table-vs-standalone SCORE BY PERIOD conflicts in 20261116_CHICLE (Cavaliers row corrupt), 20261118_CHIBKN (Nets row 21/30/26/22=99 vs final 107), 20261118_ATLOKC (Thunder row 30/32/32/30=124 vs final 112): the sum-valid standalone line is accepted, the corrupt row is preserved and flagged. 20261118_GSWDAL has a merged layout (Mavericks box totals merged into the SCORE BY PERIOD header); the standalone MAVERICKS line is accepted.",
+  "why": "Kept visible for manual review with its official source; values are never inferred and blocked rows stay blank until an owner decision.",
+  "action_needed": "Review against the linked official source; answer the matching question on the Open questions page where one applies.",
+  "status": "open \u2014 flagged for review (does not block the site)",
+  "severity": "medium",
+  "found_on": "2026-11-19",
+  "sources": [
+   "https://statsdmz.nba.com/pdfs/"
+  ]
+ },
+ {
+  "id": "F-04A-04",
+  "area": "Official round 2026-11-19 (game books + reports)",
+  "item": "52 player rows across the 25 books failed the PTS==2FG+3P+FT / TOT==OR+DR identity checks (shifted or garbled cells in MEMWAS/HOUMIA/GSWNOP/PHXDEN/DETSAS books) and were dropped and flagged, never repaired. Team totals were cross-summed from accepted rows and matched every printed final except where noted.",
+  "why": "Kept visible for manual review with its official source; values are never inferred and blocked rows stay blank until an owner decision.",
+  "action_needed": "Review against the linked official source; answer the matching question on the Open questions page where one applies.",
+  "status": "open \u2014 flagged for review (does not block the site)",
+  "severity": "medium",
+  "found_on": "2026-11-19",
+  "sources": [
+   "https://statsdmz.nba.com/pdfs/"
+  ]
+ },
+ {
+  "id": "F-04A-05",
+  "area": "Official round 2026-11-19 (game books + reports)",
+  "item": "Official team-stat pages disagree on a rounding edge: Toronto Raptors NetRtg +0.5 vs printed +/- 0.0 per game. Both values published as printed.",
+  "why": "Kept visible for manual review with its official source; values are never inferred and blocked rows stay blank until an owner decision.",
+  "action_needed": "Review against the linked official source; answer the matching question on the Open questions page where one applies.",
+  "status": "open \u2014 flagged for review (does not block the site)",
+  "severity": "low",
+  "found_on": "2026-11-19",
+  "sources": [
+   "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+  ]
+ },
+ {
+  "id": "F-04A-06",
+  "area": "Official round 2026-11-19 (game books + reports)",
+  "item": "closing_lines.json rows = [] \u2014 the market-anchored prior is left blank and flagged (no official closing-line source available; see Q5).",
+  "why": "Kept visible for manual review with its official source; values are never inferred and blocked rows stay blank until an owner decision.",
+  "action_needed": "Review against the linked official source; answer the matching question on the Open questions page where one applies.",
+  "status": "open \u2014 flagged for review (does not block the site)",
+  "severity": "medium",
+  "found_on": "2026-11-19",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/blob/main/data/app/closing_lines.json"
+  ]
+ },
+ {
+  "id": "EVE-F04",
+  "area": "Official round 2026-11-19 (game books + reports)",
+  "item": "Scheduled-refresh evidence (per CR-B1-02, B1-1 artifact): runs 44424736929 and the 5 earlier runs fail at the committed-tree unit-test step before any official fetch; the run body is unreachable via the API and manual dispatch is 403-blocked (EVE-F08). Cause remains unlocalised on the hosted runner. KEEP OPEN until a hosted run shows the failing test names. The local replay of the same step passes (Ran 387 OK), so no data defect is implied.",
+  "why": "Kept visible for manual review with its official source; values are never inferred and blocked rows stay blank until an owner decision.",
+  "action_needed": "Review against the linked official source; answer the matching question on the Open questions page where one applies.",
+  "status": "open \u2014 flagged for review (does not block the site)",
+  "severity": "high",
+  "found_on": "2026-11-19",
+  "sources": [
+   "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44424736929"
+  ]
+ }
+]

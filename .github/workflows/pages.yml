@@ -600,6 +600,21 @@ jobs:
           python3 scripts/build_93becd26.py --check
           python3 -m unittest tests/test_93becd26.py -v
 
+      - name: Verification audit (arena/9a13efcf) - recompute, drift check, tests
+        # Independent line-by-line audit of the brief: every published model value recomputed
+        # from the committed captures with its own maths, arena coordinates re-verified against
+        # the source the table cites, requirement coverage published with source links.
+        run: |
+          set -euo pipefail
+          python3 scripts/build_9a13efcf.py
+          python3 scripts/build_9a13efcf.py --check
+          python3 -m unittest tests/test_9a13efcf.py -v
+          test -z "$(git status --porcelain -- 9a13efcf/ data/9a13efcf/)" || {
+            echo '9a13efcf/ or data/9a13efcf/ drifted: committed artefacts do not reproduce'
+            git status --porcelain -- 9a13efcf/ data/9a13efcf/
+            exit 1
+          }
+
       - name: Stage combined Pages artifact
         run: |
           rm -rf _pages && mkdir _pages
@@ -641,6 +656,10 @@ jobs:
           cp -r v2 _pages/v2
           cp -r projection _pages/projection
           cp -r bet _pages/bet
+          # Verification audit (session 9a13efcf): the audit subsite and its JSON artefact
+          cp -r 9a13efcf _pages/9a13efcf
+          mkdir -p _pages/data
+          cp -r data/9a13efcf _pages/data/9a13efcf
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _pages

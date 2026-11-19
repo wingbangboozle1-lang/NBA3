@@ -658,8 +658,13 @@ def build_coverage(rep, ana):
         dict(id="B19", req="Live GitHub Pages site: clean landing page plus subpages by category",
              status="Met",
              evidence="Landing page and %d category pages generated from one dataset"
-                      % (len([f for f in os.listdir(os.path.join(ROOT, "app"))
-                              if f.endswith(".html")])),
+                      # Frozen input, same rationale as above: count the app/ pages of
+                      # the 2026-11-14 canonical commit (d320fea), not the live tree —
+                      # this page must reproduce byte-for-byte as the live site grows.
+                      % (len([f for f in _sp.run(
+                          ["git", "ls-tree", "-r", "--name-only", "d320fea", "app"],
+                          cwd=ROOT, capture_output=True, text=True, check=True
+                      ).stdout.splitlines() if f.endswith(".html")])),
              where="index.html", src=REPO + "README.md", gap=""),
         dict(id="B20", req="No manual input: the work runs itself", status="Met",
              evidence="One CI workflow regenerates every tree, fails on drift, broken links or a "

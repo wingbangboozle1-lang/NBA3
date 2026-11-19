@@ -1,0 +1,71 @@
+[
+  {
+    "id": "89E-Q-01",
+    "category": "Pipeline / data currency",
+    "question": "Until a scheduled run on main goes green end-to-end, may the site describe any projection, injury status or slate as current?",
+    "status": "open - answered conservatively by this session (no claim of currency), needs the owner's policy",
+    "known": "The refresh job has not fetched an official source since 2026-11-17 because its committed-tree preflight failed (runs 44143781953 through 44469939831, all `schedule` events, all failing in ~12 s at the preflight). The fix is now ON MAIN: PR #148 (merge 5666c31) and PR #152 (merge 87704a1). On the runner's own interpreter the nine refresh suites and all six artefact gates pass (probe runs 44478152590 and 44479468427, reports committed at data/rounds/2026-11-19-89e98007/runner_probe.md). refresh.yml line 6 reads cron: \"15 5,11,17,23 * * *\", so the next chances to fetch are 05:15, 11:15, 17:15 and 23:15 UTC \u2014 after this merge the nearest is the 11:15 UTC slot.",
+    "missing": "A green scheduled run on main (fetch + gates + rebuild + commit), which only the merge can enable.",
+    "next_step": "Read the 11:15 UTC scheduled run on main (gh run list --workflow 'official data refresh' --limit 1). If it is green, publish currency: the homepage pause notice, EVE-F04 and 89E-F-01 can then be marked resolved by the session holding build_app.py's scope. If it is still red, its first failing step is the next investigation \u2014 and note the merge hazard in 89E-F-08, since PR #147's rule reversal could be what puts it back. Observed arrival is 40-52 minutes after the slot, so read the 11:15 UTC attempt at ~12:10 UTC (2026-11-19: slot 05:15 -> run 44469939831 created 06:07:59Z; 17:15 -> 44364543697 17:58:25Z; 23:15 -> 44424736929 23:55:01Z).",
+    "owner": "site owner",
+    "sources": [
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44469939831",
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44478152590"
+    ]
+  },
+  {
+    "id": "89E-Q-02",
+    "category": "Numerical policy",
+    "question": "Confirmed: is the correctly-rounded exact sum (math.fsum) the canonical rule for every published float aggregate, with the pre-3.12 fold kept only as a documented historical reproduction path?",
+    "status": "answered on main (f69a11c4, 78f513d): exact sum; this branch ratified it for the whole gated chain",
+    "known": "main@78f513d already republished one field to the exact-sum answer (.top8_minutes_shares.2026-11-15:WAS.top8[4].share 0.1088 -> 0.1087). Measured on this branch: applying the same rule to the other five byte-compared generators changes nothing \u2014 capture_2ecbccfd, slate_extra_2ecbccfd, model_2ecbccfd, ledger_2ecbccfd and round_2ecbccfd/build.py all still reproduce their committed bytes (six --check rc=0, tree clean) \u2014 so the uniform rule costs no republish today.",
+    "missing": "Owner's yes/no on making the rule repo-wide (all 40 audited files) rather than gated-chain-only.",
+    "next_step": "If yes: sweep det.sum_ into scripts/estimators.py, minutes_model.py, results_feed.py, build_app.py, pick_ledger.py etc. one file per commit, each with a --check or a byte-diff proof. If no: leave the audit page as the standing caveat.",
+    "owner": "site owner",
+    "sources": [
+      "https://docs.python.org/3/library/functions.html#sum",
+      "https://docs.python.org/3/library/math.html#math.fsum"
+    ]
+  },
+  {
+    "id": "89E-Q-03",
+    "category": "Gate design",
+    "question": "Should the replay gates stay byte-exact, or is 'parsed values equal, formatting free' the right contract?",
+    "status": "open - this session chose: bytes first, parsed-value equality as the accepted fallback, value change always fatal",
+    "known": "det.check_artefact compares bytes; if they differ it re-parses both sides. Identical values with different bytes pass with a 'formatting only' note (a re-format should not freeze the pipeline); any different number fails and the message lists the JSON path and both values, which is what six sessions of this board lacked.",
+    "missing": "Confirmation that tolerating whitespace/key-order drift is acceptable for these files, given that the ledger hashes entry payloads rather than whole files (it does - scripts/ledger_2ecbccfd.py canonicalises with sort_keys and separators).",
+    "next_step": "Owner confirms; if byte-exact is required, revert to a strict compare in scripts/determinism.py and keep the diff report - the two are independent.",
+    "owner": "site owner",
+    "sources": [
+      "https://docs.python.org/3/library/json.html#json.dumps"
+    ]
+  },
+  {
+    "id": "89E-Q-04",
+    "category": "CI configuration",
+    "question": "Pin the CI interpreter, or require every generator to be interpreter-independent (and test it)?",
+    "status": "open - recommendation: both; only the second is in this merge",
+    "known": "pages.yml pins python-version 3.11 (lines 72-74, verified by grep); refresh.yml has no setup-python and ran on 3.14.4 (probe runs 44478152590 and 44478784862 both printed PY=3.14.4). A pinned interpreter would have prevented the outage; an in-repo pin of the arithmetic also prevents it and survives the interpreter pin being moved later. The six gated generators are pinned now; the audit lists the 40 files that still call builtins sum()/round().",
+    "missing": "Permission to edit .github/workflows/refresh.yml and pages.yml - both are inside the concurrent claim (PR #143) at the time of writing, so this session could not add setup-python.",
+    "next_step": "Next integration session adds actions/setup-python@v5 with an explicit version to both workflows, or records why it declined.",
+    "owner": "integration session",
+    "sources": [
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44478152590",
+      "https://docs.python.org/3/whatsnew/3.12.html"
+    ]
+  },
+  {
+    "id": "89E-Q-05",
+    "category": "Evidence retention",
+    "question": "Where should runner-side evidence live, given that Actions logs and artifact blobs are unreachable from a sandbox session and check-run annotations truncate near 1 KB?",
+    "status": "open - this session used a branch workflow that commits its own report; needs a standing convention",
+    "known": "Three channels were tried: the artifact blob (blocked, 'productionresultssa*.blob.core.windows.net' unreachable), the job log (blocked, same host), and annotations (readable, but silently truncated, which is why the 2026-11-19 diagnostic run 44467720829 lost everything after its first five lines). The fourth channel works: a workflow on the session branch writes data/rounds/<date>-<session>/runner_probe.md, commits it, and exits with the probe's status - red/green stays meaningful and the full report is reviewable in the PR diff.",
+    "missing": "A board rule saying whether such runner-evidence commits are allowed in general (they touched only this session's own directory) and whether the temporary workflow must always be deleted before merge (this session deletes it).",
+    "next_step": "Adopt or reject the pattern in COORDINATION.md so the next session does not rediscover the three dead ends.",
+    "owner": "site owner",
+    "sources": [
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44478152590",
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44467720829"
+    ]
+  }
+]

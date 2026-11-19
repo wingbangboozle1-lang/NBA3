@@ -1,0 +1,84 @@
+[
+  {
+    "id": "89E-S-01",
+    "area": "CI determinism",
+    "suggestion": "Give .github/workflows/refresh.yml the setup-python step pages.yml already has (actions/setup-python@v5, python-version 3.11 \u2014 or the version the repo standardises on), so the scheduled job and the PR checks run the same interpreter.",
+    "why": "The asymmetry is the reason this defect survived a week of green PR checks: pages.yml pins 3.11 (verified, lines 72-74) while refresh.yml uses the runner default, which is 3.14.4 (printed by the runner in probe runs 44478152590 / 44478784862). The runners moved with no change in this repository and the pipeline lost six days of official data. The in-repo pin added here fixes the six byte-compared generators; the other 40 files listed in verify/determinism_89e98007.md are protected only by a workflow pin.",
+    "options": "A: setup-python with an explicit version in both workflows (one commit each, easy to revert). B: rely on the in-repo determinism module for every generator (correct but a larger sweep, and it needs the 40-file list worked through). C: do nothing and accept that an image update can freeze the pipeline again.",
+    "recommended_option": "A, and keep the in-repo pin \u2014 they are complementary: A makes a change deliberate, B makes the artefacts portable.",
+    "dependency": "This session could not edit either workflow file (both are inside PR #143's claim). Logged as CR-89E-02 for the next integration session.",
+    "decision": "awaiting your choice",
+    "sources": [
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44469939831",
+      "https://docs.python.org/3/whatsnew/3.12.html"
+    ]
+  },
+  {
+    "id": "89E-S-02",
+    "area": "CI determinism",
+    "suggestion": "Run the replayed gates under two interpreters in CI: the pinned version and a sitecustomize that installs CPython >= 3.12 compensated summation, requiring identical artefacts. The pattern already exists in tests/test_determinism_89e98007.py (EmulatedInterpreterTests) and costs about a second.",
+    "why": "It catches the whole class of failure \u2014 interpreter drift \u2014 without waiting for a runner image update to discover it. During this session's development the emulator was the check that proved the fix, and it also caught a false-positive: the first version of the shim did not load, and the suite's own 'the emulator must actually move the value' assertion failed, which is exactly the guard a reviewer wants.",
+    "options": "A: keep the test in the suite as the standing guard (already merged here). B: additionally run the six gates as a standalone matrix job so the report is visible per interpreter. C: skip.",
+    "recommended_option": "A now (it is in the merge), B if the owner wants the evidence as a separate green check.",
+    "dependency": "none",
+    "decision": "A implemented in this merge; B awaiting your choice",
+    "sources": [
+      "https://docs.python.org/3/library/functions.html#sum"
+    ]
+  },
+  {
+    "id": "89E-S-03",
+    "area": "Decision support / site",
+    "suggestion": "Make data currency a first-class, visible number on the landing page and the projection pages: last successful refresh commit, its UTC stamp, the next scheduled slot, and how many gate steps passed \u2014 instead of prose that a reader has to interpret. Include the last observed refresh attempt (run id, created_at, conclusion) in the same generated file, so the banner cannot go stale.",
+    "why": "The outage was invisible from the site: pages still described the 2026-11-16 capture as the current window until session 6f15f7c2 added a dated pause notice, and the only way to see that no fetch had run since 11/17 was to read GitHub Actions. A decision-maker who cannot tell 'stale' from 'fresh' at a glance will treat stale projections as live ones. The refresh job already writes a manifest per run, so the number exists; it is only not surfaced. Why this matters now: the notice in data/app/canonical.json hard-names run 44424736929 (2026-11-18T23:55:01Z) as 'the latest observed scheduled attempt' while the newest is 44469939831 (2026-11-19T06:07:59Z) \u2014 a stored string drifts by construction, and it drives the sentence a reader uses to decide whether to trust a number. Flag 89E-F-09.",
+    "options": "A: refresh_official.py writes data/app/pipeline_status.json (last green run, commit, gates, next slot) and build_app.py renders one strip on the landing page and the projections page. B: keep the dated prose notice only. C: pull the status from the Actions API at page-build time (adds a network dependency to the build). C: a separate ~2-hourly status workflow writes the same JSON from the Actions API, which is the only variant that survives a refresh that dies at its own preflight.",
+    "recommended_option": "A \u2014 it is derived from files already committed, so it degrades to 'unknown' offline rather than failing the build, and it never contradicts the tree it was built from.",
+    "dependency": "scripts/refresh_official.py and scripts/build_app.py are owned by other claims (PR #143 holds build_app.py at the time of writing), so this is a request, not a change made here.",
+    "decision": "awaiting your choice",
+    "sources": [
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44469939831"
+    ]
+  },
+  {
+    "id": "89E-S-04",
+    "area": "Test hygiene",
+    "suggestion": "Ban tests that write into the repository: any test that shells out to a generator must pass a temp --out (or use --check). Where a generator only writes in place, give it a --out flag rather than letting the test dirty the tree.",
+    "why": "tests/test_finals_1115_settlement.py runs scripts/capture_round_79341829.py in write mode, so 'the suite passed' can also mean 'the suite rewrote a committed artefact'. That is how data/app/minutes_shares.json came out of probe run 44478152590 modified on the runner (flag 89E-F-04) \u2014 and because the refresh ends with 'git add -A', a test-induced edit can be committed as if it were data. A second hazard of the same shape surfaced while merging main: a test that copies a generator into a scratch directory (tests/test_dd3edd74.py) also has to copy its helper modules, or the copy fails to import \u2014 this branch added scripts/determinism.py to that test's INPUTS list rather than weakening the harness.",
+    "options": "A: add --out to the generator and point the test at a temp dir. B: keep in-place writes but add a 'git status must be clean after the suite' assertion in CI, which turns the hazard into a visible failure. C: both.",
+    "recommended_option": "C \u2014 B is three lines in the workflow and catches every future case of the same shape, including ones nobody thought to test.",
+    "dependency": "tests/test_finals_1115_settlement.py and scripts/capture_round_79341829.py are inside PR #143's claim; logged as CR-89E-04.",
+    "decision": "awaiting your choice",
+    "sources": [
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44478152590"
+    ]
+  },
+  {
+    "id": "89E-S-05",
+    "area": "Review workflow",
+    "suggestion": "Publish the determinism audit table (verify/determinism_89e98007.md) as a section on the Flagged for Review page, with one line per generator: still interpreter-dependent, gated or not, and who owns it.",
+    "why": "The fix for one artefact is small; the exposure is repo-wide. The owner should be able to see, in one table, which published numbers could still move under an interpreter change (40 files today) and which are pinned, rather than reconstructing it from a markdown file in the tree. It also prevents a repeat of the coordination near-miss on this defect: four sessions probed the same gate from different directions (64d8f868 ran throwaway diagnostic workflows, de0caf5d and b1ce1334 both built unit-test instrumentation and collided on it, 6f15f7c2 re-verified it) before the failing test name was visible at all.",
+    "options": "A: render the generated markdown into app/flagged.html as its own table. B: keep it in the repo only. C: turn it into a build-time gate ('no unpinned generator may write a byte-compared artefact') \u2014 the audit already computes exactly that condition.",
+    "recommended_option": "A now, C as the follow-up once the remaining generators are pinned; B alone leaves the number invisible on the site the owner actually reads.",
+    "dependency": "app/flagged.html is generated by scripts/build_app.py (PR #143 scope), so the row content is ready in data/app/flags_89e98007.json and only needs the generator wired to read it.",
+    "decision": "awaiting your choice",
+    "sources": [
+      "https://github.com/wingbangboozle1-lang/NBA3/actions/runs/44467720829"
+    ]
+  },
+  {
+    "id": "89E-S-06",
+    "area": "site publication",
+    "suggestion": "Publish session registers by glob instead of by name: in scripts/assemble_canonical.py and scripts/build_app.py, read every data/app/{flags,questions,suggestions}_*.json, de-duplicate by id (first wins, files sorted), and keep the schema check in one place.",
+    "why": "The per-session hard-coding is why 12 flag ids on disk never reached the Flagged page, including this session's. It also creates merge friction: PR #147 adds an rd() line for its own file, which will collide with any other session doing the same in the same three lines. The register JSON schema is already uniform across the 9 session files, so a glob needs no per-file knowledge.",
+    "options": "A: glob + de-dup by id, tolerant of unknown extra keys (what this suggests). B: one explicit list file, data/app/registers.json, that each session appends to. C: status quo \u2014 each session patches two generators and regenerates the site in the same commit, which is what sessions 44e0c051, 8e199e09, 965fbd17, c449d46a and ef6e2e6c each did.",
+    "recommended_option": "glob + de-dup by id, with a test that every data/app/flags_*.json id appears in the built page",
+    "dependency": "needs the app/** + data/app/canonical.json regeneration in the same commit (pages.yml:253-257 requires a clean git diff)",
+    "decision": "pending \u2014 integration owner",
+    "sources": [
+      "scripts/assemble_canonical.py",
+      "scripts/build_app.py",
+      ".github/workflows/pages.yml",
+      "data/app/flags_89e98007.json"
+    ]
+  }
+]

@@ -68,6 +68,7 @@ NAV = [
     ]),
     ("Verification", [
         ("Verification log", "app/verification.html"),
+        ("Official round 11/16-11/18 (game books)", "app/round_2026-11-19.html"),
         ("Source register", "app/sources.html"),
         ("Repository review", "app/review.html"),
         ("Flagged for review", "app/flagged.html"),
@@ -109,11 +110,25 @@ def _load_new():
     NEW["gates"] = rd("data/app/gate_report.json", {"gates": []})
     NEW["closing"] = rd("data/app/closing_lines.json", {})
     NEW["flags_session"] = (rd("data/app/flags_79341829.json", [])
-                           + rd("data/app/flags_4054e125.json", []))
+                           + rd("data/app/flags_4054e125.json", [])
+                           + rd("data/app/flags_04a81bce.json", []))
     NEW["questions_session"] = (rd("data/app/questions_79341829.json", [])
-                                + rd("data/app/questions_4054e125.json", []))
+                                + rd("data/app/questions_4054e125.json", [])
+                                + rd("data/app/questions_04a81bce.json", []))
     NEW["suggestions_session"] = (rd("data/app/suggestions_79341829.json", [])
-                                  + rd("data/app/suggestions_4054e125.json", []))
+                                  + rd("data/app/suggestions_4054e125.json", [])
+                                  + rd("data/app/suggestions_04a81bce.json", []))
+    NEW["round04"] = {
+        "quarters": rd("data/rounds/2026-11-19-04a81bce/verified/quarters_2026-11-16_18.json",
+                       {"games": []}),
+        "injury": rd("data/rounds/2026-11-19-04a81bce/verified/injury_report_2026-11-19.json",
+                     {"rows": [], "consecutive_diffs": [], "revisions": []}),
+        "recut": rd("data/rounds/2026-11-19-04a81bce/verified/team_stats_recut_2026-11-19.json",
+                    {}),
+        "ledger": rd("data/rounds/2026-11-19-04a81bce/verified/ledger_hash_check_2026-11-19.json",
+                     {"rows": []}),
+        "registers": rd("data/app/registers_04a81bce.json", {}),
+    }
     NEW["standings"] = rd("data/live/standings.json", {"teams": {}})
     NEW["inj_deltas"] = rd("data/live/injuries/deltas.json", {"deltas": []})
     NEW["inj_archive"] = rd("data/live/injuries/archive_index.json",
@@ -2257,6 +2272,176 @@ and the probabilities from the out-of-sample residual distribution of our own en
     return "\n".join(body)
 
 
+def page_round_04a81bce(d):
+    """Official round 2026-11-19: verified game-book quarters, injury revision
+    diffs, and the team-stat re-cut (every row links its official source)."""
+    r04 = NEW.get("round04", {})
+    qd = r04.get("quarters", {"games": []})
+    inj = r04.get("injury", {"rows": [], "consecutive_diffs": [], "revisions": []})
+    rec = r04.get("recut", {}) or {}
+    led = r04.get("ledger", {"rows": []})
+    body = []
+    games = qd.get("games", [])
+    n_blank = sum(1 for g in games for k in ("away_quarters", "home_quarters") if g[k] is None)
+    body.append(f"""
+<div class="callout"><strong>Official round capture, 2026-11-16 to 2026-11-18.</strong>
+All {len(games)} finals are taken from the official NBA game books (statsdmz.nba.com PDFs).
+A quarter vector is published only when its sum equals the printed final; where the official
+text layer is absent or corrupt the cell stays <strong>blank and flagged</strong> — never
+inferred. {50 - n_blank}/50 team vectors verified; {n_blank} blank.</div>""")
+    rows = []
+    for g in games:
+        for side, key in (("away", "away_quarters"), ("home", "home_quarters")):
+            vec = g[key]
+            team = g[side]
+            flag = "; ".join(f for f in g.get("flags", []) if f.startswith(team)) or ""
+            if vec is None:
+                cells = ["—"] * 5
+                flag = flag or "no sum-valid vector in the official book — blank, not inferred"
+            else:
+                cells = [str(v) for v in vec] + ["—"] * (5 - len(vec))
+            fin = g["final"]["away"] if side == "away" else g["final"]["home"]
+            rows.append([
+                esc(g["date"]), esc(g.get("gid") or ""), esc(f"{g['away']} @ {g['home']}"),
+                esc(team), cells[0], cells[1], cells[2], cells[3], cells[4],
+                str(fin), esc(flag), src_cell([g["source_url"]], "game book"),
+            ])
+    body.append(table(["Date", "Game id", "Matchup", "Team", "Q1", "Q2", "Q3", "Q4", "OT",
+                       "Final", "Flags (blank = unverified, not inferred)", "Official source"],
+                      rows, "round04quarters"))
+    rows = []
+    for rev in inj.get("revisions", []):
+        rows.append([esc(rev.get("revision_et", "")), esc(str(rev.get("rows", ""))),
+                     src_cell([rev.get("source_url")], "official PDF")])
+    body.append(table(["Revision (ET)", "Row set", "Official source"], rows, "round04revisions"))
+    rows = []
+    for df in inj.get("consecutive_diffs", []):
+        rows.append([esc(df["pair"]), str(df["added"]), str(df["removed"]),
+                     str(df["status_changes"]), esc("no change between consecutive revisions"),
+                     src_cell(["https://ak-static.cms.nba.com/referee/injury/"
+                               "Injury-Report_2026-11-19_01_45AM.pdf"], "official PDF")])
+    body.append(table(["Revision pair", "Added rows", "Removed rows", "Status changes",
+                       "Diff result", "Official source"], rows, "round04diffs"))
+    attr = [r for r in inj.get("rows", []) if r.get("team_attribution")]
+    if attr:
+        links = " · ".join(f'<a href="{u}" target="_blank" rel="noopener noreferrer">game book</a>'
+                           for u in attr[0]["team_attribution"]["evidence"])
+        body.append(f"""
+<div class="callout"><strong>Team attribution (F-DE0-04/F-DE0-05 resolved).</strong>
+{esc(", ".join(r["player"] for r in attr))} appear on the official injury report rows without a
+team cell. Both are <strong>Minnesota Timberwolves</strong> per the official 11/16 and 11/17
+PORMIN game books ({links}). Any earlier GSW attribution is unconfirmed.</div>""")
+    h = rec.get("home_court") or {}
+    if h:
+        body.append(f"""
+<h2>Measured home-court advantage (re-cut)</h2>
+<p>Measured on the official HOME/ROAD splits of the standings page:
+{h.get("home_wins")} home wins in {h.get("home_games")} home games =
+<strong>{h.get("measured_home_win_rate")}</strong> (z vs .500 = {h.get("z_vs_half")}). The model
+pin stays the fitted 0.76 points; converting this rate to points is a reviewer decision
+(Q1 on Open questions) and is not inferred.</p>""")
+        rows = [[str(h.get("home_wins", "")), str(h.get("home_losses", "")),
+                 str(h.get("home_games", "")), str(h.get("measured_home_win_rate", "")),
+                 str(h.get("z_vs_half", "")),
+                 src_cell([h.get("source_url")], "nba.com/standings")]]
+        body.append(table(["Home wins", "Home losses", "Home games", "Measured home win rate",
+                           "z vs .500", "Official source"], rows, "round04hca"))
+    luck = rec.get("luck") or []
+    if luck:
+        rows = []
+        for r in luck:
+            rows.append([esc(r["team"]), str(r["gp"]), str(r["actual_win_pct"]),
+                         str(r["expected_win_pct"]), str(r["luck_z"]),
+                         chip("outside noise" if r["outside_noise_2sd"] else "within noise",
+                              "bad" if r["outside_noise_2sd"] else "neutral"),
+                         src_cell(["https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&Season=2026-27",
+                                   "https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&Season=2026-27"],
+                                  "nba.com team stats")])
+        body.append(f"""
+<h2>Luck test — per-team z of actual vs Pythagorean expected wins</h2>
+<p>Strategies leaning on teams outside the 2-sd noise band are refused on the bet surface.</p>""")
+        body.append(table(["Team", "GP", "Actual win%", "Expected win%", "Luck z", "Band",
+                           "Official source"], rows, "round04luck"))
+    tot = rec.get("totals_poss_x_ppp") or []
+    if tot:
+        rows = []
+        for r in tot:
+            rows.append([esc(r["team"]), str(r["poss_per_game"]), str(r["ppp_for"]),
+                         str(r["ppp_against"]), str(r["modeled_pts_for"]),
+                         str(r["modeled_pts_against"]), str(r["actual_pts_for"]),
+                         str(r["actual_pts_against"]),
+                         src_cell([r.get("source_url")], "nba.com advanced")])
+        body.append(f"""
+<h2>Totals modeled as possessions x PPP (advanced page re-cut)</h2>""")
+        body.append(table(["Team", "Poss/game", "PPP for", "PPP against", "Modeled pts for",
+                           "Modeled pts against", "Actual pts for", "Actual pts against",
+                           "Official source"], rows, "round04totals"))
+    rest = rec.get("rest_travel_1119") or []
+    if rest:
+        rows = []
+        for r in rest:
+            travel = str(r["travel_km"]) if r.get("travel_km") is not None else "—"
+            tflag = r.get("travel_flag") or ""
+            rows.append([esc(r["date"]), esc(r["team"]), esc(r["opponent"]), esc(r["site"]),
+                         esc(str(r.get("prev_game_date") or "—")), esc(str(r.get("rest_days"))),
+                         chip("B2B" if r["b2b"] else "—", "warn" if r["b2b"] else "neutral"),
+                         chip("3-in-4" if r["three_in_4"] else "—",
+                              "warn" if r["three_in_4"] else "neutral"),
+                         travel, esc(tflag),
+                         src_cell(["https://statsdmz.nba.com/pdfs/",
+                                   "https://www.nba.com/standings"], "game books + schedule")])
+        body.append(f"""
+<h2>Rest, back-to-back, 3-in-4 and travel — 2026-11-19 slate</h2>
+<p>Rest days are counted from the official game books; travel distance comes only from the
+sourced arena-coordinate table and stays blank + flagged where no official coordinate exists.</p>""")
+        body.append(table(["Date", "Team", "Opponent", "Site", "Prev game", "Rest days",
+                           "B2B", "3-in-4", "Travel km", "Travel flag", "Official source"],
+                          rows, "round04rest"))
+    mins = rec.get("minutes_redistribution") or []
+    if mins:
+        rows = []
+        for b in mins:
+            outs = [p for p in b.get("players", []) if p.get("status_11_19", "").startswith("OUT")]
+            top = b.get("players", [])[:3]
+            tops = "; ".join(f'{p["player"]} {p["share"]}' for p in top) if top else "—"
+            rows.append([esc(b["team"]), esc(tops), esc(", ".join(p["player"] for p in outs) or "—"),
+                         esc(b.get("note") or b.get("flag") or ""),
+                         src_cell(["https://statsdmz.nba.com/pdfs/"], "game books")])
+        body.append(f"""
+<h2>Minutes redistribution — top-8 shares, OUT players zeroed</h2>
+<p>Shares are measured from the captured 11/16-11/18 game books. Replacement-player shares are
+not officially sourced and stay flagged/unverified.</p>""")
+        body.append(table(["Team", "Top-3 shares (measured)", "OUT (official report)",
+                           "Redistribution note", "Official source"], rows, "round04minutes"))
+    if led.get("rows"):
+        settled = [r for r in led["rows"] if r.get("state") == "SETTLED"]
+        pub = [r for r in led["rows"] if r.get("state") == "PUBLISHED_PRE_TIP"]
+        body.append(f"""
+<h2>Ledger hash publication check</h2>
+<p>{led.get("entries")} entries: chain intact =
+{led.get("chain_intact")}; {len(pub)} published picks all hashed <em>before</em> tip-off;
+{len(settled)} settlements hash-verified with visible stamps. Problems:
+{esc("; ".join(led.get("problems") or ["none"]))}.</p>""")
+        rows = []
+        for r in settled:
+            rows.append([esc(r.get("pick_id", "")), esc(r.get("settled_utc", "")),
+                         esc("verified" if r.get("hash_verified_at_settlement") else "NOT verified"),
+                         esc(str(r.get("settlement_stamp") or "")),
+                         src_cell(["https://github.com/wingbangboozle1-lang/NBA3/blob/main/"
+                                   "data/app/ledger/ledger.jsonl"], "ledger.jsonl")])
+        body.append(table(["Pick", "Settled (UTC)", "Hash at settlement", "Settlement stamp",
+                           "Source"], rows, "round04ledger"))
+    body.append("""
+<h2>Registers for this round</h2>
+<p>The executive summary, open questions, suggestions awaiting reviewer choice, and the full
+flagged list (F-DE0-01..06, EVE-F04 evidence, F-04A-01..06) are on the
+<a href="app/flagged.html">Flagged for review</a>,
+<a href="app/questions.html">Open questions</a> and
+<a href="app/suggestions.html">Site suggestions</a> pages and in
+<code>data/app/registers_04a81bce.json</code>.</p>""")
+    return "\n".join(body)
+
+
 def page_verification(d):
     body = []
     body.append("""
@@ -3131,6 +3316,8 @@ def main():
         ("app/questions.html", "Open questions", "Decision support", page_questions(d), "app/questions.html"),
         ("app/suggestions.html", "Site improvement suggestions", "Decision support", page_suggestions(d), "app/suggestions.html"),
         ("app/verification.html", "Verification log", "Verification", page_verification(d), "app/verification.html"),
+        ("app/round_2026-11-19.html", "Official round 11/16-11/18 (game books)", "Verification",
+         page_round_04a81bce(d), "app/round_2026-11-19.html"),
         ("app/sources.html", "Source register", "Verification", page_sources(d), "app/sources.html"),
         ("app/review.html", "Repository review", "Verification", page_review(d), "app/review.html"),
         ("app/flagged.html", "Flagged for review", "Verification", page_flagged(d), "app/flagged.html"),

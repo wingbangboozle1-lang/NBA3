@@ -1,0 +1,1231 @@
+{
+  "generated_utc": "2026-11-19T08:31:47Z",
+  "checks": [
+    "Atlanta Hawks",
+    "Boston Celtics",
+    "Brooklyn Nets",
+    "Charlotte Hornets",
+    "Chicago Bulls",
+    "Cleveland Cavaliers",
+    "Dallas Mavericks",
+    "Denver Nuggets",
+    "Detroit Pistons",
+    "Golden State Warriors",
+    "Houston Rockets",
+    "Indiana Pacers",
+    "LA Clippers",
+    "Los Angeles Lakers",
+    "Memphis Grizzlies",
+    "Miami Heat",
+    "Milwaukee Bucks",
+    "Minnesota Timberwolves",
+    "New Orleans Pelicans",
+    "New York Knicks",
+    "Oklahoma City Thunder",
+    "Orlando Magic",
+    "Philadelphia 76ers",
+    "Phoenix Suns",
+    "Portland Trail Blazers",
+    "Sacramento Kings",
+    "San Antonio Spurs",
+    "Toronto Raptors",
+    "Utah Jazz",
+    "Washington Wizards"
+  ],
+  "flags": [
+    "Toronto Raptors: net_rtg sign disagrees with +/-"
+  ],
+  "home_court": {
+    "home_wins": 111,
+    "home_losses": 110,
+    "home_games": 221,
+    "measured_home_win_rate": 0.5023,
+    "z_vs_half": 0.067,
+    "source_url": "https://www.nba.com/standings",
+    "pinned_points_note": "model pin remains the fitted 0.76 pts (existing pipeline fit 102/197); the points conversion of this re-measured rate is left for reviewer choice (suggestions register) and is NOT inferred here"
+  },
+  "luck": [
+    {
+      "team": "San Antonio Spurs",
+      "gp": 15,
+      "actual_win_pct": 0.8,
+      "expected_win_pct": 0.1981,
+      "luck_z": 5.849,
+      "outside_noise_2sd": true
+    },
+    {
+      "team": "Boston Celtics",
+      "gp": 15,
+      "actual_win_pct": 0.7333,
+      "expected_win_pct": 0.2066,
+      "luck_z": 5.038,
+      "outside_noise_2sd": true
+    },
+    {
+      "team": "Minnesota Timberwolves",
+      "gp": 15,
+      "actual_win_pct": 0.7333,
+      "expected_win_pct": 0.2101,
+      "luck_z": 4.975,
+      "outside_noise_2sd": true
+    },
+    {
+      "team": "Houston Rockets",
+      "gp": 16,
+      "actual_win_pct": 0.75,
+      "expected_win_pct": 0.2561,
+      "luck_z": 4.526,
+      "outside_noise_2sd": true
+    },
+    {
+      "team": "Los Angeles Lakers",
+      "gp": 16,
+      "actual_win_pct": 0.8125,
+      "expected_win_pct": 0.3168,
+      "luck_z": 4.262,
+      "outside_noise_2sd": true
+    },
+    {
+      "team": "Memphis Grizzlies",
+      "gp": 15,
+      "actual_win_pct": 0.7333,
+      "expected_win_pct": 0.256,
+      "luck_z": 4.236,
+      "outside_noise_2sd": true
+    },
+    {
+      "team": "Detroit Pistons",
+      "gp": 14,
+      "actual_win_pct": 0.7143,
+      "expected_win_pct": 0.3087,
+      "luck_z": 3.286,
+      "outside_noise_2sd": true
+    },
+    {
+      "team": "Philadelphia 76ers",
+      "gp": 16,
+      "actual_win_pct": 0.8125,
+      "expected_win_pct": 0.4117,
+      "luck_z": 3.257,
+      "outside_noise_2sd": true
+    },
+    {
+      "team": "Portland Trail Blazers",
+      "gp": 14,
+      "actual_win_pct": 0.6429,
+      "expected_win_pct": 0.3247,
+      "luck_z": 2.542,
+      "outside_noise_2sd": true
+    },
+    {
+      "team": "New York Knicks",
+      "gp": 14,
+      "actual_win_pct": 0.5714,
+      "expected_win_pct": 0.3114,
+      "luck_z": 2.101,
+      "outside_noise_2sd": true
+    },
+    {
+      "team": "Oklahoma City Thunder",
+      "gp": 15,
+      "actual_win_pct": 0.6,
+      "expected_win_pct": 0.3642,
+      "luck_z": 1.897,
+      "outside_noise_2sd": false
+    },
+    {
+      "team": "Atlanta Hawks",
+      "gp": 15,
+      "actual_win_pct": 0.6,
+      "expected_win_pct": 0.4436,
+      "luck_z": 1.219,
+      "outside_noise_2sd": false
+    },
+    {
+      "team": "Denver Nuggets",
+      "gp": 13,
+      "actual_win_pct": 0.6154,
+      "expected_win_pct": 0.4692,
+      "luck_z": 1.056,
+      "outside_noise_2sd": false
+    },
+    {
+      "team": "Miami Heat",
+      "gp": 15,
+      "actual_win_pct": 0.6,
+      "expected_win_pct": 0.4826,
+      "luck_z": 0.91,
+      "outside_noise_2sd": false
+    },
+    {
+      "team": "Cleveland Cavaliers",
+      "gp": 16,
+      "actual_win_pct": 0.5,
+      "expected_win_pct": 0.441,
+      "luck_z": 0.475,
+      "outside_noise_2sd": false
+    },
+    {
+      "team": "Golden State Warriors",
+      "gp": 15,
+      "actual_win_pct": 0.5333,
+      "expected_win_pct": 0.4724,
+      "luck_z": 0.473,
+      "outside_noise_2sd": false
+    },
+    {
+      "team": "Dallas Mavericks",
+      "gp": 15,
+      "actual_win_pct": 0.5333,
+      "expected_win_pct": 0.5277,
+      "luck_z": 0.043,
+      "outside_noise_2sd": false
+    },
+    {
+      "team": "Phoenix Suns",
+      "gp": 14,
+      "actual_win_pct": 0.5,
+      "expected_win_pct": 0.5483,
+      "luck_z": -0.363,
+      "outside_noise_2sd": false
+    },
+    {
+      "team": "Toronto Raptors",
+      "gp": 15,
+      "actual_win_pct": 0.3333,
+      "expected_win_pct": 0.5,
+      "luck_z": -1.291,
+      "outside_noise_2sd": false
+    },
+    {
+      "team": "Orlando Magic",
+      "gp": 14,
+      "actual_win_pct": 0.4286,
+      "expected_win_pct": 0.6049,
+      "luck_z": -1.349,
+      "outside_noise_2sd": false
+    },
+    {
+      "team": "Indiana Pacers",
+      "gp": 15,
+      "actual_win_pct": 0.3333,
+      "expected_win_pct": 0.6001,
+      "luck_z": -2.109,
+      "outside_noise_2sd": true
+    },
+    {
+      "team": "LA Clippers",
+      "gp": 13,
+      "actual_win_pct": 0.3077,
+      "expected_win_pct": 0.6688,
+      "luck_z": -2.767,
+      "outside_noise_2sd": true
+    },
+    {
+      "team": "Washington Wizards",
+      "gp": 16,
+      "actual_win_pct": 0.3125,
+      "expected_win_pct": 0.7035,
+      "luck_z": -3.424,
+      "outside_noise_2sd": true
+    },
+    {
+      "team": "New Orleans Pelicans",
+      "gp": 16,
+      "actual_win_pct": 0.3125,
+      "expected_win_pct": 0.7036,
+      "luck_z": -3.426,
+      "outside_noise_2sd": true
+    },
+    {
+      "team": "Chicago Bulls",
+      "gp": 14,
+      "actual_win_pct": 0.2857,
+      "expected_win_pct": 0.7253,
+      "luck_z": -3.685,
+      "outside_noise_2sd": true
+    },
+    {
+      "team": "Brooklyn Nets",
+      "gp": 14,
+      "actual_win_pct": 0.2143,
+      "expected_win_pct": 0.7318,
+      "luck_z": -4.371,
+      "outside_noise_2sd": true
+    },
+    {
+      "team": "Utah Jazz",
+      "gp": 16,
+      "actual_win_pct": 0.1875,
+      "expected_win_pct": 0.7092,
+      "luck_z": -4.595,
+      "outside_noise_2sd": true
+    },
+    {
+      "team": "Charlotte Hornets",
+      "gp": 14,
+      "actual_win_pct": 0.2857,
+      "expected_win_pct": 0.7961,
+      "luck_z": -4.741,
+      "outside_noise_2sd": true
+    },
+    {
+      "team": "Milwaukee Bucks",
+      "gp": 15,
+      "actual_win_pct": 0.0667,
+      "expected_win_pct": 0.8332,
+      "luck_z": -7.962,
+      "outside_noise_2sd": true
+    },
+    {
+      "team": "Sacramento Kings",
+      "gp": 14,
+      "actual_win_pct": 0.0714,
+      "expected_win_pct": 0.8455,
+      "luck_z": -8.014,
+      "outside_noise_2sd": true
+    }
+  ],
+  "totals_poss_x_ppp": [
+    {
+      "team": "Los Angeles Lakers",
+      "poss_per_game": 100.88,
+      "ppp_for": 1.198,
+      "ppp_against": 1.132,
+      "modeled_pts_for": 120.8,
+      "modeled_pts_against": 114.2,
+      "actual_pts_for": 120.9,
+      "actual_pts_against": 114.4,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Philadelphia 76ers",
+      "poss_per_game": 100.0,
+      "ppp_for": 1.145,
+      "ppp_against": 1.118,
+      "modeled_pts_for": 114.5,
+      "modeled_pts_against": 111.8,
+      "actual_pts_for": 114.5,
+      "actual_pts_against": 111.6,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Houston Rockets",
+      "poss_per_game": 97.38,
+      "ppp_for": 1.211,
+      "ppp_against": 1.121,
+      "modeled_pts_for": 117.9,
+      "modeled_pts_against": 109.2,
+      "actual_pts_for": 117.9,
+      "actual_pts_against": 109.2,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "San Antonio Spurs",
+      "poss_per_game": 99.13,
+      "ppp_for": 1.181,
+      "ppp_against": 1.07,
+      "modeled_pts_for": 117.1,
+      "modeled_pts_against": 106.1,
+      "actual_pts_for": 117.1,
+      "actual_pts_against": 105.9,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Boston Celtics",
+      "poss_per_game": 97.33,
+      "ppp_for": 1.17,
+      "ppp_against": 1.06,
+      "modeled_pts_for": 113.9,
+      "modeled_pts_against": 103.2,
+      "actual_pts_for": 113.9,
+      "actual_pts_against": 103.4,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Memphis Grizzlies",
+      "poss_per_game": 101.07,
+      "ppp_for": 1.206,
+      "ppp_against": 1.119,
+      "modeled_pts_for": 121.9,
+      "modeled_pts_against": 113.1,
+      "actual_pts_for": 121.9,
+      "actual_pts_against": 112.9,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Minnesota Timberwolves",
+      "poss_per_game": 101.87,
+      "ppp_for": 1.145,
+      "ppp_against": 1.04,
+      "modeled_pts_for": 116.6,
+      "modeled_pts_against": 105.9,
+      "actual_pts_for": 116.7,
+      "actual_pts_against": 106.1,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Detroit Pistons",
+      "poss_per_game": 100.43,
+      "ppp_for": 1.149,
+      "ppp_against": 1.089,
+      "modeled_pts_for": 115.4,
+      "modeled_pts_against": 109.4,
+      "actual_pts_for": 115.4,
+      "actual_pts_against": 108.9,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Atlanta Hawks",
+      "poss_per_game": 104.4,
+      "ppp_for": 1.128,
+      "ppp_against": 1.108,
+      "modeled_pts_for": 117.8,
+      "modeled_pts_against": 115.7,
+      "actual_pts_for": 117.7,
+      "actual_pts_against": 115.8,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Miami Heat",
+      "poss_per_game": 103.07,
+      "ppp_for": 1.169,
+      "ppp_against": 1.167,
+      "modeled_pts_for": 120.5,
+      "modeled_pts_against": 120.3,
+      "actual_pts_for": 120.5,
+      "actual_pts_against": 119.9,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Oklahoma City Thunder",
+      "poss_per_game": 99.2,
+      "ppp_for": 1.13,
+      "ppp_against": 1.087,
+      "modeled_pts_for": 112.1,
+      "modeled_pts_against": 107.8,
+      "actual_pts_for": 112.1,
+      "actual_pts_against": 107.7,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Portland Trail Blazers",
+      "poss_per_game": 100.71,
+      "ppp_for": 1.162,
+      "ppp_against": 1.102,
+      "modeled_pts_for": 117.0,
+      "modeled_pts_against": 111.0,
+      "actual_pts_for": 117.0,
+      "actual_pts_against": 111.0,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Cleveland Cavaliers",
+      "poss_per_game": 100.62,
+      "ppp_for": 1.175,
+      "ppp_against": 1.155,
+      "modeled_pts_for": 118.2,
+      "modeled_pts_against": 116.2,
+      "actual_pts_for": 118.3,
+      "actual_pts_against": 116.3,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Dallas Mavericks",
+      "poss_per_game": 100.07,
+      "ppp_for": 1.123,
+      "ppp_against": 1.134,
+      "modeled_pts_for": 112.4,
+      "modeled_pts_against": 113.5,
+      "actual_pts_for": 112.3,
+      "actual_pts_against": 113.2,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Denver Nuggets",
+      "poss_per_game": 99.0,
+      "ppp_for": 1.143,
+      "ppp_against": 1.138,
+      "modeled_pts_for": 113.2,
+      "modeled_pts_against": 112.7,
+      "actual_pts_for": 113.2,
+      "actual_pts_against": 112.2,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Golden State Warriors",
+      "poss_per_game": 100.2,
+      "ppp_for": 1.134,
+      "ppp_against": 1.128,
+      "modeled_pts_for": 113.6,
+      "modeled_pts_against": 113.0,
+      "actual_pts_for": 113.7,
+      "actual_pts_against": 112.8,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "New York Knicks",
+      "poss_per_game": 95.86,
+      "ppp_for": 1.148,
+      "ppp_against": 1.09,
+      "modeled_pts_for": 110.0,
+      "modeled_pts_against": 104.5,
+      "actual_pts_for": 110.0,
+      "actual_pts_against": 103.9,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Phoenix Suns",
+      "poss_per_game": 98.71,
+      "ppp_for": 1.156,
+      "ppp_against": 1.168,
+      "modeled_pts_for": 114.1,
+      "modeled_pts_against": 115.3,
+      "actual_pts_for": 114.1,
+      "actual_pts_against": 115.7,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Orlando Magic",
+      "poss_per_game": 98.21,
+      "ppp_for": 1.113,
+      "ppp_against": 1.14,
+      "modeled_pts_for": 109.3,
+      "modeled_pts_against": 112.0,
+      "actual_pts_for": 109.4,
+      "actual_pts_against": 112.8,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Indiana Pacers",
+      "poss_per_game": 100.73,
+      "ppp_for": 1.107,
+      "ppp_against": 1.136,
+      "modeled_pts_for": 111.5,
+      "modeled_pts_against": 114.4,
+      "actual_pts_for": 111.5,
+      "actual_pts_against": 114.8,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "New Orleans Pelicans",
+      "poss_per_game": 103.25,
+      "ppp_for": 1.117,
+      "ppp_against": 1.189,
+      "modeled_pts_for": 115.3,
+      "modeled_pts_against": 122.8,
+      "actual_pts_for": 115.4,
+      "actual_pts_against": 122.8,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Toronto Raptors",
+      "poss_per_game": 98.53,
+      "ppp_for": 1.137,
+      "ppp_against": 1.131,
+      "modeled_pts_for": 112.0,
+      "modeled_pts_against": 111.4,
+      "actual_pts_for": 112.0,
+      "actual_pts_against": 112.0,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Washington Wizards",
+      "poss_per_game": 100.75,
+      "ppp_for": 1.099,
+      "ppp_against": 1.171,
+      "modeled_pts_for": 110.7,
+      "modeled_pts_against": 118.0,
+      "actual_pts_for": 110.8,
+      "actual_pts_against": 117.9,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Charlotte Hornets",
+      "poss_per_game": 97.14,
+      "ppp_for": 1.031,
+      "ppp_against": 1.137,
+      "modeled_pts_for": 100.2,
+      "modeled_pts_against": 110.5,
+      "actual_pts_for": 100.1,
+      "actual_pts_against": 110.4,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Chicago Bulls",
+      "poss_per_game": 104.57,
+      "ppp_for": 1.111,
+      "ppp_against": 1.191,
+      "modeled_pts_for": 116.2,
+      "modeled_pts_against": 124.5,
+      "actual_pts_for": 116.2,
+      "actual_pts_against": 124.6,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "LA Clippers",
+      "poss_per_game": 100.46,
+      "ppp_for": 1.114,
+      "ppp_against": 1.17,
+      "modeled_pts_for": 111.9,
+      "modeled_pts_against": 117.5,
+      "actual_pts_for": 111.9,
+      "actual_pts_against": 117.7,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Brooklyn Nets",
+      "poss_per_game": 100.29,
+      "ppp_for": 1.105,
+      "ppp_against": 1.19,
+      "modeled_pts_for": 110.8,
+      "modeled_pts_against": 119.3,
+      "actual_pts_for": 110.9,
+      "actual_pts_against": 119.2,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Utah Jazz",
+      "poss_per_game": 101.62,
+      "ppp_for": 1.07,
+      "ppp_against": 1.145,
+      "modeled_pts_for": 108.7,
+      "modeled_pts_against": 116.4,
+      "actual_pts_for": 108.8,
+      "actual_pts_against": 116.0,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Milwaukee Bucks",
+      "poss_per_game": 101.0,
+      "ppp_for": 1.067,
+      "ppp_against": 1.197,
+      "modeled_pts_for": 107.8,
+      "modeled_pts_against": 120.9,
+      "actual_pts_for": 107.7,
+      "actual_pts_against": 120.9,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    },
+    {
+      "team": "Sacramento Kings",
+      "poss_per_game": 100.79,
+      "ppp_for": 1.069,
+      "ppp_against": 1.204,
+      "modeled_pts_for": 107.7,
+      "modeled_pts_against": 121.3,
+      "actual_pts_for": 107.7,
+      "actual_pts_against": 121.7,
+      "source_url": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27"
+    }
+  ],
+  "rest_travel_1119": [
+    {
+      "date": "2026-11-19",
+      "team": "GSW",
+      "opponent": "MEM",
+      "site": "away",
+      "prev_game_date": "2026-11-18",
+      "rest_days": 0,
+      "b2b": true,
+      "three_in_4": true,
+      "games_in_last_4_days": 2,
+      "travel_km": null,
+      "travel_flag": "travel distance unverified (no sourced arena coordinate entry)"
+    },
+    {
+      "date": "2026-11-19",
+      "team": "MEM",
+      "opponent": "GSW",
+      "site": "home",
+      "prev_game_date": "2026-11-18",
+      "rest_days": 0,
+      "b2b": true,
+      "three_in_4": true,
+      "games_in_last_4_days": 2,
+      "travel_km": null,
+      "travel_flag": "travel distance unverified (no sourced arena coordinate entry)"
+    },
+    {
+      "date": "2026-11-19",
+      "team": "LAC",
+      "opponent": "SAS",
+      "site": "away",
+      "prev_game_date": "2026-11-17",
+      "rest_days": 1,
+      "b2b": false,
+      "three_in_4": false,
+      "games_in_last_4_days": 1,
+      "travel_km": null,
+      "travel_flag": "travel distance unverified (no sourced arena coordinate entry)"
+    },
+    {
+      "date": "2026-11-19",
+      "team": "SAS",
+      "opponent": "LAC",
+      "site": "home",
+      "prev_game_date": "2026-11-17",
+      "rest_days": 1,
+      "b2b": false,
+      "three_in_4": false,
+      "games_in_last_4_days": 1,
+      "travel_km": null,
+      "travel_flag": "travel distance unverified (no sourced arena coordinate entry)"
+    },
+    {
+      "date": "2026-11-19",
+      "team": "NYK",
+      "opponent": "MIN",
+      "site": "away",
+      "prev_game_date": "2026-11-17",
+      "rest_days": 1,
+      "b2b": false,
+      "three_in_4": false,
+      "games_in_last_4_days": 1,
+      "travel_km": null,
+      "travel_flag": "travel distance unverified (no sourced arena coordinate entry)"
+    },
+    {
+      "date": "2026-11-19",
+      "team": "MIN",
+      "opponent": "NYK",
+      "site": "home",
+      "prev_game_date": "2026-11-17",
+      "rest_days": 1,
+      "b2b": false,
+      "three_in_4": false,
+      "games_in_last_4_days": 2,
+      "travel_km": null,
+      "travel_flag": "travel distance unverified (no sourced arena coordinate entry)"
+    },
+    {
+      "date": "2026-11-19",
+      "team": "POR",
+      "opponent": "MIL",
+      "site": "away",
+      "prev_game_date": "2026-11-17",
+      "rest_days": 1,
+      "b2b": false,
+      "three_in_4": false,
+      "games_in_last_4_days": 2,
+      "travel_km": null,
+      "travel_flag": "travel distance unverified (no sourced arena coordinate entry)"
+    },
+    {
+      "date": "2026-11-19",
+      "team": "MIL",
+      "opponent": "POR",
+      "site": "home",
+      "prev_game_date": "2026-11-18",
+      "rest_days": 0,
+      "b2b": true,
+      "three_in_4": false,
+      "games_in_last_4_days": 1,
+      "travel_km": null,
+      "travel_flag": "travel distance unverified (no sourced arena coordinate entry)"
+    }
+  ],
+  "minutes_redistribution": [
+    {
+      "team": "GSW",
+      "players": [
+        {
+          "player": "Richard Will",
+          "minutes_3game_window": 50.7,
+          "share": 0.1834,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1834
+        },
+        {
+          "player": "De'anthony Melton",
+          "minutes_3game_window": 39.9,
+          "share": 0.1444,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1444
+        },
+        {
+          "player": "Bassey Charles",
+          "minutes_3game_window": 38.1,
+          "share": 0.1379,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1378
+        },
+        {
+          "player": "Gui Santos",
+          "minutes_3game_window": 36.1,
+          "share": 0.1304,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1306
+        },
+        {
+          "player": "Lendeborg Yaxel",
+          "minutes_3game_window": 30.4,
+          "share": 0.1101,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.11
+        },
+        {
+          "player": "Brandin Podziemski",
+          "minutes_3game_window": 29.1,
+          "share": 0.1054,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1053
+        },
+        {
+          "player": "Georges Niang",
+          "minutes_3game_window": 28.4,
+          "share": 0.1027,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1027
+        },
+        {
+          "player": "Gary II Payton",
+          "minutes_3game_window": 23.7,
+          "share": 0.0857,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.0857
+        }
+      ],
+      "note": "top-8 shares from captured 11/16-18 game books; OUT players zeroed and their minutes redistributed pro rata among the available top-8 \u2014 replacement-player shares are NOT officially sourced and stay flagged/unverified"
+    },
+    {
+      "team": "MEM",
+      "players": [
+        {
+          "player": "Cam Spencer",
+          "minutes_3game_window": 61.1,
+          "share": 0.1535,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1534
+        },
+        {
+          "player": "Cedric Coward",
+          "minutes_3game_window": 60.3,
+          "share": 0.1514,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1514
+        },
+        {
+          "player": "Boozer Cameron",
+          "minutes_3game_window": 57.1,
+          "share": 0.1433,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1434
+        },
+        {
+          "player": "Jaylen Wells",
+          "minutes_3game_window": 52.7,
+          "share": 0.1324,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1323
+        },
+        {
+          "player": "Javon Small",
+          "minutes_3game_window": 49.7,
+          "share": 0.1248,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1248
+        },
+        {
+          "player": "Grant Jerami",
+          "minutes_3game_window": 43.3,
+          "share": 0.1087,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1087
+        },
+        {
+          "player": "Edey Zach",
+          "minutes_3game_window": 42.0,
+          "share": 0.1054,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1054
+        },
+        {
+          "player": "Olivier-maxence Prosper",
+          "minutes_3game_window": 32.1,
+          "share": 0.0806,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.0806
+        }
+      ],
+      "note": "top-8 shares from captured 11/16-18 game books; OUT players zeroed and their minutes redistributed pro rata among the available top-8 \u2014 replacement-player shares are NOT officially sourced and stay flagged/unverified"
+    },
+    {
+      "team": "LAC",
+      "players": [
+        {
+          "player": "Darius Garland",
+          "minutes_3game_window": 30.4,
+          "share": 0.1577,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1578
+        },
+        {
+          "player": "Derrick Jones JR",
+          "minutes_3game_window": 28.4,
+          "share": 0.1473,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1474
+        },
+        {
+          "player": "Hachimura Rui",
+          "minutes_3game_window": 27.2,
+          "share": 0.1415,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1412
+        },
+        {
+          "player": "Dunn Kris",
+          "minutes_3game_window": 26.0,
+          "share": 0.1349,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1349
+        },
+        {
+          "player": "Brook Lopez",
+          "minutes_3game_window": 23.3,
+          "share": 0.1211,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1209
+        },
+        {
+          "player": "Max Strus",
+          "minutes_3game_window": 20.6,
+          "share": 0.1067,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1069
+        },
+        {
+          "player": "Isaiah Jackson",
+          "minutes_3game_window": 18.6,
+          "share": 0.0964,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.0965
+        },
+        {
+          "player": "Keaton Wagler",
+          "minutes_3game_window": 18.2,
+          "share": 0.0944,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.0944
+        }
+      ],
+      "note": "top-8 shares from captured 11/16-18 game books; OUT players zeroed and their minutes redistributed pro rata among the available top-8 \u2014 replacement-player shares are NOT officially sourced and stay flagged/unverified"
+    },
+    {
+      "team": "SAS",
+      "players": [
+        {
+          "player": "Devin Vassell",
+          "minutes_3game_window": 35.7,
+          "share": 0.1563,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1841
+        },
+        {
+          "player": "Dylan Harper",
+          "minutes_3game_window": 34.5,
+          "share": 0.1512,
+          "status_11_19": "OUT (official report)",
+          "redistributed_share_if_outs": 0.0
+        },
+        {
+          "player": "De'aaron Fox",
+          "minutes_3game_window": 34.4,
+          "share": 0.1505,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1774
+        },
+        {
+          "player": "Victor Wembanyama",
+          "minutes_3game_window": 33.8,
+          "share": 0.1481,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1743
+        },
+        {
+          "player": "Castle Stephon",
+          "minutes_3game_window": 31.4,
+          "share": 0.1375,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1619
+        },
+        {
+          "player": "Champagnie Julian",
+          "minutes_3game_window": 29.7,
+          "share": 0.1301,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1532
+        },
+        {
+          "player": "Johnson Keldon",
+          "minutes_3game_window": 14.7,
+          "share": 0.0642,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.0758
+        },
+        {
+          "player": "Kornet Luke",
+          "minutes_3game_window": 14.2,
+          "share": 0.0621,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.0732
+        }
+      ],
+      "note": "top-8 shares from captured 11/16-18 game books; OUT players zeroed and their minutes redistributed pro rata among the available top-8 \u2014 replacement-player shares are NOT officially sourced and stay flagged/unverified"
+    },
+    {
+      "team": "NYK",
+      "players": [
+        {
+          "player": "Karl-anthony Towns",
+          "minutes_3game_window": 36.4,
+          "share": 0.1681,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1681
+        },
+        {
+          "player": "Anunoby Og",
+          "minutes_3game_window": 35.8,
+          "share": 0.1652,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1654
+        },
+        {
+          "player": "Brunson Jalen",
+          "minutes_3game_window": 34.4,
+          "share": 0.1589,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1589
+        },
+        {
+          "player": "Hart Josh",
+          "minutes_3game_window": 31.4,
+          "share": 0.145,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.145
+        },
+        {
+          "player": "Bridges Mikal",
+          "minutes_3game_window": 30.0,
+          "share": 0.1386,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1386
+        },
+        {
+          "player": "Landry Shamet",
+          "minutes_3game_window": 24.1,
+          "share": 0.1115,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1113
+        },
+        {
+          "player": "Kolek Tyler",
+          "minutes_3game_window": 13.4,
+          "share": 0.062,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.0619
+        },
+        {
+          "player": "Andre Drummond",
+          "minutes_3game_window": 11.0,
+          "share": 0.0507,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.0508
+        }
+      ],
+      "note": "top-8 shares from captured 11/16-18 game books; OUT players zeroed and their minutes redistributed pro rata among the available top-8 \u2014 replacement-player shares are NOT officially sourced and stay flagged/unverified"
+    },
+    {
+      "team": "MIN",
+      "players": [
+        {
+          "player": "Ayo Dosunmu",
+          "minutes_3game_window": 68.8,
+          "share": 0.1614,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1614
+        },
+        {
+          "player": "Jaden Mcdaniels",
+          "minutes_3game_window": 67.9,
+          "share": 0.1594,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1593
+        },
+        {
+          "player": "JR Shannon Terrence",
+          "minutes_3game_window": 59.6,
+          "share": 0.1399,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1398
+        },
+        {
+          "player": "Ball Lamelo",
+          "minutes_3game_window": 54.5,
+          "share": 0.1278,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1278
+        },
+        {
+          "player": "Gobert Rudy",
+          "minutes_3game_window": 54.4,
+          "share": 0.1276,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1276
+        },
+        {
+          "player": "Lyles Trey",
+          "minutes_3game_window": 50.4,
+          "share": 0.1181,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1182
+        },
+        {
+          "player": "Beringer Joan",
+          "minutes_3game_window": 41.3,
+          "share": 0.0969,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.0969
+        },
+        {
+          "player": "Jonathan Kuminga",
+          "minutes_3game_window": 29.4,
+          "share": 0.069,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.069
+        }
+      ],
+      "note": "top-8 shares from captured 11/16-18 game books; OUT players zeroed and their minutes redistributed pro rata among the available top-8 \u2014 replacement-player shares are NOT officially sourced and stay flagged/unverified"
+    },
+    {
+      "team": "POR",
+      "players": [
+        {
+          "player": "Cissoko Sidy",
+          "minutes_3game_window": 60.0,
+          "share": 0.151,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1509
+        },
+        {
+          "player": "Camara Toumani",
+          "minutes_3game_window": 58.4,
+          "share": 0.1468,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1469
+        },
+        {
+          "player": "Holiday Jrue",
+          "minutes_3game_window": 56.0,
+          "share": 0.1409,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1408
+        },
+        {
+          "player": "Damian Lillard",
+          "minutes_3game_window": 55.0,
+          "share": 0.1384,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1383
+        },
+        {
+          "player": "Clingan Donovan",
+          "minutes_3game_window": 54.9,
+          "share": 0.138,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1381
+        },
+        {
+          "player": "Henderson Scoot",
+          "minutes_3game_window": 44.1,
+          "share": 0.1109,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1109
+        },
+        {
+          "player": "Jayson Kent",
+          "minutes_3game_window": 38.1,
+          "share": 0.0958,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.0958
+        },
+        {
+          "player": "III Robert Williams",
+          "minutes_3game_window": 31.1,
+          "share": 0.0781,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.0782
+        }
+      ],
+      "note": "top-8 shares from captured 11/16-18 game books; OUT players zeroed and their minutes redistributed pro rata among the available top-8 \u2014 replacement-player shares are NOT officially sourced and stay flagged/unverified"
+    },
+    {
+      "team": "MIL",
+      "players": [
+        {
+          "player": "Kuzma Kyle",
+          "minutes_3game_window": 30.0,
+          "share": 0.1634,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1633
+        },
+        {
+          "player": "Ionis",
+          "minutes_3game_window": 25.6,
+          "share": 0.1395,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1394
+        },
+        {
+          "player": "Brayden Burries",
+          "minutes_3game_window": 25.4,
+          "share": 0.1381,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1383
+        },
+        {
+          "player": "Herro Tyler",
+          "minutes_3game_window": 24.1,
+          "share": 0.1311,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1312
+        },
+        {
+          "player": "Jaime Jaquez JR",
+          "minutes_3game_window": 22.7,
+          "share": 0.1235,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1236
+        },
+        {
+          "player": "Myles Turner",
+          "minutes_3game_window": 20.9,
+          "share": 0.1135,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.1138
+        },
+        {
+          "player": "Jericho Sims",
+          "minutes_3game_window": 17.6,
+          "share": 0.096,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.0958
+        },
+        {
+          "player": "Ament Nate",
+          "minutes_3game_window": 17.4,
+          "share": 0.0948,
+          "status_11_19": "not listed Out",
+          "redistributed_share_if_outs": 0.0947
+        }
+      ],
+      "note": "top-8 shares from captured 11/16-18 game books; OUT players zeroed and their minutes redistributed pro rata among the available top-8 \u2014 replacement-player shares are NOT officially sourced and stay flagged/unverified"
+    }
+  ],
+  "sources": {
+    "traditional": "https://www.nba.com/stats/teams/traditional?SeasonType=Regular+Season&Season=2026-27",
+    "opponent": "https://www.nba.com/stats/teams/opponent?SeasonType=Regular+Season&Season=2026-27",
+    "advanced": "https://www.nba.com/stats/teams/advanced?SeasonType=Regular+Season&Season=2026-27",
+    "standings": "https://www.nba.com/standings"
+  }
+}

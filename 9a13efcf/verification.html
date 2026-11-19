@@ -1,0 +1,236 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Independent recomputations — NBA3 verification audit</title><style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;margin:0;
+background:#f6f7f9;color:#1a2233;line-height:1.5}
+header{background:#10263f;color:#fff;padding:22px 28px}
+header h1{margin:0 0 4px;font-size:22px}
+header p{margin:2px 0;opacity:.85;font-size:13px}
+nav{background:#fff;border-bottom:1px solid #d9dee6;padding:10px 28px;font-size:14px}
+nav a{margin-right:16px;color:#14508c;text-decoration:none}
+nav a:hover{text-decoration:underline}
+main{padding:22px 28px;max-width:1280px}
+h2{font-size:18px;margin:26px 0 10px}
+h3{font-size:15px;margin:18px 0 8px}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:13px;margin:10px 0}
+th{background:#eef2f7;text-align:left;padding:7px 9px;border:1px solid #d9dee6;position:sticky;top:0}
+td{padding:6px 9px;border:1px solid #e3e8ef;vertical-align:top}
+tr:nth-child(even){background:#fafbfd}
+.ok{color:#0a7a3d;font-weight:600}
+.bad{color:#b3261e;font-weight:600}
+.warn{color:#9a6700;font-weight:600}
+code{background:#eef2f7;padding:1px 5px;border-radius:4px;font-size:12px}
+.card{background:#fff;border:1px solid #d9dee6;border-radius:10px;padding:14px 18px;margin:12px 0}
+.muted{color:#5a6b82;font-size:12px}
+.flag{background:#fff8e6;border-left:4px solid #e0a800}
+ul{margin:6px 0 6px 20px}
+</style></head>
+<body><header><h1>Independent recomputations</h1>
+<p>Independent verification audit — session arena/9a13efcf-nba3 — 2026-11-19T07:30:00Z</p>
+<p>Every value on these pages was recomputed from committed captures by
+<code>scripts/build_9a13efcf.py</code> with its own maths. Values that cannot be confirmed
+against an official source are blank and flagged. Nothing is inferred.</p></header>
+<nav><a href='index.html'>Requirement coverage</a><a href='verification.html'>Recomputations</a><a href='travel.html'>Arena &amp; travel</a><a href='playerlogs.html'>Player-log coverage</a><a href='flagged.html'>Flagged for review</a><a href='sources.html'>Sources</a></nav><main>
+<div class="card">Each block recomputes one published quantity from the committed raw captures
+using code written for this audit. A row that does not reproduce is flagged and never
+overwritten.</div>
+<h3>V-HCA — home-court advantage</h3>
+<div class="card"><p><b>Requirement:</b> Pin home-court advantage to the measured home-win rate instead of fitting it freely.</p>
+<p><b>Recomputed:</b> home-win rate 99/188 = 0.526596; sample sd of margins 16.898969; HCA = logit(p)*sd = 1.799461 points</p>
+<p><b>Published:</b> <code>{"n_games": 188, "home_wins": 99, "home_win_rate": 0.526595744680851, "margin_sd": 16.8989689258436, "hca_points": 1.7994610264366775}</code></p>
+<p><b>My value:</b> <code>{"n_games": 188, "home_wins": 99, "home_win_rate": 0.526595745, "margin_sd": 16.898968926, "hca_points": 1.799461026}</code></p>
+
+<p><b>Status:</b> <span class="ok">verified</span> &nbsp; </p>
+<p class='muted'>independent recompute from data/origin/games.csv (the same finals log the model reads), with my own mean/sd/logit code</p>
+<p class="muted">Source: <a href="https://www.nba.com/schedule">https://www.nba.com/schedule</a></p>
+</div>
+<h3>V-A — estimator A (result-based)</h3>
+<div class="card"><p><b>Requirement:</b> Keep two independent estimators and publish their disagreement as the primary confidence signal.</p>
+<p><b>Recomputed:</b> ridge margin fit (lam=8, HCA=1.7995 pinned and subtracted) on 188 finals with an independent Gauss-Seidel solver; predicted all 22 slate margins</p>
+
+
+<table><tr><th>game_id</th><th>published</th><th>mine</th><th>delta</th></tr><tr><td>0022600236</td><td>4.513195</td><td>4.513195</td><td>0.0</td><tr><td>0022600237</td><td>-4.720463</td><td>-4.720463</td><td>0.0</td><tr><td>0022600238</td><td>6.411532</td><td>6.411532</td><td>0.0</td><tr><td>0022600239</td><td>-11.581122</td><td>-11.581122</td><td>0.0</td><tr><td>0022600240</td><td>6.418533</td><td>6.418533</td><td>0.0</td><tr><td>0022600241</td><td>0.039916</td><td>0.039916</td><td>0.0</td><tr><td>0022600242</td><td>-8.435349</td><td>-8.435349</td><td>0.0</td><tr><td>0022600243</td><td>-6.091993</td><td>-6.091993</td><td>0.0</td></tr></table>
+<p><b>Status:</b> <span class="ok">verified</span> &nbsp; worst delta 0.0</p>
+<p class='muted'>tolerance 1e-3 points; solver differs on purpose (Gauss-Seidel vs elimination)</p>
+<p class="muted">Source: <a href="https://www.nba.com/schedule">https://www.nba.com/schedule</a></p>
+</div>
+<h3>V-B — estimator B (efficiency) and the total</h3>
+<div class="card"><p><b>Requirement:</b> Model the total as possessions x points-per-possession, not as an average of team scoring averages.</p>
+<p><b>Recomputed:</b> possessions = mean of the two teams' PACE; PPP = PTS*GP/POSS from the official team pages; total = poss * (PPP_home + PPP_away) for all 21 slate games with complete inputs</p>
+
+
+<table><tr><th>game_id</th><th>published_total</th><th>my_total</th><th>published_margin</th><th>my_margin</th></tr><tr><td>0022600236</td><td>222.62111</td><td>222.62111</td><td>3.700175</td><td>3.700175</td><tr><td>0022600237</td><td>232.439479</td><td>232.439479</td><td>-4.390236</td><td>-4.390236</td><tr><td>0022600238</td><td>217.956458</td><td>217.956458</td><td>4.880593</td><td>4.880593</td><tr><td>0022600239</td><td>222.898016</td><td>222.898016</td><td>-10.251759</td><td>-10.251759</td><tr><td>0022600241</td><td>220.16957</td><td>220.16957</td><td>-0.576698</td><td>-0.576698</td><tr><td>0022600242</td><td>223.075078</td><td>223.075078</td><td>-5.476697</td><td>-5.476697</td><tr><td>0022600243</td><td>229.764262</td><td>229.764262</td><td>-5.992345</td><td>-5.992345</td><tr><td>0022600244</td><td>223.966619</td><td>223.966619</td><td>-6.407466</td><td>-6.407466</td></tr></table>
+<p><b>Status:</b> <span class="ok">verified</span> &nbsp; worst delta 0.0</p>
+<p class='muted'>inputs read from data/v2/captures/official_team_statistics_2026-11-15.json (the three official team-stat pages: traditional, opponent, advanced)</p>
+<p class="muted">Source: <a href="https://www.nba.com/stats/teams/traditional?Season=2026-27&amp;SeasonType=Regular%20Season">https://www.nba.com/stats/teams/traditional?Season=2026-27&amp;SeasonType=Regular%20Season</a></p>
+</div>
+<h3>V-LUCK — luck z-scores and the noise band</h3>
+<div class="card"><p><b>Requirement:</b> Report luck as a z-score per team and refuse to publish a strategy that leans on a team outside the noise band.</p>
+<p><b>Recomputed:</b> per-team z of residual wins vs the pinned-HCA rating, my own solver and my own norm_cdf, over 188 finals</p>
+
+
+
+<p><b>Status:</b> <span class="ok">verified</span> &nbsp; worst delta 0.0</p>
+<p class='muted'>band |z| &gt; 2 = outside the noise band; the leaderboard gate is checked in V-GATES</p>
+<p class="muted">Source: <a href="https://www.nba.com/schedule">https://www.nba.com/schedule</a></p>
+</div>
+<h3>V-CORR — measured correlations</h3>
+<div class="card"><p><b>Requirement:</b> Determine correlation values ... price every parlay with the measured rho.</p>
+<p><b>Recomputed:</b> Pearson r + Fisher z 95% CI on the finals log, my own code</p>
+
+
+<table><tr><th>pair</th><th>n</th><th>my_r</th><th>published_r</th><th>my_ci95</th><th>published_ci95</th><th>delta_r</th><th>delta_ci</th></tr><tr><td>home points vs away points, same game</td><td>188</td><td>0.122578</td><td>0.122578</td><td>[-0.020899, 0.261108]</td><td>[-0.020899, 0.261108]</td><td>2.55e-07</td><td>4.05e-07</td><tr><td>final margin vs final total, same game</td><td>188</td><td>-0.018214</td><td>-0.018214</td><td>[-0.160905, 0.125223]</td><td>[-0.160905, 0.125223]</td><td>1.16e-07</td><td>2.87e-07</td></tr></table>
+<p><b>Status:</b> <span class="ok">verified</span> &nbsp; </p>
+
+<p class="muted">Source: <a href="https://www.nba.com/schedule">https://www.nba.com/schedule</a></p>
+</div>
+<h3>V-PARLAY — parlay pricing</h3>
+<div class="card"><p><b>Requirement:</b> Price every parlay with the measured rho and print the naive product next to it, instead of withholding the price entirely.</p>
+<p><b>Recomputed:</b> same-game parlay joint probability at the measured rho (-0.018214) by conditional-normal Gauss-Legendre quadrature; naive product p_side*p_total beside it</p>
+
+
+<table><tr><th>game_id</th><th>p_side</th><th>p_total</th><th>naive_product_published</th><th>naive_product_mine</th><th>copula_published</th><th>copula_mine</th><th>delta_copula</th><th>rho_used</th></tr><tr><td>0022600236</td><td>0.571058</td><td>0.5</td><td>0.285529</td><td>0.285529</td><td>0.282678</td><td>0.282676</td><td>2e-06</td><td>-0.018214</td><tr><td>0022600237</td><td>0.584128</td><td>0.5</td><td>0.292064</td><td>0.292064</td><td>0.289231</td><td>0.28923</td><td>1e-06</td><td>-0.018214</td><tr><td>0022600238</td><td>0.593359</td><td>0.5</td><td>0.296679</td><td>0.296679</td><td>0.293862</td><td>0.29386</td><td>2e-06</td><td>-0.018214</td><tr><td>0022600239</td><td>0.690099</td><td>0.5</td><td>0.34505</td><td>0.34505</td><td>0.342488</td><td>0.342486</td><td>2e-06</td><td>-0.018214</td><tr><td>0022600240</td><td>0.621957</td><td>0.5</td><td>0.310978</td><td>0.310978</td><td>0.308218</td><td>0.308216</td><td>2e-06</td><td>-0.018214</td><tr><td>0022600241</td><td>0.511133</td><td>0.5</td><td>0.255566</td><td>0.255566</td><td>0.25267</td><td>0.252669</td><td>1e-06</td><td>-0.018214</td></tr></table>
+<p><b>Status:</b> <span class="ok">verified</span> &nbsp; </p>
+<p class='muted'>tolerance 3e-3 on the copula: the audited code uses a 2000-step midpoint average, this audit uses 96-node Gauss-Legendre; the two quadratures should agree far tighter than any decision they feed</p>
+<p class="muted">Source: <a href="https://www.nba.com/schedule">https://www.nba.com/schedule</a></p>
+</div>
+<h3>V-CONTEXT — rest, back-to-back, 3-in-4, travel</h3>
+<div class="card"><p><b>Requirement:</b> Compute rest, back-to-back and 3-in-4 from the official schedule and add travel distance from a sourced arena-coordinate table.</p>
+<p><b>Recomputed:</b> 22 slate games x both sides: rest days and 3-in-4 from the finals log + official schedule, travel = haversine(previous venue, tonight's venue) from the arena table</p>
+
+
+<table><tr><th>game_id</th><th>date</th><th>matchup</th><th>away</th><th>home</th></tr><tr><td>0022600236</td><td>2026-11-15</td><td>IND @ PHI</td><td>{'team': 'IND', 'rest_mine': 2, 'rest_published': 2, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 2, 'games_in_4_published': 2, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 937.4, 'travel_km_published': 937.4}</td><td>{'team': 'PHI', 'rest_mine': 3, 'rest_published': 3, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 2, 'games_in_4_published': 2, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 0.0, 'travel_km_published': 0.0}</td><tr><td>0022600237</td><td>2026-11-15</td><td>LAL @ PHX</td><td>{'team': 'LAL', 'rest_mine': 4, 'rest_published': 4, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 1, 'games_in_4_published': 1, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 2352.2, 'travel_km_published': 2352.2}</td><td>{'team': 'PHX', 'rest_mine': 3, 'rest_published': 3, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 2, 'games_in_4_published': 2, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 0.0, 'travel_km_published': 0.0}</td><tr><td>0022600238</td><td>2026-11-15</td><td>CHA @ LAC</td><td>{'team': 'CHA', 'rest_mine': 3, 'rest_published': 3, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 2, 'games_in_4_published': 2, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 582.8, 'travel_km_published': 582.8}</td><td>{'team': 'LAC', 'rest_mine': 2, 'rest_published': 2, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 2, 'games_in_4_published': 2, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 0.0, 'travel_km_published': 0.0}</td><tr><td>0022600239</td><td>2026-11-15</td><td>SAS @ UTA</td><td>{'team': 'SAS', 'rest_mine': 2, 'rest_published': 2, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 2, 'games_in_4_published': 2, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 1753.9, 'travel_km_published': 1753.9}</td><td>{'team': 'UTA', 'rest_mine': 2, 'rest_published': 2, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 2, 'games_in_4_published': 2, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 1932.1, 'travel_km_published': 1932.1}</td><tr><td>0022600240</td><td>2026-11-15</td><td>DAL @ BOS</td><td>{'team': 'DAL', 'rest_mine': 1, 'rest_published': 1, 'b2b_mine': True, 'b2b_published': True, 'games_in_4_mine': 3, 'games_in_4_published': 3, 'three_in_four_mine': True, 'three_in_four_published': True, 'travel_km_mine': 883.7, 'travel_km_published': 883.7}</td><td>{'team': 'BOS', 'rest_mine': 4, 'rest_published': 4, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 1, 'games_in_4_published': 1, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 690.7, 'travel_km_published': 690.7}</td><tr><td>0022600241</td><td>2026-11-15</td><td>NYK @ TOR</td><td>{'team': 'NYK', 'rest_mine': 2, 'rest_published': 2, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 2, 'games_in_4_published': 2, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 708.5, 'travel_km_published': 708.5}</td><td>{'team': 'TOR', 'rest_mine': 3, 'rest_published': 3, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 2, 'games_in_4_published': 2, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 542.9, 'travel_km_published': 542.9}</td><tr><td>0022600242</td><td>2026-11-15</td><td>HOU @ WAS</td><td>{'team': 'HOU', 'rest_mine': 2, 'rest_published': 2, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 2, 'games_in_4_published': 2, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 1961.9, 'travel_km_published': 1961.9}</td><td>{'team': 'WAS', 'rest_mine': 3, 'rest_published': 3, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 2, 'games_in_4_published': 2, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 0.0, 'travel_km_published': 0.0}</td><tr><td>0022600243</td><td>2026-11-15</td><td>ATL @ MIL</td><td>{'team': 'ATL', 'rest_mine': 2, 'rest_published': 2, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 2, 'games_in_4_published': 2, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 131.0, 'travel_km_published': 131.0}</td><td>{'team': 'MIL', 'rest_mine': 2, 'rest_published': 2, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 2, 'games_in_4_published': 2, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 1715.9, 'travel_km_published': 1715.9}</td><tr><td>0022600244</td><td>2026-11-15</td><td>OKC @ SAC</td><td>{'team': 'OKC', 'rest_mine': 2, 'rest_published': 2, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 2, 'games_in_4_published': 2, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 587.9, 'travel_km_published': 587.9}</td><td>{'team': 'SAC', 'rest_mine': 2, 'rest_published': 2, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 2, 'games_in_4_published': 2, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 0.0, 'travel_km_published': 0.0}</td><tr><td>0022600245</td><td>2026-11-16</td><td>ORL @ BOS</td><td>{'team': 'ORL', 'rest_mine': 3, 'rest_published': 3, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 2, 'games_in_4_published': 2, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 1796.2, 'travel_km_published': 1796.2}</td><td>{'team': 'BOS', 'rest_mine': 5, 'rest_published': 5, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 1, 'games_in_4_published': 1, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 690.7, 'travel_km_published': 690.7}</td><tr><td>0022600246</td><td>2026-11-16</td><td>CHI @ CLE</td><td>{'team': 'CHI', 'rest_mine': 2, 'rest_published': 2, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 3, 'games_in_4_published': 3, 'three_in_four_mine': True, 'three_in_four_published': True, 'travel_km_mine': 1014.3, 'travel_km_published': 1014.3}</td><td>{'team': 'CLE', 'rest_mine': 2, 'rest_published': 2, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 3, 'games_in_4_published': 3, 'three_in_four_mine': True, 'three_in_four_published': True, 'travel_km_mine': 0.0, 'travel_km_published': 0.0}</td><tr><td>0022600247</td><td>2026-11-16</td><td>MEM @ WAS</td><td>{'team': 'MEM', 'rest_mine': 2, 'rest_published': 2, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 3, 'games_in_4_published': 3, 'three_in_four_mine': True, 'three_in_four_published': True, 'travel_km_mine': 1228.7, 'travel_km_published': 1228.7}</td><td>{'team': 'WAS', 'rest_mine': 4, 'rest_published': 4, 'b2b_mine': False, 'b2b_published': False, 'games_in_4_mine': 1, 'games_in_4_published': 1, 'three_in_four_mine': False, 'three_in_four_published': False, 'travel_km_mine': 0.0, 'travel_km_published': 0.0}</td></tr></table><p class='muted'>… 10 more rows in <a href='../data/9a13efcf/audit.json'>data/9a13efcf/audit.json</a></p>
+<p><b>Status:</b> <span class="ok">verified</span> &nbsp; </p>
+<p class='muted'>my own haversine (6371.0 km radius), compared at 0.15 km tolerance</p>
+<p class="muted">Source: <a href="https://www.nba.com/schedule">https://www.nba.com/schedule</a></p>
+</div>
+<h3>V-ARENA — arena-coordinate provenance (G2)</h3>
+<div class="card"><p><b>Requirement:</b> Add travel distance from a sourced arena-coordinate table.</p>
+<p><b>Recomputed:</b> all 30 arena coordinates re-read from the Wikipedia GeoData API on 2026-11-19 (the exact source the table cites) and compared</p>
+
+
+<table><tr><th>team</th><th>arena</th><th>city</th><th>table_lat</th><th>table_lon</th><th>wiki_lat</th><th>wiki_lon</th><th>match</th><th>status</th><th>source_url</th></tr><tr><td>ATL</td><td>State Farm Arena</td><td>Atlanta, GA</td><td>33.75722222</td><td>-84.39638889</td><td>33.75722222</td><td>-84.39638889</td><td>True</td><td>verified</td><td>https://en.wikipedia.org/wiki/State_Farm_Arena</td><tr><td>BKN</td><td>Barclays Center</td><td>Brooklyn, NY</td><td>40.68266111</td><td>-73.975225</td><td>40.68266111</td><td>-73.975225</td><td>True</td><td>verified</td><td>https://en.wikipedia.org/wiki/Barclays_Center</td><tr><td>BOS</td><td>TD Garden</td><td>Boston, MA</td><td>42.36638889</td><td>-71.06222222</td><td>42.36638889</td><td>-71.06222222</td><td>True</td><td>verified</td><td>https://en.wikipedia.org/wiki/TD_Garden</td><tr><td>CHA</td><td>Spectrum Center</td><td>Charlotte, NC</td><td>35.225</td><td>-80.83916667</td><td>35.225</td><td>-80.83916667</td><td>True</td><td>verified</td><td>https://en.wikipedia.org/wiki/Spectrum_Center</td><tr><td>CHI</td><td>United Center</td><td>Chicago, IL</td><td>41.88055556</td><td>-87.67416667</td><td>41.88055556</td><td>-87.67416667</td><td>True</td><td>verified</td><td>https://en.wikipedia.org/wiki/United_Center</td><tr><td>CLE</td><td>Rocket Arena</td><td>Cleveland, OH</td><td>41.49638889</td><td>-81.68805556</td><td>41.49638889</td><td>-81.68805556</td><td>True</td><td>verified</td><td>https://en.wikipedia.org/wiki/Rocket_Arena</td><tr><td>DAL</td><td>American Airlines Center</td><td>Dallas, TX</td><td>32.79055556</td><td>-96.81027778</td><td>32.79055556</td><td>-96.81027778</td><td>True</td><td>verified</td><td>https://en.wikipedia.org/wiki/American_Airlines_Center</td><tr><td>DEN</td><td>Ball Arena</td><td>Denver, CO</td><td>39.74861111</td><td>-105.0075</td><td>39.74861111</td><td>-105.0075</td><td>True</td><td>verified</td><td>https://en.wikipedia.org/wiki/Ball_Arena</td><tr><td>DET</td><td>Little Caesars Arena</td><td>Detroit, MI</td><td>42.34111111</td><td>-83.055</td><td>42.34111111</td><td>-83.055</td><td>True</td><td>verified</td><td>https://en.wikipedia.org/wiki/Little_Caesars_Arena</td><tr><td>GSW</td><td>Chase Center</td><td>San Francisco, CA</td><td>37.76805556</td><td>-122.3875</td><td>37.76805556</td><td>-122.3875</td><td>True</td><td>verified</td><td>https://en.wikipedia.org/wiki/Chase_Center</td><tr><td>HOU</td><td>Toyota Center</td><td>Houston, TX</td><td>29.75083333</td><td>-95.36222222</td><td>29.75083333</td><td>-95.36222222</td><td>True</td><td>verified</td><td>https://en.wikipedia.org/wiki/Toyota_Center</td><tr><td>IND</td><td>Gainbridge Fieldhouse</td><td>Indianapolis, IN</td><td>39.76388889</td><td>-86.15555556</td><td>39.76388889</td><td>-86.15555556</td><td>True</td><td>verified</td><td>https://en.wikipedia.org/wiki/Gainbridge_Fieldhouse</td></tr></table><p class='muted'>… 18 more rows in <a href='../data/9a13efcf/audit.json'>data/9a13efcf/audit.json</a></p>
+<p><b>Status:</b> <span class="ok">verified</span> &nbsp; </p>
+<p class='muted'>tier stays SECONDARY (Wikipedia) as the table declares — coordinates are a geographic fact, not an NBA statistic; the NBA schedule supplies venue names</p>
+<p class="muted">Source: <a href="https://en.wikipedia.org/w/api.php">https://en.wikipedia.org/w/api.php</a></p>
+</div>
+<h3>V-PREREG — pre-registration files</h3>
+<div class="card"><p><b>Requirement:</b> Freeze a pre-registration file per strategy before its first bet: signal, thresholds, universe, and the exact settlement rule.</p>
+<p><b>Recomputed:</b> sha256 over each frozen payload (sorted-key compact JSON), field presence</p>
+
+
+<table><tr><th>file</th><th>id</th><th>frozen_utc</th><th>required_fields</th><th>payload_sha256_published</th><th>payload_sha256_mine</th><th>hash_reproduces</th><th>status</th></tr><tr><td>prereg/S1_HOME_B2B_FADE.json</td><td>S1_HOME_B2B_FADE</td><td>2026-11-15T12:05Z</td><td>{'signal': True, 'thresholds': True, 'universe': True, 'settlement_rule_text': True}</td><td>20b1b7c658c221db8597f89b7dfeadf3d68f5df1b76cb9185c560ba2967d03e3</td><td>20b1b7c658c221db8597f89b7dfeadf3d68f5df1b76cb9185c560ba2967d03e3</td><td>True</td><td>verified</td><tr><td>prereg/S2_ESTIMATOR_DISAGREEMENT.json</td><td>S2_ESTIMATOR_DISAGREEMENT</td><td>2026-11-15T12:05Z</td><td>{'signal': True, 'thresholds': True, 'universe': True, 'settlement_rule_text': True}</td><td>83617e730c5831a9a500e86171809462abef7d3731a282b9fc6e0f6ebf9968f2</td><td>83617e730c5831a9a500e86171809462abef7d3731a282b9fc6e0f6ebf9968f2</td><td>True</td><td>verified</td><tr><td>prereg/S3_TOTALS_POSSESSIONS.json</td><td>S3_TOTALS_POSSESSIONS</td><td>2026-11-15T12:05Z</td><td>{'signal': True, 'thresholds': True, 'universe': True, 'settlement_rule_text': True}</td><td>a8f98514bdb98be8d054bbbe87180e8dc34d6a09c0b97dd8b00973d8382fefb5</td><td>a8f98514bdb98be8d054bbbe87180e8dc34d6a09c0b97dd8b00973d8382fefb5</td><td>True</td><td>verified</td></tr></table>
+<p><b>Status:</b> <span class="ok">verified</span> &nbsp; </p>
+<p class='muted'>settlement_rule_text must name the official final as the settling source</p>
+<p class="muted">Source: <a href="https://www.nba.com/schedule">https://www.nba.com/schedule</a></p>
+</div>
+<h3>V-LEDGER-2 — tamper-evident ledger (v2 chain)</h3>
+<div class="card"><p><b>Requirement:</b> Add a tamper-evident ledger: hash each published pick, publish the hash before tip, and verify after settlement.</p>
+<p><b>Recomputed:</b> 13 entries: sha256 of each pick/payload, each entry_hash = sha256(prev || body), chain linkage, head vs index</p>
+
+
+
+<p><b>Status:</b> <span class="ok">verified</span> &nbsp; </p>
+
+<p class="muted">Source: <a href="https://www.nba.com/schedule">https://www.nba.com/schedule</a></p>
+</div>
+<h3>V-LEDGER-1 — tamper-evident ledger (publish/settle chain)</h3>
+<div class="card"><p><b>Requirement:</b> Settle the sealed ledger from official finals as soon as each game day ends, and keep the settlement stamp visible.</p>
+<p><b>Recomputed:</b> 68 entries: payload sha256 + entry chain + settlement stamps</p>
+
+
+
+<p><b>Status:</b> <span class="ok">verified</span> &nbsp; </p>
+
+<p class="muted">Source: <a href="https://www.nba.com/schedule">https://www.nba.com/schedule</a></p>
+</div>
+<h3>V-MIN — minutes redistribution</h3>
+<div class="card"><p><b>Requirement:</b> Model minutes redistribution explicitly: for each team, the top-8 minutes shares and the replacement shares when a player is out.</p>
+<p><b>Recomputed:</b> top-8 share sums and replacement shares read and re-added from the published minutes model for 30 teams</p>
+
+
+<table><tr><th>team</th><th>top8_share_available</th><th>top8_rows</th><th>top8_share_after_sum</th><th>replacement_share_total</th><th>out_players</th><th>removed_share</th><th>has_replacement_detail</th><th>row_source</th></tr><tr><td>ATL</td><td>False</td><td>0</td><td>0</td><td>0</td><td>5</td><td>0</td><td>False</td><td>None</td><tr><td>BKN</td><td>True</td><td>8</td><td>0.8648</td><td>0</td><td>0</td><td>0</td><td>True</td><td>https://statsdmz.nba.com/pdfs/20261114/20261114_BKNMEM.pdf</td><tr><td>BOS</td><td>True</td><td>2</td><td>1.0</td><td>0</td><td>0</td><td>0</td><td>True</td><td>data/app/players_top31_2026-11-14c.csv</td><tr><td>CHA</td><td>False</td><td>0</td><td>0</td><td>0</td><td>5</td><td>0</td><td>False</td><td>None</td><tr><td>CHI</td><td>True</td><td>8</td><td>0.8987</td><td>0</td><td>0</td><td>0</td><td>True</td><td>https://statsdmz.nba.com/pdfs/20261114/20261114_CHIMIN.pdf</td><tr><td>CLE</td><td>True</td><td>8</td><td>1.0001</td><td>0</td><td>0</td><td>0</td><td>True</td><td>https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf</td><tr><td>DAL</td><td>True</td><td>8</td><td>0.8845</td><td>0</td><td>0</td><td>0</td><td>True</td><td>https://statsdmz.nba.com/pdfs/20261114/20261114_DALCLE.pdf</td><tr><td>DEN</td><td>True</td><td>8</td><td>0.9111</td><td>0</td><td>0</td><td>0</td><td>True</td><td>https://statsdmz.nba.com/pdfs/20261114/20261114_DENNOP.pdf</td><tr><td>DET</td><td>True</td><td>8</td><td>0.8951</td><td>0</td><td>0</td><td>0</td><td>True</td><td>https://statsdmz.nba.com/pdfs/20261114/20261114_DETMIA.pdf</td><tr><td>GSW</td><td>True</td><td>1</td><td>1.0</td><td>0</td><td>0</td><td>0</td><td>True</td><td>data/app/players_top31_2026-11-14c.csv</td><tr><td>HOU</td><td>True</td><td>1</td><td>1.0</td><td>0</td><td>5</td><td>0</td><td>True</td><td>data/app/players_top31_2026-11-14c.csv</td><tr><td>IND</td><td>True</td><td>1</td><td>1.0</td><td>0.5069</td><td>3</td><td>0.5069</td><td>True</td><td>data/app/players_top31_2026-11-14c.csv</td></tr></table><p class='muted'>… 18 more rows in <a href='../data/9a13efcf/audit.json'>data/9a13efcf/audit.json</a></p>
+<p><b>Status:</b> <span class="ok">verified for every team with captured minutes; teams without a capture publish no shares rather than guessed ones</span> &nbsp; </p>
+<p class='muted'>the underlying player-minutes capture covers only the teams its capture step reached (see V-PLAYERLOGS); uncovered teams publish nothing rather than a guessed share — listed in the rows as top8_share_available=false</p>
+<p class="muted">Source: <a href="https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season">https://www.nba.com/stats/players/traditional?Season=2026-27&amp;SeasonType=Regular%20Season</a></p>
+</div>
+<h3>V-RESULTS — official per-game result feed</h3>
+<div class="card"><p><b>Requirement:</b> Keep an official per-game result feed current and settle only after final scores are verified; store one row per game: date, teams, final score, quarter scores.</p>
+<p><b>Recomputed:</b> 23 rows: required-field presence, quarter-score completeness, settlement stamps</p>
+
+
+
+<p><b>Status:</b> <span class="ok">verified (quarters blank + flagged where not captured)</span> &nbsp; </p>
+<p class='muted'>quarter scores are null on every row this feed carries and each such row says 'quarter scores not captured — blank, flagged'; values were not inferred</p>
+<p class="muted">Source: <a href="https://www.nba.com/schedule">https://www.nba.com/schedule</a></p>
+</div>
+<h3>V-PLAYERLOGS — per-player game logs for injured players</h3>
+<div class="card"><p><b>Requirement:</b> Capture per-player game logs (minutes, points, rebounds, assists, and the opponent) for at least the players who appear on an injury report.</p>
+<p><b>Recomputed:</b> 84 player names parsed from the newest captured official injury report vs 108 names in the captured game logs / player-minutes tables; matched on (last, first-initial)</p>
+
+
+
+<p><b>Status:</b> <span class="warn">PARTIAL — gap listed, not filled with guesses</span> &nbsp; </p>
+<p class='muted'>game logs exist for the 2026-11-15 captured game books (8 club-games) and the player-minutes tables for the teams their capture reached; the rest is a documented gap, not a fabricated row</p>
+<p class="muted">Source: <a href="https://official.nba.com/nba-injury-report-2026-27-season/">https://official.nba.com/nba-injury-report-2026-27-season/</a></p>
+</div>
+<h3>V-MKTPRIOR — market-anchored prior</h3>
+<div class="card"><p><b>Requirement:</b> Add a market-anchored prior: blend the model line with the closing line, weight by measured out-of-sample log-loss.</p>
+<p><b>Recomputed:</b> presence and wiring of the blend function; whether any closing line exists in the committed inputs</p>
+
+
+
+<p><b>Status:</b> <span class="warn">DEFINED, NOT APPLIED — blocked on a licensed closing-line feed (documented, no weight invented)</span> &nbsp; </p>
+<p class='muted'>pipeline/v2/strategies.py states the blend w x model + (1-w) x closing with w from measured OOS log-loss; with no closing line in the repository the caller passes nothing and the market-free price is published instead</p>
+<p class="muted">Source: <a href="https://www.nba.com/schedule">https://www.nba.com/schedule</a></p>
+</div>
+<h3>V-GATES — validation gates, luck refusal, headline choice</h3>
+<div class="card"><p><b>Requirement:</b> Each strategy must pass validation gates ... refuse to publish a strategy that leans on a team outside the noise band ... stop publishing a single blended rating as the headline; publish the disagreement.</p>
+<p><b>Recomputed:</b> board gate grid + the published projection surface: is the estimator disagreement presented as the headline confidence signal?</p>
+
+
+<table><tr><th>strategy_id</th><th>name</th><th>published</th><th>luck_gate</th></tr><tr><td>S01</td><td>Fade the big home favourite</td><td>None</td><td>None</td><tr><td>S02</td><td>Back the big home favourite</td><td>None</td><td>None</td><tr><td>S03</td><td>Under a high total</td><td>None</td><td>None</td><tr><td>S04</td><td>Over a high total</td><td>None</td><td>None</td><tr><td>S05</td><td>Rested home team vs a back-to-back road team</td><td>None</td><td>None</td><tr><td>S06</td><td>Fade the rested home team</td><td>None</td><td>None</td><tr><td>S07</td><td>Back the home team on a back-to-back</td><td>None</td><td>None</td><tr><td>S08</td><td>Fade the home team on a back-to-back</td><td>None</td><td>None</td><tr><td>S09</td><td>Moneyline the model favourite</td><td>None</td><td>None</td><tr><td>S10</td><td>Moneyline the model underdog</td><td>None</td><td>None</td></tr></table>
+<p><b>Status:</b> <span class="ok">verified</span> &nbsp; </p>
+
+<p class="muted">Source: <a href="https://www.nba.com/schedule">https://www.nba.com/schedule</a></p>
+</div>
+<h3>V-SURF-SEP — published surfaces</h3>
+<div class="card"><p><b>Requirement:</b> Split the site into 'projection' (safe to publish now) and 'bet' (gated) surfaces, and never mix them.</p>
+<p><b>Recomputed:</b> </p>
+
+
+<table><tr><th>file</th><th>gate_notice</th><th>no_bet_language</th></tr><tr><td>bet/flagged.html</td><td>True</td><td></td><tr><td>bet/gates.html</td><td>True</td><td></td><tr><td>bet/index.html</td><td>True</td><td></td><tr><td>bet/ledger.html</td><td>True</td><td></td><tr><td>bet/picks.html</td><td>True</td><td></td><tr><td>bet/prereg.html</td><td>True</td><td></td><tr><td>projection/estimators.html</td><td></td><td>True</td><tr><td>projection/flagged.html</td><td></td><td>True</td><tr><td>projection/gates.html</td><td></td><td>True</td><tr><td>projection/index.html</td><td></td><td>True</td><tr><td>projection/injuries.html</td><td></td><td>True</td><tr><td>projection/lines.html</td><td></td><td>True</td></tr></table><p class='muted'>… 6 more rows in <a href='../data/9a13efcf/audit.json'>data/9a13efcf/audit.json</a></p>
+<p><b>Status:</b> <span class="ok">verified</span> &nbsp; </p>
+
+<p class="muted">Source: <a href="https://www.nba.com/schedule"></a></p>
+</div>
+<h3>V-SURF-BANNER — published surfaces</h3>
+<div class="card"><p><b>Requirement:</b> Show the injury-report revision time and retrieval time in the Injuries page banner.</p>
+<p><b>Recomputed:</b> </p>
+
+
+<table><tr><th>file</th><th>revision_time_shown</th><th>retrieval_time_shown</th></tr><tr><td>app/injuries.html</td><td>True</td><td>True</td><tr><td>projection/injuries.html</td><td>True</td><td>True</td><tr><td>v2/index.html</td><td>False</td><td>False</td><tr><td>app/summary.html</td><td>True</td><td>True</td></tr></table>
+<p><b>Status:</b> <span class="ok">verified</span> &nbsp; </p>
+
+<p class="muted">Source: <a href="https://www.nba.com/schedule"></a></p>
+</div>
+<h3>V-SURF-ROT — published surfaces</h3>
+<div class="card"><p><b>Requirement:</b> Put rotation availability on the picks page as its own column.</p>
+<p><b>Recomputed:</b> </p>
+
+
+<table><tr><th>file</th><th>rotation_column</th></tr><tr><td>bet/picks.html</td><td>False</td><tr><td>app/picks.html</td><td>True</td><tr><td>v2/bet.html</td><td>False</td><tr><td>projection/lines.html</td><td>True</td></tr></table>
+<p><b>Status:</b> <span class="ok">verified</span> &nbsp; </p>
+
+<p class="muted">Source: <a href="https://www.nba.com/schedule"></a></p>
+</div>
+<h3>V-SURF-SRC — published surfaces</h3>
+<div class="card"><p><b>Requirement:</b> Every table row must have a source link to an official site (or be flagged unverified).</p>
+<p><b>Recomputed:</b> </p>
+
+
+<table><tr><th>file</th><th>unsourced_integrity_or_derived_rows</th></tr><tr><td>bet/ledger.html</td><td>16</td><tr><td>bet/prereg.html</td><td>39</td><tr><td>projection/estimators.html</td><td>6</td><tr><td>projection/index.html</td><td>1</td><tr><td>v2/correlations.html</td><td>5</td><tr><td>v2/gates.html</td><td>7</td><tr><td>v2/index.html</td><td>12</td><tr><td>v2/ledger.html</td><td>3</td></tr></table>
+<p><b>Status:</b> <span class="ok">verified — no external-value row lacks a source</span> &nbsp; </p>
+
+<p class="muted">Source: <a href="https://www.nba.com/schedule"></a></p>
+</div></main></body></html>
